@@ -13,18 +13,3 @@ spec:
   resources:
     requests:
       storage: 2Gi
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: vault-home
-  namespace: vault
-  labels:
-    app: vault
-spec:
-  accessModes: [ReadWriteOnce]
-  volumeName: vault-home
-  storageClassName: ''
-  resources:
-    requests:
-      storage: 2Gi

@@ -11,16 +11,3 @@ spec:
     server: 10.10.0.20
     path: /mnt/user/appdata/vault/data
   persistentVolumeReclaimPolicy: Retain
----
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: vault-home
-spec:
-  capacity:
-    storage: 2Gi
-  accessModes: [ReadWriteOnce]
-  nfs:
-    server: 10.10.0.20
-    path: /mnt/user/appdata/vault/home
-  persistentVolumeReclaimPolicy: Retain
