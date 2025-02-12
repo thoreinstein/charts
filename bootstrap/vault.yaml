@@ -26,6 +26,8 @@ spec:
               - name: vault-data
                 persistentVolumeClaim:
                   claimName: vault-data
+            service:
+              type: LoadBalancer
   destination:
     server: https://kubernetes.default.svc
     namespace: vault
