@@ -16,18 +16,21 @@ spec:
       helm:
         releaseName: vault
         valuesObject:
-          volumeMounts:
-            - name: vault-data
-              mountPath: /vault/data
-            - name: vault-home
-              mountPath: /vault/home
-          volumes:
-            - name: vault-data
-              persistentVolumeClaim:
-                claimName: vault-data
-            - name: vault-home
-              persistentVolumeClaim:
-                claimName: vault-home
+          server:
+            dataStorage:
+              enabled: false
+            volumeMounts:
+              - name: vault-data
+                mountPath: /vault/data
+              - name: vault-home
+                mountPath: /vault/home
+            volumes:
+              - name: vault-data
+                persistentVolumeClaim:
+                  claimName: vault-data
+              - name: vault-home
+                persistentVolumeClaim:
+                  claimName: vault-home
   destination:
     server: https://kubernetes.default.svc
     namespace: vault
