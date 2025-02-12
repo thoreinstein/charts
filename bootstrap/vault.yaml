@@ -6,12 +6,28 @@ metadata:
   namespace: argocd
 spec:
   project: default
-  source:
-    chart: vault
-    repoURL: https://helm.releases.hashicorp.com
-    targetRevision: 0.29.1
-    helm:
-      releaseName: vault
+  sources:
+    - repoURL: https://github.com/thoreinstein/manifests
+      path: bootstrap/vault
+      targetRevision: HEAD
+    - chart: vault
+      repoURL: https://helm.releases.hashicorp.com
+      targetRevision: 0.29.1
+      helm:
+        releaseName: vault
+        valuesObject:
+          volumeMounts:
+            - name: vault-data
+              mountPath: /vault/data
+            - name: vault-home
+              mountPath: /vault/home
+          volumes:
+            - name: vault-data
+              persistentVolumeClaim:
+                claimName: vault-data
+            - name: vault-home
+              persistentVolumeClaim:
+                claimName: vault-home
   destination:
     server: https://kubernetes.default.svc
     namespace: vault
