@@ -17,7 +17,7 @@ spec:
         releaseName: metallb
   destination:
     server: https://kubernetes.default.svc
-    namespace: metallb
+    namespace: metallb-system
   syncPolicy:
     automated:
       prune: true
