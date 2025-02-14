@@ -8,7 +8,7 @@ spec:
   project: default
   sources:
     - repoURL: https://github.com/thoreinstein/manifests
-      path: bootstrap/metallb/namespace.yaml
+      path: bootstrap/metallb/pre
       targetRevision: HEAD
     - chart: metallb
       repoURL: https://metallb.github.io/metallb
@@ -16,7 +16,7 @@ spec:
       helm:
         releaseName: metallb
     - repoURL: https://github.com/thoreinstein/manifests
-      path: bootstrap/metallb
+      path: bootstrap/metallb/post
       targetRevision: HEAD
   destination:
     server: https://kubernetes.default.svc
