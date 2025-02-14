@@ -11,10 +11,7 @@ spec:
       repoURL: https://cloudnative-pg.github.io/charts
       targetRevision: 0.23.0
       helm:
-        releaseName: metallb
-        parameters:
-          - name: speaker.frr.enabled
-            value: false
+        releaseName: pg-operator
   destination:
     server: https://kubernetes.default.svc
     namespace: core
@@ -23,3 +20,9 @@ spec:
       prune: true
       selfHeal: true
     syncOptions: [CreateNamespace=true]
+    retry:
+      limit: 5
+      backoff:
+        duration: 30s
+        max_duration: 2m
+        factor: 2
