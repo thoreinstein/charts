@@ -9,7 +9,7 @@ spec:
   sources:
     - chart: valkey-operator
       repoURL: ghcr.io/hyperspike/valkey-operator
-      targetRevision: 0.0.56
+      targetRevision: v0.0.56
       helm:
         releaseName: valkey-operator
   destination:
