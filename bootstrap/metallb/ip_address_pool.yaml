@@ -6,3 +6,4 @@ metadata:
   namespace: metallb-system
 spec:
   addresses: [10.10.3.200-10.10.3.250]
+  avoidBuggyIPs: true

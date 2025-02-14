@@ -7,6 +7,9 @@ metadata:
 spec:
   project: default
   sources:
+    - repoURL: https://github.com/thoreinstein/manifests
+      path: bootstrap/metallb/namespace.yaml
+      targetRevision: HEAD
     - chart: metallb
       repoURL: https://metallb.github.io/metallb
       targetRevision: 0.14.9
@@ -22,4 +25,4 @@ spec:
     automated:
       prune: true
       selfHeal: true
-    syncOptions: [CreateNamespace=true]
+    syncOptions: []
