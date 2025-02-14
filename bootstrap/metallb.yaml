@@ -12,9 +12,10 @@ spec:
     targetRevision: 0.14.9
     helm:
       releaseName: metallb
-      parameters:
-        - name: speaker.frr.enable
-          value: 'false'
+      valuesObject:
+        speaker:
+          frr:
+            enable: false
   destination:
     server: https://kubernetes.default.svc
     namespace: metallb-system
