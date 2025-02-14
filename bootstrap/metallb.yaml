@@ -14,7 +14,7 @@ spec:
       releaseName: metallb
       parameters:
         - name: speaker.frr.enable
-          value: false
+          value: 'false'
   destination:
     server: https://kubernetes.default.svc
     namespace: metallb-system
