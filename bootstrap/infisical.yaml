@@ -1,0 +1,34 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: infisical
+  namespace: argocd
+spec:
+  project: default
+  sources:
+    - chart: infisical-standalone
+      repoURL: https://dl.cloudsmith.io/public/infisical/helm-charts/helm/charts
+      targetRevision: 1.4.0
+      helm:
+        releaseName: infisical
+        valuesObject:
+          infisical:
+            service:
+              type: LoadBalancer
+          ingress:
+            enabled: false
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: core
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions: []
+    retry:
+      limit: 5
+      backoff:
+        duration: 30s
+        max_duration: 2m
+        factor: 2
