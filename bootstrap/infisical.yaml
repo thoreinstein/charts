@@ -7,6 +7,9 @@ metadata:
 spec:
   project: default
   sources:
+    - repoURL: https://github.com/thoreinstein/manifests.git
+      path: bootstrap/infisical
+      targetRevision: HEAD
     - chart: infisical-standalone
       repoURL: https://dl.cloudsmith.io/public/infisical/helm-charts/helm/charts
       targetRevision: 1.4.0
@@ -16,6 +19,10 @@ spec:
             service:
               type: LoadBalancer
           ingress:
+            enabled: false
+          postgresql:
+            enabled: false
+          redis:
             enabled: false
   destination:
     server: https://kubernetes.default.svc
