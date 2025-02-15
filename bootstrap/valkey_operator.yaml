@@ -7,12 +7,9 @@ metadata:
 spec:
   project: default
   sources:
-    - repoURL: oci://ghcr.io/hyperspike/valkey-operator
-      # chart: valkey-operator
+    - repoURL: ghcr.io/hyperspike
+      chart: valkey-operator
       targetRevision: v0.0.56-chart
-      helm:
-        releaseName: valkey-operator
-        passCredentials: true
   destination:
     server: https://kubernetes.default.svc
     namespace: core
