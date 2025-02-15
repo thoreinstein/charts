@@ -11,7 +11,6 @@ spec:
       repoURL: https://dl.cloudsmith.io/public/infisical/helm-charts/helm/charts
       targetRevision: 1.4.0
       helm:
-        releaseName: infisical
         valuesObject:
           infisical:
             service:

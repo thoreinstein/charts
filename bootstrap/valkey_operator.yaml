@@ -6,10 +6,10 @@ metadata:
   namespace: argocd
 spec:
   project: default
-  sources:
-    - repoURL: ghcr.io/hyperspike
-      chart: valkey-operator
-      targetRevision: v0.0.56-chart
+  source:
+    repoURL: ghcr.io/hyperspike
+    chart: valkey-operator
+    targetRevision: v0.0.56-chart
   destination:
     server: https://kubernetes.default.svc
     namespace: core
