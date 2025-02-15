@@ -1,0 +1,29 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: valkey-operator
+  namespace: argocd
+spec:
+  project: default
+  sources:
+    - repoURL: oci://ghcr.io/hyperspike/valkey-operator
+      chart: valkey-operator
+      targetRevision: v0.0.56-chart
+      helm:
+        releaseName: valkey-operator
+        passCredentials: true
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: core
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions: []
+    retry:
+      limit: 5
+      backoff:
+        duration: 30s
+        max_duration: 2m
+        factor: 2
