@@ -17,12 +17,12 @@ spec:
       targetRevision: HEAD
   destination:
     server: https://kubernetes.default.svc
-    namespace: core
+    namespace: metallb-system
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
-    syncOptions: [CreateNamespace=true, ServerSideApply=true]
+    syncOptions: []
     retry:
       limit: 5
       backoff:
