@@ -10,6 +10,11 @@ spec:
     repoURL: ghcr.io/hyperspike
     chart: valkey-operator
     targetRevision: v0.0.56-chart
+    helm:
+      valuesObject:
+        storage:
+          spec:
+            storageClassName: nfs-client
   destination:
     server: https://kubernetes.default.svc
     namespace: core
