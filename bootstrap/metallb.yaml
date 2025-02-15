@@ -12,6 +12,10 @@ spec:
       targetRevision: 0.14.9
       helm:
         releaseName: metallb
+        valueObject:
+          speaker:
+            frr:
+              enabled: false
     - repoURL: https://github.com/thoreinstein/manifests.git
       path: bootstrap/metallb
       targetRevision: HEAD
