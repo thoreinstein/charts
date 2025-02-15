@@ -12,7 +12,7 @@ spec:
       targetRevision: 0.14.9
       helm:
         releaseName: metallb
-    - repoURL: https://github.com/thoreistien/manifests
+    - repoURL: https://github.com/thoreinstien/manifests
       path: bootstrap/metallb
       targetRevision: HEAD
   destination:
