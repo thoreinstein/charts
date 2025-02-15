@@ -6,12 +6,10 @@ metadata:
   namespace: argocd
 spec:
   project: default
-  sources:
-    - chart: cloudnative-pg
-      repoURL: https://cloudnative-pg.github.io/charts
-      targetRevision: 0.23.0
-      helm:
-        releaseName: pg-operator
+  source:
+    chart: cloudnative-pg
+    repoURL: https://cloudnative-pg.github.io/charts
+    targetRevision: 0.23.0
   destination:
     server: https://kubernetes.default.svc
     namespace: core
