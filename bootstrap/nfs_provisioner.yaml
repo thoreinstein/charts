@@ -2,26 +2,23 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: metallb
+  name: nfs-subdir-external-provisioner
   namespace: argocd
 spec:
   project: default
   sources:
-    - repoURL: https://metallb.github.io/metallb
-      chart: metallb
-      targetRevision: 0.14.9
+    - repoURL: https://nfs-subdir-external-provisioner.github.io/metallb
+      chart: nfs-subdir-external-provisioner
+      targetRevision: 4.0.18
       helm:
-        releaseName: metallb
+        releaseName: nfs-subdir-external-provisioner
         valuesObject:
-          speaker:
-            frr:
-              enabled: false
-    - repoURL: https://github.com/thoreinstein/manifests.git
-      path: bootstrap/metallb
-      targetRevision: HEAD
+          nfs:
+            server: 10.10.0.20
+            path: /mnt/user/kube_data
   destination:
     server: https://kubernetes.default.svc
-    namespace: metallb-system
+    namespace: core
   syncPolicy:
     automated:
       prune: true
