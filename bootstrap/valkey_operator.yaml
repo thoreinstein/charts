@@ -8,7 +8,7 @@ spec:
   project: default
   sources:
     - repoURL: oci://ghcr.io/hyperspike/valkey-operator
-      chart: valkey-operator
+      # chart: valkey-operator
       targetRevision: v0.0.56-chart
       helm:
         releaseName: valkey-operator
