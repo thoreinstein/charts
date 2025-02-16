@@ -2,14 +2,14 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: cloudnative-pg
+  name: postgres-operator
   namespace: argocd
 spec:
   project: default
   source:
-    chart: cloudnative-pg
-    repoURL: https://cloudnative-pg.github.io/charts
-    targetRevision: 0.23.0
+    chart: postgres-operator
+    repoURL: https://opensource.zalando.com/postgres-operator/charts/postgres-operator
+    targetRevision: 1.14.0
   destination:
     server: https://kubernetes.default.svc
     namespace: core
@@ -17,10 +17,10 @@ spec:
     automated:
       prune: true
       selfHeal: true
-    syncOptions: [CreateNamespace=true, ServerSideApply=true]
+    syncOptions: [CreateNamespace=true]
     retry:
       limit: 5
       backoff:
         duration: 30s
-        max_duration: 2m
+        maxDuration: 2m
         factor: 2
