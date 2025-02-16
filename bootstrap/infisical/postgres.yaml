@@ -4,8 +4,6 @@ kind: postgresql
 metadata:
   name: infisical-postgres
   namespace: core
-  annotations:
-    argocd.argoproj.io/hook: PreSync
 spec:
   teamId: core
   numberOfInstances: 2
