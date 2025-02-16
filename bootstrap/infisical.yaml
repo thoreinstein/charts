@@ -6,22 +6,25 @@ metadata:
   namespace: argocd
 spec:
   project: default
-  source:
-    chart: infisical-standalone
-    repoURL: https://dl.cloudsmith.io/public/infisical/helm-charts/helm/charts
-    targetRevision: 1.4.0
-    helm:
-      valuesObject:
-        infisical:
-          service:
-            type: LoadBalancer
-        ingress:
-          nginx:
+  sources:
+    - chart: infisical-standalone
+      repoURL: https://dl.cloudsmith.io/public/infisical/helm-charts/helm/charts
+      targetRevision: 1.4.0
+      helm:
+        valuesObject:
+          infisical:
+            service:
+              type: LoadBalancer
+          ingress:
+            nginx:
+              enabled: false
+          postgresql:
             enabled: false
-        postgresql:
-          enabled: false
-        redis:
-          enabled: false
+          redis:
+            enabled: false
+    - repoURL: https://github.com/thoreinstein/manifests.git
+      path: bootstrap/infisical
+      targetRevision: HEAD
   destination:
     server: https://kubernetes.default.svc
     namespace: core
