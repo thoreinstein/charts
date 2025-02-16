@@ -1,0 +1,26 @@
+---
+apiVersion: acid.zalan.do/v1
+kind: postgresql
+metadata:
+  name: infisical-postgres
+  namespace: core
+  annotations:
+    argocd.argoproj.io/hook: PreSync
+spec:
+  teamId: core
+  numberOfInstances: 2
+  preparedDatabases:
+    infisical:
+      defaultUsers: true
+  postgresql:
+    version: '17'
+  volume:
+    size: 1Gi
+    storageClass: nfs-client
+  resources:
+    requests:
+      cpu: 10m
+      memory: 100Mi
+    limits:
+      cpu: 500m
+      memory: 500Mi
