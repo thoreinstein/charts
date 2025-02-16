@@ -10,11 +10,6 @@ spec:
     repoURL: ghcr.io/hyperspike
     chart: valkey-operator
     targetRevision: v0.0.56-chart
-    helm:
-      valuesObject:
-        storage:
-          spec:
-            storageClassName: nfs-client
   destination:
     server: https://kubernetes.default.svc
     namespace: core
@@ -22,10 +17,10 @@ spec:
     automated:
       prune: true
       selfHeal: true
-    syncOptions: []
+    syncOptions: [CreateNamespace=true]
     retry:
       limit: 5
       backoff:
         duration: 30s
-        max_duration: 2m
+        maxDuration: 2m
         factor: 2
