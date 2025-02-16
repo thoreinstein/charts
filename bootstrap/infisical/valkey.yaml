@@ -4,8 +4,6 @@ kind: Valkey
 metadata:
   name: infisical-valkey
   namespace: core
-  annotations:
-    argocd.argoproj.io/hook: PreSync
 spec:
   anonymousAuth: true
   storage:

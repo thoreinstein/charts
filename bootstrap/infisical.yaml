@@ -6,10 +6,10 @@ metadata:
   namespace: argocd
 spec:
   project: default
-  sources:
-    - repoURL: https://github.com/thoreinstein/manifests.git
-      path: bootstrap/infisical
-      targetRevision: HEAD
+  source:
+    repoURL: https://github.com/thoreinstein/manifests.git
+    path: bootstrap/infisical
+    targetRevision: HEAD
   destination:
     server: https://kubernetes.default.svc
     namespace: core
@@ -17,7 +17,7 @@ spec:
     automated:
       prune: true
       selfHeal: true
-    syncOptions: []
+    syncOptions: [CreateNamespace=true]
     retry:
       limit: 5
       backoff:
