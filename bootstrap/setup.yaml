@@ -2,13 +2,13 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: infisical-setup
+  name: setup
   namespace: argocd
 spec:
-  project: default
+  project: bootstrap
   source:
     repoURL: https://github.com/thoreinstein/manifests.git
-    path: bootstrap/infisical
+    path: bootstrap/setup
     targetRevision: HEAD
   destination:
     server: https://kubernetes.default.svc
