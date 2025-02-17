@@ -11,9 +11,9 @@ spec:
       chart: metallb-bootstrap
       targetRevision: 0.1.0
       helm:
-        valueFiles: [$values/metallb.yaml]
+        valueFiles: [$values/values/metallb.yaml]
         ignoreMissingValueFiles: true
-    - repoURL: git@github.com:thoreinstein/values.git
+    - repoURL: https://thoreinstein.github.io/manifests
       targetRevision: HEAD
       ref: values
   destination:
