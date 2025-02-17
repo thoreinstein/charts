@@ -7,17 +7,15 @@ metadata:
 spec:
   project: bootstrap
   sources:
-    - repoURL: https://metallb.github.io/metallb
+    - repoURL: https://thoreinstein.github.io/manifests
       chart: metallb
       targetRevision: 0.14.9
       helm:
-        valuesObject:
-          speaker:
-            frr:
-              enabled: false
-    - repoURL: https://github.com/thoreinstein/manifests.git
-      path: bootstrap/metallb
+        valueFiles: [$values/metallb.yaml]
+      ignoreMissingValueFiles: true
+    - repoURL: git@github.com:thoreinstein/values.git
       targetRevision: HEAD
+      ref: values
   destination:
     server: https://kubernetes.default.svc
     namespace: metallb-system
