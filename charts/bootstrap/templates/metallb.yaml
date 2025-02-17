@@ -5,7 +5,7 @@ metadata:
   name: metallb
   namespace: argocd
 spec:
-  project: default
+  project: bootstrap
   sources:
     - repoURL: https://metallb.github.io/metallb
       chart: metallb
@@ -35,5 +35,5 @@ spec:
       limit: 5
       backoff:
         duration: 30s
-        max_duration: 2m
+        maxDuration: 2m
         factor: 2
