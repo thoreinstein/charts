@@ -1,9 +1,12 @@
+{{- range required "IP Pools must be provided!" .Values.ip_pools }}
 ---
 apiVersion: metallb.io/v1beta1
 kind: IPAddressPool
 metadata:
-  name: homelab
+  name: {{ .name }}
   namespace: metallb-system
 spec:
-  addresses: [10.10.3.200-10.10.3.250]
+  addresses:
+    - {{ .range }}
   avoidBuggyIPs: true
+{{- end }}
