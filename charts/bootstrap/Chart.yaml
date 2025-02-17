@@ -3,5 +3,5 @@ apiVersion: v2
 name: bootstrap
 description: Cluster bootstrap
 type: application
-version: 0.1.4
+version: 0.1.5
 appVersion: 1.16.0
