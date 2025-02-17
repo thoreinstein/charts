@@ -9,7 +9,7 @@ spec:
   sources:
     - repoURL: https://thoreinstein.github.io/manifests
       chart: metallb
-      targetRevision: 0.14.9.1
+      targetRevision: 0.14.10
       helm:
         valueFiles: [$values/metallb.yaml]
         ignoreMissingValueFiles: true
