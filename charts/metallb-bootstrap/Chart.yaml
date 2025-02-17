@@ -1,9 +1,9 @@
 ---
 apiVersion: v2
-name: metallb
+name: metallb-bootstrap
 description: Bootstrapping Metallb
 type: application
-version: 0.14.10
+version: 0.1.0
 appVersion: 0.14.9
 dependencies:
   - name: metallb
