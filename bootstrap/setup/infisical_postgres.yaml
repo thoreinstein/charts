@@ -5,13 +5,9 @@ metadata:
   name: infisical-postgres
   namespace: core
 spec:
-  initContainers:
-    - name: init-data-dir
-      image: busybox:latest
-      cmd: [sh, -c, chown, -R, postgres:root, /home/postgres/pgdata]
-      volumeMounts:
-        - name: pgdata
-          mountPath: /home/postgres/pgdata
+  spiloRunAsUser: 99
+  spiloRunAsGroup: 100
+  spiloFSGroup: 100
   teamId: core
   numberOfInstances: 2
   preparedDatabases:
