@@ -13,7 +13,7 @@ spec:
       helm:
         valueFiles: [$values/values/metallb.yaml]
         ignoreMissingValueFiles: true
-    - repoURL: https://thoreinstein.github.io/manifests
+    - repoURL: https://github.com/thoreinstein/manifests.git
       targetRevision: HEAD
       ref: values
   destination:
