@@ -12,12 +12,17 @@ spec:
     targetRevision: 1.17.0
   destination:
     server: https://kubernetes.default.svc
-    namespace: core
+    namespace: smb
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
     syncOptions: [CreateNamespace=true]
+    managedNamespaceMetadata:
+      labels:
+        pod-security.kubernetes.io/enforce: privileged
+        pod-security.kubernetes.io/audit: privileged
+        pod-security.kubernetes.io/warn: privileged
     retry:
       limit: 5
       backoff:
