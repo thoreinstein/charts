@@ -5,6 +5,10 @@ metadata:
   name: infisical-postgres
   namespace: core
 spec:
+  initContainers:
+    - name: init-data-dir
+      image: busybox:latest
+      cmd: [sh, -c, chown, -R, postgres:root, /home/postgres/pgdata]
   teamId: core
   numberOfInstances: 2
   preparedDatabases:
