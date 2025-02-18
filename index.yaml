@@ -3,6 +3,16 @@ entries:
   bootstrap:
   - apiVersion: v2
     appVersion: 1.16.0
+    created: "2025-02-18T20:16:19.174637938Z"
+    description: Cluster bootstrap
+    digest: c1b17b83ab284812cfcc4eb3c40e58c8e3874c1f429f620ea2129889e3f16495
+    name: bootstrap
+    type: application
+    urls:
+    - https://github.com/thoreinstein/manifests/releases/download/bootstrap-0.1.8/bootstrap-0.1.8.tgz
+    version: 0.1.8
+  - apiVersion: v2
+    appVersion: 1.16.0
     created: "2025-02-18T02:10:59.603317919Z"
     description: Cluster bootstrap
     digest: 2e79c7cc2a499239e507c6a1f172769ed84c78e3ddc7f5919f244b9a280c3b36
@@ -111,4 +121,4 @@ entries:
     urls:
     - https://github.com/thoreinstein/manifests/releases/download/metallb-bootstrap-0.1.0/metallb-bootstrap-0.1.0.tgz
     version: 0.1.0
-generated: "2025-02-18T02:10:59.603353415Z"
+generated: "2025-02-18T20:16:19.174683684Z"
