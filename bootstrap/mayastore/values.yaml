@@ -1,0 +1,11 @@
+---
+openebs:
+  varDirectoryPath:
+    baseDir: /var/local
+  localprovisioner:
+    basePath: /var/local/local
+  mayastor:
+    csi:
+      node:
+        initContainers:
+          enabled: false
