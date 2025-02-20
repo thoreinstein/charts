@@ -17,7 +17,7 @@ spec:
     version: '17'
   volume:
     size: 1Gi
-    storageClass: nfs-client
+    storageClass: openebs-hostpath
   resources:
     requests:
       cpu: 10m
