@@ -12,6 +12,10 @@ spec:
       targetRevision: 3.10.0
       helm:
         valuesObject:
+          varDirectoryPath:
+            baseDir: /var/local
+          localprovisioner:
+            basePath: /var/local/local
           mayastor:
             csi:
               node:
