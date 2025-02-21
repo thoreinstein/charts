@@ -1,5 +1,0 @@
----
-dependencies:
-  - name: openebs-core
-    version: 3.10.0
-    repository: https://openebs.github.io/charts
