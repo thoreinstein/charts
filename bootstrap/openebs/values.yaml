@@ -4,6 +4,10 @@ openebs-core:
     baseDir: /var/local
   localprovisioner:
     basePath: /var/local/local
+    deviceClass:
+      enabled: false
+    hostpathClass:
+      isDefaultClass: true
   mayastor:
     csi:
       node:

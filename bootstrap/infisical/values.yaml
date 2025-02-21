@@ -1,9 +1,6 @@
 ---
 infisical-standalone:
   ingress:
+    enabled: false
     nginx:
       enabled: false
-  postgresql:
-    global:
-      defaultStorageClass: openebs-hostpath
-      storageClass: openebs-hostpath
