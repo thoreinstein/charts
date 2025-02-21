@@ -1,0 +1,5 @@
+---
+vault:
+  ui:
+    enabled: true
+    serviceType: LoadBalancer
