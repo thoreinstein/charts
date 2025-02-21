@@ -1,6 +1,0 @@
----
-infisical-standalone:
-  ingress:
-    enabled: false
-    nginx:
-      enabled: false
