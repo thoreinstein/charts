@@ -9,4 +9,3 @@ dependencies:
   - name: infisical-standalone
     version: 1.4.0
     repository: https://dl.cloudsmith.io/public/infisical/helm-charts/helm/charts/
-    alias: core
