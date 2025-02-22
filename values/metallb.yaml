@@ -1,4 +1,5 @@
 ---
-ip_pools:
-  - name: defualt
-    range: 10.10.3.200-10.10.3.250
+metallb:
+  speaker:
+    frr:
+      enabled: false
