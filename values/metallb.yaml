@@ -1,5 +1,5 @@
 ---
-metallb-core:
+metallb:
   speaker:
     frr:
       enabled: false
