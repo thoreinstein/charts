@@ -1,5 +1,5 @@
 ---
-openebs-core:
+openebs:
   varDirectoryPath:
     baseDir: /var/local
   localprovisioner:
