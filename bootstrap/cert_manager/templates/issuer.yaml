@@ -3,6 +3,8 @@ apiVersion: cert-manager.io/v1
 kind: Issuer
 metadata:
   name: acme-issuer
+  annotations:
+    argocd.argoproj.io/hook: PostSync
 spec:
   acme:
     email: {{ required "You must provide your Cloudflare email address." .Values.cloudflare_email_address }}
