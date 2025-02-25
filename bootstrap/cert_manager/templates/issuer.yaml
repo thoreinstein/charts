@@ -2,7 +2,7 @@
 apiVersion: cert-manager.io/v1
 kind: Issuer
 metadata:
-  name: acme-issuer
+  name: acme-staging
   annotations:
     argocd.argoproj.io/hook: PostSync
 spec:
