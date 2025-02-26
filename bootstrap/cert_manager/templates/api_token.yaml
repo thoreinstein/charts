@@ -4,7 +4,7 @@ kind: Secret
 metadata:
   name: cloudflare-api-token-secret
   annotations:
-    argocd.argoproj.io/hook: PostSync
+    argocd.argoproj.io/sync-wave: "1"
 type: Opaque
 stringData:
   api-token: {{ required "You must provide a Cloudflare API token." .Values.cloudflare_api_token }}
