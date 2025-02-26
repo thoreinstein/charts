@@ -1,3 +1,0 @@
----
-argo-cd:
-  domain: argocd.{{ .Values.domain_name }}
