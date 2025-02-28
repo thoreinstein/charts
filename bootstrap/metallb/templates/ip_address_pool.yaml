@@ -4,7 +4,6 @@ apiVersion: metallb.io/v1beta1
 kind: IPAddressPool
 metadata:
   name: {{ .name }}
-  namespace: bootstrap
   annotations:
     argocd.argoproj.io/sync-wave: "1"
 spec:
