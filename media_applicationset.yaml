@@ -35,7 +35,7 @@ spec:
     spec:
       project: default
       source:
-        repoURL: git@github.com:thoreinstein/manifests.git
+        repoURL: https://github.com/thoreinstein/manifests.git
         targetRevision: HEAD
         path: media/{{.appName}}
       destination:
