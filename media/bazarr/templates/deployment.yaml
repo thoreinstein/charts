@@ -28,7 +28,7 @@ spec:
             - name: PGID
               value: "100"
             - name: UMASK
-              value: "002"
+              value: "022"
             - name: TZ
               value: America/New_York
             - name: POSTGRES_ENABLED
