@@ -1,5 +1,5 @@
 {{- define "bazarr.domain_name" -}}
-{{- $domain_name := default "chart.local" .Values.domain_name }}
+{{- $domain_name := default "chart.local" .Values.ingress.domain }}
 {{- $name := include "bazarr.name" . }}
 {{- printf "%s.%s" $name $domain_name}}
 {{- end }}
