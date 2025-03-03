@@ -9,22 +9,8 @@ spec:
   generators:
     - list:
         elements:
-          # - appName: sonarr
-          #   registry: ghcr.io/linuxserver
-          # - appName: radarr
-          #   registry: ghcr.io/linuxserver
-          # - appName: overseerr
-          #   registry: ghcr.io/linuxserver
-          # - appName: fileflows
-          #   registry: revenz
-          # - appName: tautulli
-          #   registry: ghcr.io/linuxserver
-          # - appName: notifiarr
-          #   registry: golift
           - appName: bazarr
             registry: lscr.io/linuxserver/bazarr
-          # - appName: tubesync
-          #   registry: ghcr.io/meeb
   template:
     metadata:
       name: '{{.appName}}'
@@ -34,10 +20,16 @@ spec:
         argocd-image-updater.argoproj.io/write-back-method: argocd
     spec:
       project: default
-      source:
-        repoURL: https://github.com/thoreinstein/manifests.git
-        targetRevision: HEAD
-        path: media/{{.appName}}
+      sources:
+        - repoURL: https://github.com/thoreinstein/manifests.git
+          targetRevision: HEAD
+          path: media/{{.appName}}
+          helm:
+            valueFiles: [$values/{{.appName}}.yaml]
+            ignoreMissingValueFiles: false
+        - repoURL: git@github.com/thoreinstein/values.git
+          targetRevision: HEAD
+          ref: values
       destination:
         name: in-cluster
         namespace: media

@@ -1,6 +1,7 @@
 ---
 ingress:
   enabled: true
+  domain: ''
 service:
   type: ClusterIP
   port: 6767
