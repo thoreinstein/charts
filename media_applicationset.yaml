@@ -25,7 +25,7 @@ spec:
           targetRevision: HEAD
           path: media/{{.appName}}
           helm:
-            valueFiles: [$values/{{.appName}}.yaml]
+            valueFiles: ['$values/{{.appName}}.yaml']
             ignoreMissingValueFiles: false
         - repoURL: git@github.com/thoreinstein/values.git
           targetRevision: HEAD
