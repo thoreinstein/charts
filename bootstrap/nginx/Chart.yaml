@@ -1,6 +1,6 @@
 ---
 apiVersion: v2
-name: Nginx
+name: nginx
 description: Nginx
 type: application
 version: 0.1.0

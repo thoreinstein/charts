@@ -1,6 +1,6 @@
 ---
 apiVersion: v2
-name: External DNS
+name: external-dns
 description: External DNS
 type: application
 version: 0.1.0
