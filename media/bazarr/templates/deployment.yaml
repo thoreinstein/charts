@@ -78,7 +78,7 @@ spec:
             - name: media
               mountPath: /data
             - name: config
-              mountPath: /config/config/config.yaml
+              mountPath: /config/config
       volumes:
         - name: media
           persistentVolumeClaim:
