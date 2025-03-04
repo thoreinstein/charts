@@ -20,14 +20,14 @@ jobs:
       - name: Package Bootstrap Charts
         uses: helm/chart-releaser-action@v1.6.0
         with:
-          chart_dir: bootstrap
+          charts_dir: bootstrap
           skip_existing: true
         env:
           CR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Package Media Charts
         uses: helm/chart-releaser-action@v1.6.0
         with:
-          chart_dir: media
+          charts_dir: media
           skip_existing: true
         env:
           CR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
