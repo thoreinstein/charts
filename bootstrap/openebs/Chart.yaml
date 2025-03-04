@@ -1,6 +1,6 @@
 ---
 apiVersion: v2
-name: Mayastore
+name: mayastore
 description: Mayastore
 type: application
 version: 0.1.0

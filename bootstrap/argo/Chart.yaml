@@ -1,6 +1,6 @@
 ---
 apiVersion: v2
-name: Argo Image Updater
+name: argo-image-updater
 description: Argo Image Updater
 type: application
 version: 0.1.0

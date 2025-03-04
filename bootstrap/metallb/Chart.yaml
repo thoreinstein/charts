@@ -1,6 +1,6 @@
 ---
 apiVersion: v2
-name: Metallb
+name: metallb
 description: Metallb
 type: application
 version: 0.1.0
