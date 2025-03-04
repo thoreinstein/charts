@@ -11,6 +11,7 @@ spec:
         elements:
           - appName: bazarr
             registry: lscr.io/linuxserver/bazarr
+            version: 0.1.0
   template:
     metadata:
       name: '{{.appName}}'
@@ -21,9 +22,9 @@ spec:
     spec:
       project: default
       sources:
-        - repoURL: https://github.com/thoreinstein/manifests.git
-          targetRevision: HEAD
-          path: media/{{.appName}}
+        - repoURL: https://thoreinstein.github.io/manifests
+          targetRevision: '{{.version}}'
+          chart: '{{.appName}}'
           helm:
             valueFiles: ['$values/{{.appName}}.yaml']
             ignoreMissingValueFiles: false
