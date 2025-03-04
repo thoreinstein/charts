@@ -1,5 +1,20 @@
 apiVersion: v1
 entries:
+  argo-image-updater:
+  - apiVersion: v2
+    appVersion: v0.15.2
+    created: "2025-03-04T14:28:46.771823028Z"
+    dependencies:
+    - name: argocd-image-updater
+      repository: https://argoproj.github.io/argo-helm
+      version: 0.12.0
+    description: Argo Image Updater
+    digest: 5c7e3603af04b3941555d5e4154ae3ff84115726363eb1d760aab27580c55a4f
+    name: argo-image-updater
+    type: application
+    urls:
+    - https://github.com/thoreinstein/manifests/releases/download/argo-image-updater-0.1.0/argo-image-updater-0.1.0.tgz
+    version: 0.1.0
   bootstrap:
   - apiVersion: v2
     appVersion: 1.16.0
@@ -121,6 +136,66 @@ entries:
     urls:
     - https://github.com/thoreinstein/manifests/releases/download/bootstrap-0.1.0/bootstrap-0.1.0.tgz
     version: 0.1.0
+  cert-manager:
+  - apiVersion: v2
+    appVersion: v1.17.1
+    created: "2025-03-04T14:28:46.914423038Z"
+    dependencies:
+    - name: cert-manager
+      repository: https://charts.jetstack.io
+      version: v1.17.1
+    description: Cert Manager
+    digest: 4fcc259ad818387ad2db275c0f24b376a8b389b334879b5666b597f06556db42
+    name: cert-manager
+    type: application
+    urls:
+    - https://github.com/thoreinstein/manifests/releases/download/cert-manager-0.1.0/cert-manager-0.1.0.tgz
+    version: 0.1.0
+  cloudflared:
+  - apiVersion: v2
+    appVersion: 2024.8.3
+    created: "2025-03-04T14:28:47.04302631Z"
+    dependencies:
+    - name: cloudflare-tunnel
+      repository: https://cloudflare.github.io/helm-charts
+      version: 0.3.2
+    description: Cloudflared
+    digest: 656f74ad40844f91079736a8de581860f2d70dea71f7efa670fca034f93027f5
+    name: cloudflared
+    type: application
+    urls:
+    - https://github.com/thoreinstein/manifests/releases/download/cloudflared-0.1.0/cloudflared-0.1.0.tgz
+    version: 0.1.0
+  external-dns:
+  - apiVersion: v2
+    appVersion: 0.15.1
+    created: "2025-03-04T14:28:47.18278774Z"
+    dependencies:
+    - name: external-dns
+      repository: https://kubernetes-sigs.github.io/external-dns
+      version: 1.15.2
+    description: External DNS
+    digest: 81ff5c9ae866a3db481423a316115d50872cb4368b40a02388627e344ad10ec4
+    name: external-dns
+    type: application
+    urls:
+    - https://github.com/thoreinstein/manifests/releases/download/external-dns-0.1.0/external-dns-0.1.0.tgz
+    version: 0.1.0
+  mayastore:
+  - apiVersion: v2
+    appVersion: 3.10.0
+    created: "2025-03-04T14:28:47.368334075Z"
+    dependencies:
+    - name: openebs
+      repository: https://openebs.github.io/charts
+      version: 3.10.0
+    description: Mayastore
+    digest: 9ae0bb7a3045feaa91c1cb8c575653a4adbe6ee490905e6d8f474504007d17aa
+    name: mayastore
+    type: application
+    urls:
+    - https://github.com/thoreinstein/manifests/releases/download/mayastore-0.1.0/mayastore-0.1.0.tgz
+    version: 0.1.0
   metallb:
   - apiVersion: v2
     appVersion: 0.14.9
@@ -136,6 +211,20 @@ entries:
     urls:
     - https://github.com/thoreinstein/manifests/releases/download/metallb-0.14.9/metallb-0.14.9.tgz
     version: 0.14.9
+  - apiVersion: v2
+    appVersion: 0.14.9
+    created: "2025-03-04T14:28:47.525549936Z"
+    dependencies:
+    - name: metallb
+      repository: https://metallb.github.io/metallb
+      version: 0.14.9
+    description: Metallb
+    digest: a20fadd090c299b651fe72b442e2c54f8f278084ecd236c99ed6bd0f85cd1375
+    name: metallb
+    type: application
+    urls:
+    - https://github.com/thoreinstein/manifests/releases/download/metallb-0.1.0/metallb-0.1.0.tgz
+    version: 0.1.0
   metallb-bootstrap:
   - apiVersion: v2
     appVersion: 0.14.9
@@ -151,4 +240,19 @@ entries:
     urls:
     - https://github.com/thoreinstein/manifests/releases/download/metallb-bootstrap-0.1.0/metallb-bootstrap-0.1.0.tgz
     version: 0.1.0
-generated: "2025-02-20T01:43:03.512533083Z"
+  nginx:
+  - apiVersion: v2
+    appVersion: 1.12.0
+    created: "2025-03-04T14:28:47.665128097Z"
+    dependencies:
+    - name: ingress-nginx
+      repository: https://kubernetes.github.io/ingress-nginx
+      version: 4.12.0
+    description: Nginx
+    digest: 80f785547f43930ce095a651805b65b174c26abc195840e83c01bbf1f2878c0a
+    name: nginx
+    type: application
+    urls:
+    - https://github.com/thoreinstein/manifests/releases/download/nginx-0.1.0/nginx-0.1.0.tgz
+    version: 0.1.0
+generated: "2025-03-04T14:28:47.665152713Z"
