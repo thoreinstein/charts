@@ -286,4 +286,19 @@ entries:
     urls:
     - https://github.com/thoreinstein/manifests/releases/download/nginx-0.1.0/nginx-0.1.0.tgz
     version: 0.1.0
-generated: "2025-03-04T21:51:01.339608434Z"
+  openebs:
+  - apiVersion: v2
+    appVersion: 3.10.0
+    created: "2025-03-05T02:16:21.551333383Z"
+    dependencies:
+    - name: openebs
+      repository: https://openebs.github.io/charts
+      version: 3.10.0
+    description: Mayastore Openebs
+    digest: 0288e5b8cfca0675bb966af2c77f3ead7c60f490ad7e75c5685899ea8306db88
+    name: openebs
+    type: application
+    urls:
+    - https://github.com/thoreinstein/manifests/releases/download/openebs-0.1.0/openebs-0.1.0.tgz
+    version: 0.1.0
+generated: "2025-03-05T02:16:21.551384129Z"
