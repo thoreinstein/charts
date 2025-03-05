@@ -170,6 +170,20 @@ entries:
   cert-manager:
   - apiVersion: v2
     appVersion: v1.17.1
+    created: "2025-03-05T02:26:35.402718248Z"
+    dependencies:
+    - name: cert-manager
+      repository: https://charts.jetstack.io
+      version: v1.17.1
+    description: Cert Manager
+    digest: 03c09d21302557a48750ffc233ab59f5b6c95c89fede2c0589de5d8b37cfe366
+    name: cert-manager
+    type: application
+    urls:
+    - https://github.com/thoreinstein/manifests/releases/download/cert-manager-0.1.1/cert-manager-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
+    appVersion: v1.17.1
     created: "2025-03-04T14:28:46.914423038Z"
     dependencies:
     - name: cert-manager
@@ -301,4 +315,4 @@ entries:
     urls:
     - https://github.com/thoreinstein/manifests/releases/download/openebs-0.1.0/openebs-0.1.0.tgz
     version: 0.1.0
-generated: "2025-03-05T02:16:21.551384129Z"
+generated: "2025-03-05T02:26:35.402760586Z"
