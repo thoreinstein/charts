@@ -1,7 +1,7 @@
 ---
 apiVersion: v2
-name: mayastore
-description: Mayastore
+name: openebs
+description: Mayastore Openebs
 type: application
 version: 0.1.0
 appVersion: 3.10.0
