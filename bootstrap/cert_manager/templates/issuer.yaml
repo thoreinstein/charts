@@ -3,6 +3,7 @@ apiVersion: cert-manager.io/v1
 kind: Issuer
 metadata:
   name: acme-staging
+  namespace: {{ .Release.Namespace | quote }}
   annotations:
     argocd.argoproj.io/sync-wave: "1"
 spec:
@@ -22,6 +23,7 @@ apiVersion: cert-manager.io/v1
 kind: Issuer
 metadata:
   name: acme-prod
+  namespace: {{ .Release.Namespace | quote }}
   annotations:
     argocd.argoproj.io/sync-wave: "1"
 spec:
