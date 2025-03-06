@@ -18,6 +18,16 @@ entries:
   bazarr:
   - apiVersion: v2
     appVersion: v1.5.1-ls293
+    created: "2025-03-06T01:11:15.672177806Z"
+    description: A Helm chart for Kubernetes
+    digest: 0612c6b387ec10ed539c79f2ffd98b9d0c520c3ef28ca3c4ed99b3d05c7e555b
+    name: bazarr
+    type: application
+    urls:
+    - https://github.com/thoreinstein/manifests/releases/download/bazarr-0.1.5/bazarr-0.1.5.tgz
+    version: 0.1.5
+  - apiVersion: v2
+    appVersion: v1.5.1-ls293
     created: "2025-03-05T14:19:09.285721323Z"
     description: A Helm chart for Kubernetes
     digest: eef7dfc5058d099d2d262a40083ca33c412353de36684672a5dcc7959fb2952e
@@ -349,4 +359,4 @@ entries:
     urls:
     - https://github.com/thoreinstein/manifests/releases/download/openebs-0.1.0/openebs-0.1.0.tgz
     version: 0.1.0
-generated: "2025-03-05T14:19:09.28577908Z"
+generated: "2025-03-06T01:11:15.672227729Z"
