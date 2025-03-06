@@ -78,13 +78,11 @@ spec:
             - name: media
               mountPath: /data
             - name: config
-              mountPath: /config/config
-              subPath: config.yaml
-              readOnly: false
+              mountPath: /config
       volumes:
         - name: media
           persistentVolumeClaim:
-            claimName: media-nfs-pvc
+            claimName: {{ include "bazarr.name" . }}-media-pvc
         - name: config
-          configMap:
-            name: {{ include "bazarr.name" . }}
+          persistentVolumeClaim:
+            claimName: {{ include "bazarr.name" . }}-config-pvc
