@@ -1,0 +1,30 @@
+---
+apiVersion: apps/v1
+kind: ConfigMap
+metadata:
+  name: {{ include "sonarr.fullname" . }}
+  labels:
+    {{- include "sonarr.labels" . | nindent 4 }}
+data:
+  config.xml: |
+    <Config>
+      <BindAddress>*</BindAddress>
+      <Port>8989</Port>
+      <SslPort>9898</SslPort>
+      <EnableSsl>False</EnableSsl>
+      <LaunchBrowser>True</LaunchBrowser>
+      <ApiKey>1a281365797a4a028c105717bfeaf761</ApiKey>
+      <AuthenticationMethod>Forms</AuthenticationMethod>
+      <AuthenticationRequired>DisabledForLocalAddresses</AuthenticationRequired>
+      <Branch>main</Branch>
+      <LogLevel>debug</LogLevel>
+      <SslCertPath></SslCertPath>
+      <SslCertPassword></SslCertPassword>
+      <UrlBase></UrlBase>
+      <InstanceName>Myers Haus TV</InstanceName>
+      <UpdateMechanism>Docker</UpdateMechanism>
+      <PostgresPassword>{{ required "You must provide a Postgres Password." .Values.postgresPassword }}</PostgresPassword>
+      <PostgresUser>{{ required "You must provide a Postgres User." .Values.postgresUser }}</PostgresUser>
+      <PostgresPort>{{ required "You must provide a Postgres Port." .Values.postgresPort }}</PostgresPort>
+      <PostgresHost>{{ required "You must provide a Postgres Host." .Values.postgresHost }}</PostgresHost>
+    </Config>
