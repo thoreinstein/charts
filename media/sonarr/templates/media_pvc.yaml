@@ -1,0 +1,5 @@
+{{- include "common.media-volume.tpl" (dict
+ "name" (include "sonarr.name" (dict "Chart" .Chart "Values" .Values))
+ "server" "10.10.0.20"
+ "path" "/mnt/user/data"
+)}}
