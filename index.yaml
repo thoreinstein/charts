@@ -380,4 +380,19 @@ entries:
     urls:
     - https://github.com/thoreinstein/manifests/releases/download/openebs-0.1.0/openebs-0.1.0.tgz
     version: 0.1.0
-generated: "2025-03-07T20:31:51.020730425Z"
+  sonarr:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2025-03-08T02:45:08.491719315Z"
+    dependencies:
+    - name: common
+      repository: https://thoreinstein.github.io/manifests
+      version: 0.1.0
+    description: A Helm chart for Kubernetes
+    digest: 767cc6e3d0ad7e54535f62d2b3e2194f61dc62a28bf17d221e1d0b2806ed55b6
+    name: sonarr
+    type: application
+    urls:
+    - https://github.com/thoreinstein/manifests/releases/download/sonarr-0.1.1/sonarr-0.1.1.tgz
+    version: 0.1.1
+generated: "2025-03-08T02:45:08.491815404Z"
