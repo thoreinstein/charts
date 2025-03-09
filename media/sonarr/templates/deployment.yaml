@@ -53,12 +53,10 @@ spec:
               mountPath: /data
             - name: config
               mountPath: /config
-              subPath: config.xml
-              readOnly: true
       volumes:
         - name: media
           persistentVolumeClaim:
             claimName: {{ include "sonarr.name" . }}-media-pvc
         - name: config
-          configMap:
-            name: {{ include "sonarr.fullname" . }}
+          persistentVolumeClaim:
+            claimName: {{ include "sonarr.name" . }}-config-pvc
