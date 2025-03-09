@@ -25,7 +25,7 @@ metadata:
   name: {{ $name }}-config-pvc
 spec:
   accessModes: [ReadWriteMany]
-  volumeName: {{ $name }}-media-pv
+  volumeName: {{ $name }}-config-pv
   storageClassName: {{ $className }}
   resources:
     requests:
