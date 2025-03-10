@@ -403,6 +403,20 @@ entries:
   sonarr:
   - apiVersion: v2
     appVersion: 1.16.0
+    created: "2025-03-10T01:31:04.763433327Z"
+    dependencies:
+    - name: common
+      repository: https://thoreinstein.github.io/manifests
+      version: 0.1.2
+    description: A Helm chart for Kubernetes
+    digest: 5bf8b333fe974f3f6f8ede82abc687086b7e7fe95b0bc2c279cefbdf443b8e3d
+    name: sonarr
+    type: application
+    urls:
+    - https://github.com/thoreinstein/manifests/releases/download/sonarr-0.1.4/sonarr-0.1.4.tgz
+    version: 0.1.4
+  - apiVersion: v2
+    appVersion: 1.16.0
     created: "2025-03-09T16:30:14.439231784Z"
     dependencies:
     - name: common
@@ -443,4 +457,4 @@ entries:
     urls:
     - https://github.com/thoreinstein/manifests/releases/download/sonarr-0.1.1/sonarr-0.1.1.tgz
     version: 0.1.1
-generated: "2025-03-10T01:27:09.72512891Z"
+generated: "2025-03-10T01:31:04.76349104Z"
