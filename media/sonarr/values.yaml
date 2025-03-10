@@ -2,10 +2,6 @@
 ingress:
   enabled: true
   domain: ''
-postgresUser: ''
-postgresPassword: ''
-postgresPort: ''
-postgresHost: ''
 service:
   type: ClusterIP
   port: 8989
