@@ -9,9 +9,9 @@ spec:
   generators:
     - list:
         elements:
-          - appName: bazarr
-            registry: lscr.io/linuxserver/bazarr
-            version: 0.1.6
+          - appName: sonarr
+            registry: lscr.io/linuxserver/sonarr
+            version: 0.1.4
   template:
     metadata:
       name: '{{.appName}}'
@@ -26,8 +26,8 @@ spec:
           targetRevision: '{{.version}}'
           chart: '{{.appName}}'
           helm:
-            valueFiles: ['$values/{{.appName}}.yaml']
-            ignoreMissingValueFiles: false
+            valueFiles: [$values/common.yaml, '$values/{{.appName}}.yaml']
+            ignoreMissingValueFiles: true
         - repoURL: git@github.com/thoreinstein/values.git
           targetRevision: HEAD
           ref: values
