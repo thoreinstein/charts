@@ -1,0 +1,5 @@
+{{- include "common.nfs-volume.tpl" (dict
+ "name" (printf "%s-backups" (include "sonarr.name" .))
+ "server" (required "You must provide an NFS server address." .Values.nfsServer)
+ "path" (printf "/mnt/user/backups/%s" (include "sonarr.name" . ))
+)}}
