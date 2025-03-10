@@ -268,6 +268,16 @@ entries:
   common:
   - apiVersion: v2
     appVersion: 1.16.0
+    created: "2025-03-10T01:27:09.72507561Z"
+    description: A Helm chart for Kubernetes
+    digest: c8578b542ba6617630e78d2592bc4641f66161757c53058d5734893b853bd369
+    name: common
+    type: library
+    urls:
+    - https://github.com/thoreinstein/manifests/releases/download/common-0.1.2/common-0.1.2.tgz
+    version: 0.1.2
+  - apiVersion: v2
+    appVersion: 1.16.0
     created: "2025-03-09T23:18:16.347463683Z"
     description: A Helm chart for Kubernetes
     digest: 1d38055ffac359cb3868995a1002d8c2e28df7dec5d1f2a1bb5e205b5b86c5ac
@@ -433,4 +443,4 @@ entries:
     urls:
     - https://github.com/thoreinstein/manifests/releases/download/sonarr-0.1.1/sonarr-0.1.1.tgz
     version: 0.1.1
-generated: "2025-03-09T23:18:16.347517192Z"
+generated: "2025-03-10T01:27:09.72512891Z"
