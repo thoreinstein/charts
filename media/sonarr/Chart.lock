@@ -1,6 +1,6 @@
 dependencies:
 - name: common
   repository: https://thoreinstein.github.io/manifests
-  version: 0.1.1
-digest: sha256:dbfa672f9c3bb74ac7006e530cd0e7657eb17b3f3ea079ade1479685e44fb5fa
-generated: "2025-03-09T19:20:40.914734-04:00"
+  version: 0.1.2
+digest: sha256:acaab6532d3e5d8fa86236a5f9d7468d6ca0e8d294015ce9a7e92b1f654252ba
+generated: "2025-03-09T21:29:55.795272-04:00"
