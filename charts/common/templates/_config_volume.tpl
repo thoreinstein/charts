@@ -4,7 +4,6 @@
 {{- $path := .path }}
 {{- $policy := default "Retain" .policy }}
 {{- $storage := default "1Gi" .storage }}
-{{- $className := default "" .className }}
 ---
 apiVersion: v1
 kind: PersistentVolume
@@ -26,7 +25,7 @@ metadata:
 spec:
   accessModes: [ReadWriteMany]
   volumeName: {{ $name }}-config-pv
-  storageClassName: {{ $className }}
+  storageClassName: ''
   resources:
     requests:
       storage: {{ $storage }}

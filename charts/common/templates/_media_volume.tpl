@@ -3,7 +3,6 @@
 {{- $server := .server }}
 {{- $path := .path }}
 {{- $policy := default "Retain" .policy }}
-{{- $className := default "Retain" .className }}
 ---
 apiVersion: v1
 kind: PersistentVolume
