@@ -11,7 +11,7 @@ spec:
         elements:
           - appName: sonarr
             registry: lscr.io/linuxserver/sonarr
-            version: 0.1.4
+            version: 0.1.5
   template:
     metadata:
       name: '{{.appName}}'
