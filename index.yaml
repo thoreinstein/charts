@@ -413,6 +413,20 @@ entries:
   radarr:
   - apiVersion: v2
     appVersion: 1.16.0
+    created: "2025-03-11T13:11:14.410538693Z"
+    dependencies:
+    - name: common
+      repository: https://thoreinstein.github.io/manifests
+      version: 0.1.3
+    description: A Helm chart for Kubernetes
+    digest: 1d4bcdce5c6a8d07e43b0acb8dfaafd089ec634644da6c6af065a6fff34a4bf5
+    name: radarr
+    type: application
+    urls:
+    - https://github.com/thoreinstein/manifests/releases/download/radarr-0.1.1/radarr-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
+    appVersion: 1.16.0
     created: "2025-03-11T13:00:32.517441637Z"
     dependencies:
     - name: common
@@ -496,4 +510,4 @@ entries:
     urls:
     - https://github.com/thoreinstein/manifests/releases/download/sonarr-0.1.1/sonarr-0.1.1.tgz
     version: 0.1.1
-generated: "2025-03-11T13:00:32.517521878Z"
+generated: "2025-03-11T13:11:14.410633261Z"
