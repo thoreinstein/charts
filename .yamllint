@@ -1,0 +1,17 @@
+# vim: ft=yaml
+---
+extends: default
+
+rules:
+  braces: {max-spaces-inside: 1, level: warning}
+  brackets: {max-spaces-inside: 1, level: warning}
+  colons: {max-spaces-before: 0, max-spaces-after: 1}
+  commas: {max-spaces-after: 1}
+  comments: {min-spaces-from-content: 2}
+  document-start: disable
+  empty-lines: {max: 2, max-start: 1, max-end: 1}
+  indentation: {spaces: 2, indent-sequences: whatever, check-multi-line-strings: false}
+  key-duplicates: enable
+  line-length: {max: 120, level: warning}
+  new-line-at-end-of-file: enable
+  trailing-spaces: {level: error}
