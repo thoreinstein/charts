@@ -1,5 +1,11 @@
-{{- include "common.media-volume.tpl" (dict
- "name" (include "sonarr.name" (dict "Chart" .Chart "Values" .Values))
- "server" "10.10.0.20"
+{{- include "common.nfs-volume.tpl" (dict
+ "name" (printf "%s-media" (include "sonarr.name" .))
+ "server" (required "You must provide an NFS server address." .Values.nfsServer)
  "path" "/mnt/user/data"
+)}}
+---
+{{- include "common.nfs-volume.tpl" (dict
+ "name" (printf "%s-media-new" (include "sonarr.name" .))
+ "server" (required "You must provide an NFS server address." .Values.nfsServer)
+ "path" "/mnt/user/media"
 )}}
