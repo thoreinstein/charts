@@ -5,13 +5,10 @@ on:
     branches: [main]
 jobs:
   release:
+    runs-on: ubuntu-latest
     permissions:
       contents: write
-    runs-on: ubuntu-latest
     steps:
-      - name: add repos
-        run: |
-          helm repo add manifests https://thoreinstein.github.io/manifests
       - name: Checkout
         uses: actions/checkout@v4
         with:
@@ -20,23 +17,11 @@ jobs:
         run: |
           git config user.name "$GITHUB_ACTOR"
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
-      - name: Package Bootstrap Charts
+      - name: Install Helm
+        uses: azure/setup-helm@v4
+      - name: Run chart-releaser
         uses: helm/chart-releaser-action@v1.6.0
         with:
-          charts_dir: bootstrap
-          skip_existing: true
-        env:
-          CR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Package Media Charts
-        uses: helm/chart-releaser-action@v1.6.0
-        with:
-          charts_dir: media
-          skip_existing: true
-        env:
-          CR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Package Charts
-        uses: helm/chart-releaser-action@v1.6.0
-        with:
-          skip_existing: true
+          charts_dir: charts
         env:
           CR_TOKEN: ${{ secrets.GITHUB_TOKEN }}

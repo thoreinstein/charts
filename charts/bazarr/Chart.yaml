@@ -1,0 +1,9 @@
+---
+apiVersion: v2
+name: bazarr
+description: A Helm chart for Kubernetes
+maintainers:
+  - name: Thor
+type: application
+version: 0.1.6
+appVersion: v1.5.1-ls293
