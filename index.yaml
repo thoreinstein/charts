@@ -18,6 +18,18 @@ entries:
   bazarr:
   - apiVersion: v2
     appVersion: v1.5.1-ls293
+    created: "2025-03-13T22:26:24.397461041Z"
+    description: A Helm chart for Kubernetes
+    digest: 3cc9a9a20dce4d11099841dea01be79c2e1e9939662411b25b84ecf480a8807c
+    maintainers:
+    - name: Thor
+    name: bazarr
+    type: application
+    urls:
+    - https://github.com/thoreinstein/manifests/releases/download/bazarr-0.1.7/bazarr-0.1.7.tgz
+    version: 0.1.7
+  - apiVersion: v2
+    appVersion: v1.5.1-ls293
     created: "2025-03-06T01:58:37.224987796Z"
     description: A Helm chart for Kubernetes
     digest: b8664cfdfa2f29bde25119b31386a773698d2f34a3a4426ca915fee84d05dfb6
@@ -510,4 +522,4 @@ entries:
     urls:
     - https://github.com/thoreinstein/manifests/releases/download/sonarr-0.1.1/sonarr-0.1.1.tgz
     version: 0.1.1
-generated: "2025-03-11T13:11:14.410633261Z"
+generated: "2025-03-13T22:26:24.397525522Z"
