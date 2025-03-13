@@ -1,0 +1,8 @@
+---
+chart-repos:
+  - jetstack=https://charts.jetstack.io
+  - argo=https://argoproj.github.io/argo-helm
+  - metallb=https://metallb.github.io/metallb
+  - openebs=https://openebs.github.io/charts
+  - cloudflare=https://cloudflare.github.io/helm-charts
+  - ingress-nginx=https://kubernetes.github.io/ingress-nginx
