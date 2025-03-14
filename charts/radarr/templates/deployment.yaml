@@ -19,6 +19,13 @@ spec:
         {{- end }}
     spec:
       serviceAccountName: {{ include "radarr.serviceAccountName" . }}
+      initContainers:
+        - name: {{ .Chart.Name }}-init
+          image: busybox:latest
+          command:
+            - "sh"
+            - "-c"
+            - "cp /tmp/config/config.xml /config/config.xml && chown abc:abc /config/config.xml"
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
@@ -52,16 +59,16 @@ spec:
             - name: media
               mountPath: /data
             - name: config
-              mountPath: /config
+              mountPath: /tmp/config
             - name: backups
               mountPath: /backups
       volumes:
         - name: media
           persistentVolumeClaim:
             claimName: {{ include "radarr.name" . }}-media-pvc
-        - name: config
-          persistentVolumeClaim:
-            claimName: {{ include "radarr.name" . }}-config-pvc
         - name: backups
           persistentVolumeClaim:
             claimName: {{ include "radarr.name" . }}-backups-pvc
+        - name: config
+          configMap:
+            name: {{ include "radarr.fullname" . }}
