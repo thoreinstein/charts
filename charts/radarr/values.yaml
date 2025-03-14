@@ -1,0 +1,36 @@
+---
+apikey: ''
+postgres:
+  password: ''
+  user: ''
+  port: ''
+  host: ''
+nfsServer: 0.0.0.0
+ingress:
+  enabled: true
+  domain: ''
+service:
+  type: ClusterIP
+  port: 7878
+serviceAccount:
+  create: true
+  automount: true
+  annotations: {}
+replicaCount: 1
+image:
+  repository: lscr.io/linuxserver/radarr
+  pullPolicy: IfNotPresent
+  tag: latest
+imagePullSecrets: []
+nameOverride: ''
+fullnameOverride: ''
+podLabels: {}
+resources: {}
+livenessProbe:
+  httpGet:
+    path: /
+    port: http
+readinessProbe:
+  httpGet:
+    path: /
+    port: http
