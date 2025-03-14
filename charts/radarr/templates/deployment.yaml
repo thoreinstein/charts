@@ -23,9 +23,8 @@ spec:
         - name: {{ .Chart.Name }}-init
           image: busybox:latest
           command:
-            - "sh"
-            - "-c"
-            - "cp /tmp/config/config.xml /config/config.xml && chown abc:abc /config/config.xml"
+            - "sleep"
+            - "infinity"
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
@@ -59,7 +58,7 @@ spec:
             - name: media
               mountPath: /data
             - name: config
-              mountPath: /tmp/config
+              mountPath: /config
             - name: backups
               mountPath: /backups
       volumes:
