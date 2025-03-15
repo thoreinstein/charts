@@ -26,6 +26,8 @@ spec:
             - "sleep"
             - "infinity"
           volumeMounts:
+            - name: config-init
+              mountPath: /tmp/config
             - name: config
               mountPath: /config
       containers:
@@ -72,5 +74,8 @@ spec:
           persistentVolumeClaim:
             claimName: {{ include "radarr.name" . }}-backups-pvc
         - name: config
+          persistentVolumeClaim:
+            claimName: {{ include "radarr.name" . }}-config-pvc
+        - name: config-init
           configMap:
             name: {{ include "radarr.fullname" . }}
