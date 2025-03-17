@@ -1,5 +1,3 @@
-{{- include "common.nfs-volume.tpl" (dict
+{{- include "common.host-volume.tpl" (dict
  "name" (printf "%s-config" (include "sonarr.name" .))
- "server" (required "You must provide an NFS server address." .Values.nfsServer)
- "path" (printf "/mnt/user/kube/%s" (include "sonarr.name" .))
 )}}
