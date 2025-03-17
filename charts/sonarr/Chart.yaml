@@ -5,9 +5,9 @@ description: A Helm chart for Kubernetes
 maintainers:
   - name: Thor
 type: application
-version: 0.1.9
+version: 0.1.10
 appVersion: 1.16.0
 dependencies:
   - name: common
-    version: 0.1.4
+    version: 0.1.5
     repository: file://../common
