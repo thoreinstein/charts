@@ -21,10 +21,11 @@ spec:
       serviceAccountName: {{ include "radarr.serviceAccountName" . }}
       initContainers:
         - name: {{ .Chart.Name }}-init
-          image: busybox:latest
+          image: alpine:latest
           command:
-            - "sleep"
-            - "infinity"
+            - "cp"
+            - /tmp/config/config.xml
+            - /config
           volumeMounts:
             - name: config-init
               mountPath: /tmp/config
@@ -61,7 +62,7 @@ spec:
           {{- end }}
           volumeMounts:
             - name: media
-              mountPath: /data
+              mountPath: /media
             - name: config
               mountPath: /config
             - name: backups
