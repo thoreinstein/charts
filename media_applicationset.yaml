@@ -11,10 +11,12 @@ spec:
         elements:
           - appName: sonarr
             registry: lscr.io/linuxserver/sonarr
-            version: 0.1.5
+            version: 0.1.10
+            url: https://thoreinstein.github.io/charts
           - appName: radarr
             registry: lscr.io/linuxserver/radarr
-            version: 0.1.1
+            version: 0.1.6
+            url: https://thoreinstein.github.io/charts
   template:
     metadata:
       name: '{{.appName}}'
@@ -25,7 +27,7 @@ spec:
     spec:
       project: default
       sources:
-        - repoURL: https://thoreinstein.github.io/manifests
+        - repoURL: '{{.url}}'
           targetRevision: '{{.version}}'
           chart: '{{.appName}}'
           helm:
