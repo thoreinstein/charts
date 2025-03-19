@@ -5,7 +5,7 @@ description: Argo Image Updater
 maintainers:
   - name: Thor
 type: application
-version: 0.1.1
+version: 0.1.2
 appVersion: v0.15.2
 dependencies:
   - name: argocd-image-updater
