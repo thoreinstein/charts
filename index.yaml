@@ -3,6 +3,22 @@ entries:
   argo-image-updater:
   - apiVersion: v2
     appVersion: v0.15.2
+    created: "2025-03-19T01:32:59.322614545Z"
+    dependencies:
+    - name: argocd-image-updater
+      repository: https://argoproj.github.io/argo-helm
+      version: 0.12.0
+    description: Argo Image Updater
+    digest: c423b6fe88b76d0ad4e56c48fdb88fb73c5f06ef23eef0343775e5b559b6b7ef
+    maintainers:
+    - name: Thor
+    name: argo-image-updater
+    type: application
+    urls:
+    - https://github.com/thoreinstein/charts/releases/download/argo-image-updater-0.1.2/argo-image-updater-0.1.2.tgz
+    version: 0.1.2
+  - apiVersion: v2
+    appVersion: v0.15.2
     created: "2025-03-04T14:28:46.771823028Z"
     dependencies:
     - name: argocd-image-updater
@@ -666,4 +682,4 @@ entries:
     urls:
     - https://github.com/thoreinstein/manifests/releases/download/sonarr-0.1.1/sonarr-0.1.1.tgz
     version: 0.1.1
-generated: "2025-03-17T00:39:26.386708036Z"
+generated: "2025-03-19T01:32:59.322693373Z"
