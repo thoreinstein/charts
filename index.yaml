@@ -449,6 +449,22 @@ entries:
   nginx:
   - apiVersion: v2
     appVersion: 1.12.0
+    created: "2025-03-20T12:16:33.861634227Z"
+    dependencies:
+    - name: ingress-nginx
+      repository: https://kubernetes.github.io/ingress-nginx
+      version: 4.12.0
+    description: Nginx
+    digest: ab6e40c922b446a918a7b0c92eac6173481026d339383fe042779eac5e5eaad9
+    maintainers:
+    - name: Thor
+    name: nginx
+    type: application
+    urls:
+    - https://github.com/thoreinstein/charts/releases/download/nginx-0.1.1/nginx-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
+    appVersion: 1.12.0
     created: "2025-03-04T14:28:47.665128097Z"
     dependencies:
     - name: ingress-nginx
@@ -720,4 +736,4 @@ entries:
     urls:
     - https://github.com/thoreinstein/manifests/releases/download/sonarr-0.1.1/sonarr-0.1.1.tgz
     version: 0.1.1
-generated: "2025-03-20T01:54:42.832952291Z"
+generated: "2025-03-20T12:16:33.861720839Z"
