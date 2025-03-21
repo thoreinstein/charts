@@ -6,7 +6,7 @@ metadata:
   annotations:
     ingress.kubernetes.io/proxy-body-size: 100M
     ingress.kubernetes.io/app-root: /
-    cert-manager.io/cluster-issuer: acme-prod
+    cert-manager.io/cluster-issuer: argo-cd-issuer
     nginx.ingress.kubernetes.io/ssl-passthrough: 'true'
     nginx.ingress.kubernetes.io/backend-protocol: HTTPS
 spec:
