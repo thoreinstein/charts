@@ -314,6 +314,22 @@ entries:
   cert-manager:
   - apiVersion: v2
     appVersion: v1.17.1
+    created: "2025-03-21T16:41:30.135581885Z"
+    dependencies:
+    - name: cert-manager
+      repository: https://charts.jetstack.io
+      version: v1.17.1
+    description: Cert Manager
+    digest: e6f003b93f16ae6cc74e5c7c902d46ffcb6a4f1a017f4c1923018725d518a4f9
+    maintainers:
+    - name: Thor
+    name: cert-manager
+    type: application
+    urls:
+    - https://github.com/thoreinstein/charts/releases/download/cert-manager-0.1.4/cert-manager-0.1.4.tgz
+    version: 0.1.4
+  - apiVersion: v2
+    appVersion: v1.17.1
     created: "2025-03-21T13:19:34.353463096Z"
     dependencies:
     - name: cert-manager
@@ -790,4 +806,4 @@ entries:
     urls:
     - https://github.com/thoreinstein/manifests/releases/download/sonarr-0.1.1/sonarr-0.1.1.tgz
     version: 0.1.1
-generated: "2025-03-21T13:19:34.353573792Z"
+generated: "2025-03-21T16:41:30.135692423Z"
