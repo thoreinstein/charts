@@ -13,7 +13,7 @@ spec:
   ingressClassName: nginx
   tls:
     - hosts: [argocd.myersha.us]
-      secretName: argocd-secret
+      secretName: argocd-secret-tls
   rules:
     - host: argocd.myersha.us
       http:
