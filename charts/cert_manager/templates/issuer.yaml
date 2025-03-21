@@ -11,7 +11,7 @@ spec:
     email: {{ required "You must provide your Cloudflare email address." .Values.cloudflare_email_address }}
     server: https://acme-staging-v02.api.letsencrypt.org/directory
     privateKeySecretRef:
-      name: acme-issuer-account-key
+      name: acme-issuer-staging
     solvers:
       - dns01:
           cloudflare:
@@ -31,7 +31,7 @@ spec:
     email: {{ required "You must provide your Cloudflare email address." .Values.cloudflare_email_address }}
     server: https://acme-v02.api.letsencrypt.org/directory
     privateKeySecretRef:
-      name: acme-issuer-account-key
+      name: acme-issuer-prod
     solvers:
       - dns01:
           cloudflare:
