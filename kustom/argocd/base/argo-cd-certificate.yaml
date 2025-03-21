@@ -6,7 +6,7 @@ metadata:
 spec:
   secretName: argocd-secret-tls
   issuerRef:
-    name: acme-prod
+    name: argo-cd-issuer
     kind: Issuer
   commonName: argocd.myersha.us
   dnsNames: [argocd.myersha.us]
