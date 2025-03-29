@@ -1,7 +1,0 @@
----
-ingress-nginx:
-  controller:
-    extraArgs:
-      enable-ssl-passthrough: true
-    service:
-      type: LoadBalancer
