@@ -3,11 +3,9 @@ apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
   name: acme-staging
-  annotations:
-    argocd.argoproj.io/sync-wave: "1"
 spec:
   acme:
-    email: {{ required "You must provide your Cloudflare email address." .Values.cloudflare_email_address }}
+    email: {{ required "You must provide your Cloudflare email address." .Values.cloudflareEmailAddress }}
     server: https://acme-staging-v02.api.letsencrypt.org/directory
     privateKeySecretRef:
       name: acme-issuer-staging
@@ -22,11 +20,9 @@ apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
   name: acme-prod
-  annotations:
-    argocd.argoproj.io/sync-wave: "1"
 spec:
   acme:
-    email: {{ required "You must provide your Cloudflare email address." .Values.cloudflare_email_address }}
+    email: {{ required "You must provide your Cloudflare email address." .Values.cloudflareEmailAddress }}
     server: https://acme-v02.api.letsencrypt.org/directory
     privateKeySecretRef:
       name: acme-issuer-prod

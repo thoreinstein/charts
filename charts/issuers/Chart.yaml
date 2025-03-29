@@ -1,0 +1,9 @@
+---
+apiVersion: v2
+name: issuers
+description: Cert Manager Issuers
+maintainers:
+  - name: Thor
+type: application
+version: 0.1.0
+appVersion: v1.17.1
