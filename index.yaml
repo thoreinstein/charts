@@ -469,6 +469,19 @@ entries:
     urls:
     - https://github.com/thoreinstein/manifests/releases/download/external-dns-0.1.0/external-dns-0.1.0.tgz
     version: 0.1.0
+  ip-pools:
+  - apiVersion: v2
+    appVersion: 0.14.9
+    created: "2025-03-29T22:56:42.137128216Z"
+    description: Metallb IP Pools and L2 Advertisements
+    digest: 546d6cfe72676cdffefaf4e0c0e6f8d12d600d7b5c75aa56c5d56864a7a1b953
+    maintainers:
+    - name: Thor
+    name: ip-pools
+    type: application
+    urls:
+    - https://github.com/thoreinstein/charts/releases/download/ip-pools-0.1.0/ip-pools-0.1.0.tgz
+    version: 0.1.0
   issuers:
   - apiVersion: v2
     appVersion: v1.17.1
@@ -831,4 +844,4 @@ entries:
     urls:
     - https://github.com/thoreinstein/manifests/releases/download/sonarr-0.1.1/sonarr-0.1.1.tgz
     version: 0.1.1
-generated: "2025-03-29T22:41:57.513499098Z"
+generated: "2025-03-29T22:56:42.137235336Z"
