@@ -469,6 +469,19 @@ entries:
     urls:
     - https://github.com/thoreinstein/manifests/releases/download/external-dns-0.1.0/external-dns-0.1.0.tgz
     version: 0.1.0
+  issuers:
+  - apiVersion: v2
+    appVersion: v1.17.1
+    created: "2025-03-29T22:41:57.513381668Z"
+    description: Cert Manager Issuers
+    digest: 87c6d705847938682da9a7aa0530fa4c123a7e9470be0429678ee55a5709d62d
+    maintainers:
+    - name: Thor
+    name: issuers
+    type: application
+    urls:
+    - https://github.com/thoreinstein/charts/releases/download/issuers-0.1.1/issuers-0.1.1.tgz
+    version: 0.1.1
   mayastore:
   - apiVersion: v2
     appVersion: 3.10.0
@@ -818,4 +831,4 @@ entries:
     urls:
     - https://github.com/thoreinstein/manifests/releases/download/sonarr-0.1.1/sonarr-0.1.1.tgz
     version: 0.1.1
-generated: "2025-03-29T22:31:08.283361717Z"
+generated: "2025-03-29T22:41:57.513499098Z"
