@@ -1,0 +1,9 @@
+---
+apiVersion: v2
+name: ip-pools
+description: Metallb IP Pools and L2 Advertisements
+maintainers:
+  - name: Thor
+type: application
+version: 0.1.0
+appVersion: 0.14.9
