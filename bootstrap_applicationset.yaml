@@ -1,0 +1,38 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: bootstrap
+  namespace: argocd
+spec:
+  goTemplate: true
+  generators:
+    - list:
+        elements:
+          - appName: cert-manager
+            version: v1.17.1
+            url: https://charts.jetstack.io
+  template:
+    metadata:
+      name: '{{.appName}}'
+    spec:
+      project: default
+      sources:
+        - repoURL: '{{.url}}'
+          targetRevision: '{{.version}}'
+          chart: '{{.appName}}'
+          helm:
+            valueFiles: [$values/common.yaml, '$values/{{.appName}}.yaml']
+            ignoreMissingValueFiles: true
+        - repoURL: git@github.com:thoreinstein/values.git
+          targetRevision: HEAD
+          ref: values
+      destination:
+        name: in-cluster
+        namespace: media
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+          allowEmpty: false
+        syncOptions: [CreateNamespace=true]
