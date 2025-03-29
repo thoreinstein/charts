@@ -5,5 +5,5 @@ description: Metallb IP Pools and L2 Advertisements
 maintainers:
   - name: Thor
 type: application
-version: 0.1.0
+version: 0.1.1
 appVersion: 0.14.9
