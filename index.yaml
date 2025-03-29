@@ -404,6 +404,18 @@ entries:
   common:
   - apiVersion: v2
     appVersion: 1.16.0
+    created: "2025-03-29T22:31:08.283237203Z"
+    description: Common templates and helpers for the homelab
+    digest: 4fdcc4fe3ac1a76fb1f8818c24182b6bbbb61edb52136f1e116feb35ea74fc03
+    maintainers:
+    - name: Thor
+    name: common
+    type: library
+    urls:
+    - https://github.com/thoreinstein/charts/releases/download/common-0.1.6/common-0.1.6.tgz
+    version: 0.1.6
+  - apiVersion: v2
+    appVersion: 1.16.0
     created: "2025-03-10T12:41:28.672913814Z"
     description: Common templates and helpers for the homelab
     digest: 1e7747abe1db6bd6805c04599e38f33af7c988c835a588dbf97e35371f24bf9b
@@ -806,4 +818,4 @@ entries:
     urls:
     - https://github.com/thoreinstein/manifests/releases/download/sonarr-0.1.1/sonarr-0.1.1.tgz
     version: 0.1.1
-generated: "2025-03-21T16:41:30.135692423Z"
+generated: "2025-03-29T22:31:08.283361717Z"
