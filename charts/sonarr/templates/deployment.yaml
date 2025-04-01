@@ -72,8 +72,7 @@ spec:
           persistentVolumeClaim:
             claimName: {{ include "sonarr.name" . }}-media-pvc
         - name: config
-          persistentVolumeClaim:
-            claimName: {{ include "sonarr.name" . }}-config-pvc
+          emptyDir: {}
         - name: backups
           persistentVolumeClaim:
             claimName: {{ include "sonarr.name" . }}-backups-pvc
