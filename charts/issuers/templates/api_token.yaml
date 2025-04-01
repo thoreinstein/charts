@@ -5,7 +5,7 @@ metadata:
   name: cloudflare-api-token-secret
   namespace: {{ .Release.Namespace | quote }}
   annotations:
-    argocd.argoproj.io/sync-wave: "1"
+    argocd.argoproj.io/sync-wave: "-1"
 type: Opaque
 stringData:
   api-token: {{ required "You must provide a Cloudflare API token." .Values.cloudflareApiToken }}
