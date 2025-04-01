@@ -497,6 +497,18 @@ entries:
   issuers:
   - apiVersion: v2
     appVersion: v1.17.1
+    created: "2025-04-01T13:13:53.569516436Z"
+    description: Cert Manager Issuers
+    digest: 86dfdfb58b863f4650cb32482f3a48ddc5cb5fd521887cdd0bdd9f2235ad4379
+    maintainers:
+    - name: Thor
+    name: issuers
+    type: application
+    urls:
+    - https://github.com/thoreinstein/charts/releases/download/issuers-0.1.2/issuers-0.1.2.tgz
+    version: 0.1.2
+  - apiVersion: v2
+    appVersion: v1.17.1
     created: "2025-03-29T22:41:57.513381668Z"
     description: Cert Manager Issuers
     digest: 87c6d705847938682da9a7aa0530fa4c123a7e9470be0429678ee55a5709d62d
@@ -856,4 +868,4 @@ entries:
     urls:
     - https://github.com/thoreinstein/manifests/releases/download/sonarr-0.1.1/sonarr-0.1.1.tgz
     version: 0.1.1
-generated: "2025-03-29T23:01:31.414768539Z"
+generated: "2025-04-01T13:13:53.569637992Z"
