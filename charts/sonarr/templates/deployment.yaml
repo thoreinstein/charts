@@ -19,18 +19,6 @@ spec:
         {{- end }}
     spec:
       serviceAccountName: {{ include "sonarr.serviceAccountName" . }}
-      initContainers:
-        - name: {{ .Chart.Name }}-init
-          image: alpine:latest
-          command:
-            - "cp"
-            - /tmp/config/config.xml
-            - /config
-          volumeMounts:
-            - name: config-init
-              mountPath: /tmp/config
-            - name: config
-              mountPath: /config
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
@@ -76,6 +64,3 @@ spec:
         - name: backups
           persistentVolumeClaim:
             claimName: {{ include "sonarr.name" . }}-backups-pvc
-        - name: config-init
-          configMap:
-            name: {{ include "sonarr.fullname" . }}
