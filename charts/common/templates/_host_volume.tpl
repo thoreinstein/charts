@@ -8,7 +8,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: {{ $name }}-pvc
 spec:
-  storageClassName: openebs-hostpath
+  storageClassName: ''
   accessModes: [{{ $accessModes }}]
   resources:
     requests:
