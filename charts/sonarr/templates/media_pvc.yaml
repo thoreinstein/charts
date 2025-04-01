@@ -1,5 +1,5 @@
 {{- include "common.nfs-volume.tpl" (dict
  "name" (printf "%s-media" (include "sonarr.name" .))
  "server" (required "You must provide an NFS server address." .Values.nfsServer)
- "path" "/mnt/user/media"
+ "path" "/mnt/user/data"
 )}}
