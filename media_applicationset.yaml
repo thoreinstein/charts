@@ -11,12 +11,12 @@ spec:
         elements:
           - appName: sonarr
             registry: lscr.io/linuxserver/sonarr
-            version: 0.1.10
+            version: 0.1.*
             url: https://thoreinstein.github.io/charts
-          - appName: radarr
-            registry: lscr.io/linuxserver/radarr
-            version: 0.1.6
-            url: https://thoreinstein.github.io/charts
+          # - appName: radarr
+          #   registry: lscr.io/linuxserver/radarr
+          #   version: 0.1.6
+          #   url: https://thoreinstein.github.io/charts
   template:
     metadata:
       name: '{{.appName}}'
