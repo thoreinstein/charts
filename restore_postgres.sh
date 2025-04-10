@@ -1,5 +1,5 @@
 #!/bin/bash
-# PostgreSQL restore script for Sonarr and Radarr databases
+# PostgreSQL restore script for Sonarr and Radarr databases using superuser credentials
 # Restores the most recent backup for each database
 
 set -e
@@ -18,26 +18,26 @@ restore_database() {
   local app="$1"
   local port="$2"
   local backup_file="$3"
-  local username="$4"
-  local dbname="$5"
+  local dbname="$4"
   
   if [ "$backup_file" = "" ]; then
     echo "No backup found for $app"
     return 1
   fi
   
-  echo "Restoring $app database from: $backup_file"
-  echo "Using port: $port, username: $username, database: $dbname"
+  # Get superuser credentials from Kubernetes secret
+  local superuser=$(kubectl -n media get secret "$app-superuser" -o jsonpath="{.data.username}" | base64 -d)
+  local password=$(kubectl -n media get secret "$app-superuser" -o jsonpath="{.data.password}" | base64 -d)
   
-  # Get password from Kubernetes secret
-  PGPASSWORD=$(kubectl -n media get secret "$app-db-credentials" -o jsonpath="{.data.password}" | base64 -d)
+  echo "Restoring $app database from: $backup_file"
+  echo "Using port: $port, superuser: $superuser, database: $dbname"
   
   # Drop and recreate the database
-  PGPASSWORD=$PGPASSWORD psql-17 -h localhost -p "$port" -U "$username" -c "DROP DATABASE IF EXISTS \"$dbname\";"
-  PGPASSWORD=$PGPASSWORD psql-17 -h localhost -p "$port" -U "$username" -c "CREATE DATABASE \"$dbname\" WITH OWNER = \"$username\";"
+  PGPASSWORD=$password psql-17 -h localhost -p "$port" -U "$superuser" -c "DROP DATABASE IF EXISTS \"$dbname\";"
+  PGPASSWORD=$password psql-17 -h localhost -p "$port" -U "$superuser" -c "CREATE DATABASE \"$dbname\" WITH OWNER = \"$app\";"
   
   # Restore the database
-  PGPASSWORD=$PGPASSWORD pg_restore-17 -h localhost -p "$port" -U "$username" -d "$dbname" "$backup_file"
+  PGPASSWORD=$password pg_restore-17 -h localhost -p "$port" -U "$superuser" -d "$dbname" "$backup_file"
   
   echo "$app database restoration completed successfully."
 }
@@ -54,18 +54,18 @@ echo "Backup directory: $BACKUP_DIR"
 echo
 
 # Set up port-forwarding for Sonarr database (run in background)
-echo "Setting up port-forwarding for Sonarr database..."
-kubectl -n media port-forward svc/sonarr-rw 5432:5432 &
-SONARR_PF_PID=$!
+# echo "Setting up port-forwarding for Sonarr database..."
+# kubectl -n media port-forward svc/sonarr-rw 5432:5432 &
+# SONARR_PF_PID=$!
 # Give it a moment to establish
-sleep 3
+# sleep 3
 
 # Set up port-forwarding for Radarr database (run in background)
-echo "Setting up port-forwarding for Radarr database..."
-kubectl -n media port-forward svc/radarr-rw 5433:5432 &
-RADARR_PF_PID=$!
+# echo "Setting up port-forwarding for Radarr database..."
+# kubectl -n media port-forward svc/radarr-rw 5433:5432 &
+# RADARR_PF_PID=$!
 # Give it a moment to establish
-sleep 3
+# sleep 3
 
 # Find the latest backup files
 SONARR_BACKUP=$(get_latest_backup "sonarr-main_*.backup")
@@ -74,18 +74,17 @@ RADARR_BACKUP=$(get_latest_backup "radarr-main_*.backup")
 # local app="$1"
 # local port="$2"
 # local backup_file="$3"
-# local username="$4"
-# local dbname="$5"
+# local dbname="$4"
 # Restore Sonarr database
-restore_database "sonarr" "5432" "$SONARR_BACKUP" "sonarr" "sonarr-main"
+restore_database "sonarr" "5432" "$SONARR_BACKUP" "sonarr-main"
 
 # Restore Radarr database
-restore_database "radarr" "5433" "$RADARR_BACKUP" "radarr" "radarr-main"
+restore_database "radarr" "5433" "$RADARR_BACKUP" "radarr-main"
 
 # Clean up port-forwarding
-echo "Cleaning up port-forwarding..."
-kill "$SONARR_PF_PID" "$RADARR_PF_PID" 2>/dev/null || true
-wait "$SONARR_PF_PID" "$RADARR_PF_PID" 2>/dev/null || true
+# echo "Cleaning up port-forwarding..."
+# kill "$SONARR_PF_PID" "$RADARR_PF_PID" 2>/dev/null || true
+# wait "$SONARR_PF_PID" "$RADARR_PF_PID" 2>/dev/null || true
 
 echo
 echo "=== Restoration process completed ==="
