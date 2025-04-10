@@ -682,6 +682,22 @@ entries:
   radarr:
   - apiVersion: v2
     appVersion: 1.16.0
+    created: "2025-04-10T19:51:05.17583263Z"
+    dependencies:
+    - name: common
+      repository: file://../common
+      version: 0.1.7
+    description: A Helm chart for Kubernetes
+    digest: 131fcde4116250076a1b1578fdad36e50e532ecf88615c5dd6a49c5258a03b8a
+    maintainers:
+    - name: Thor
+    name: radarr
+    type: application
+    urls:
+    - https://github.com/thoreinstein/charts/releases/download/radarr-0.2.1/radarr-0.2.1.tgz
+    version: 0.2.1
+  - apiVersion: v2
+    appVersion: 1.16.0
     created: "2025-04-10T19:29:02.865542598Z"
     dependencies:
     - name: common
@@ -805,6 +821,22 @@ entries:
     - https://github.com/thoreinstein/manifests/releases/download/radarr-0.1.0/radarr-0.1.0.tgz
     version: 0.1.0
   sonarr:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2025-04-10T19:51:05.287257586Z"
+    dependencies:
+    - name: common
+      repository: file://../common
+      version: 0.1.7
+    description: A Helm chart for Kubernetes
+    digest: 8a47808a1c6c3abe137f032746082b2f26b5091988def7dbcc493925aaadfff9
+    maintainers:
+    - name: Thor
+    name: sonarr
+    type: application
+    urls:
+    - https://github.com/thoreinstein/charts/releases/download/sonarr-0.2.1/sonarr-0.2.1.tgz
+    version: 0.2.1
   - apiVersion: v2
     appVersion: 1.16.0
     created: "2025-04-10T19:29:02.995491426Z"
@@ -1064,4 +1096,4 @@ entries:
     urls:
     - https://github.com/thoreinstein/charts/releases/download/storage-classes-0.1.0/storage-classes-0.1.0.tgz
     version: 0.1.0
-generated: "2025-04-10T19:29:03.175986687Z"
+generated: "2025-04-10T19:51:05.287491807Z"
