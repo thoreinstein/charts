@@ -30,9 +30,6 @@ spec:
         - CREATE DATABASE "radarr-log" WITH OWNER "radarr";
   serviceAccountTemplate:
     metadata: {}
-  podSecurityContext:
-    fsGroup: 999
-    runAsUser: 999
   monitoring:
     enablePodMonitor: true
   enableSuperuserAccess: true
