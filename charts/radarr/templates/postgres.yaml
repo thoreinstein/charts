@@ -1,0 +1,40 @@
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: {{ include "radarr.fullname" . }}
+  labels:
+    {{- include "radarr.labels" . | nindent 4 }}
+  annotations:
+    cnpg.io/forceBinaryUpgrade: "true"
+spec:
+  instances: 1
+  postgresql:
+    parameters:
+      shared_buffers: "256MB"
+      # Standard PostgreSQL parameters for data safety
+      synchronous_commit: "on"
+      full_page_writes: "on"
+      fsync: "on"
+  storage:
+    storageClass: postgres
+    size: 1Gi
+    pvcTemplate:
+      accessModes:
+        - ReadWriteOnce
+  bootstrap:
+    # Added bootstrap configuration
+    initdb:
+      database: radarr-main
+      owner: radarr
+      secret:
+        name: {{ include "radarr.fullname" . }}-db-credentials
+      postInitSQL:
+        - CREATE DATABASE "radarr-log" WITH OWNER "radarr";
+  serviceAccountTemplate:
+    metadata: {}
+  podSecurityContext:
+    fsGroup: 999
+    runAsUser: 999
+  monitoring:
+    enablePodMonitor: true

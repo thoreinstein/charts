@@ -1,0 +1,32 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "radarr.fullname" . }}
+  labels:
+    {{- include "radarr.labels" . | nindent 4 }}
+data:
+  # This is a template that will be processed by the init container
+  config.xml.template: |-
+    <Config>
+      <BindAddress>*</BindAddress>
+      <Port>7878</Port>
+      <SslPort>9898</SslPort>
+      <EnableSsl>False</EnableSsl>
+      <LaunchBrowser>True</LaunchBrowser>
+      <ApiKey>${API_KEY}</ApiKey>
+      <AuthenticationMethod>Forms</AuthenticationMethod>
+      <AuthenticationRequired>DisabledForLocalAddresses</AuthenticationRequired>
+      <Branch>main</Branch>
+      <LogLevel>debug</LogLevel>
+      <SslCertPath></SslCertPath>
+      <SslCertPassword></SslCertPassword>
+      <UrlBase></UrlBase>
+      <InstanceName>Radarr</InstanceName>
+      <UpdateMechanism>Docker</UpdateMechanism>
+      <PostgresHost>${POSTGRES_HOST}</PostgresHost>
+      <PostgresPort>${POSTGRES_PORT}</PostgresPort>
+      <PostgresUser>${POSTGRES_USER}</PostgresUser>
+      <PostgresPassword>${POSTGRES_PASSWORD}</PostgresPassword>
+      <AnalyticsEnabled>False</AnalyticsEnabled>
+    </Config>

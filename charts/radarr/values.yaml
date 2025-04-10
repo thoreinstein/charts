@@ -1,22 +1,20 @@
 ---
-apikey: ''
+resources: {}
+
 postgres:
-  password: ''
-  user: ''
-  port: ''
-  host: ''
+  backup:
+    storageClass: "longhorn" # Storage class to use for volume snapshots
 nfsServer: 0.0.0.0
 ingress:
   enabled: true
   domain: ''
 service:
-  type: ClusterIP
+  type: LoadBalancer
   port: 7878
 serviceAccount:
   create: true
   automount: true
   annotations: {}
-replicaCount: 1
 image:
   repository: lscr.io/linuxserver/radarr
   pullPolicy: IfNotPresent
@@ -24,8 +22,18 @@ image:
 imagePullSecrets: []
 nameOverride: ''
 fullnameOverride: ''
+podAnnotations:
 podLabels: {}
-resources: {}
+podSecurityContext: {}
+  # fsGroup: 2000
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+# This is to setup the liveness and readiness probes
 livenessProbe:
   httpGet:
     path: /

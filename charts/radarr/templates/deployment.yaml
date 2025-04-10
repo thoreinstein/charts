@@ -6,7 +6,7 @@ metadata:
   labels:
     {{- include "radarr.labels" . | nindent 4 }}
 spec:
-  replicas: {{ .Values.replicaCount }}
+  replicas: 1
   selector:
     matchLabels:
       {{- include "radarr.selectorLabels" . | nindent 6 }}
@@ -19,13 +19,51 @@ spec:
         {{- end }}
     spec:
       serviceAccountName: {{ include "radarr.serviceAccountName" . }}
+      securityContext:
+        fsGroup: 100
       initContainers:
+        - name: volume-permissions
+          image: busybox:latest
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              chown -R 99:100 /config && chmod -R 755 /config
+          volumeMounts:
+            - name: config
+              mountPath: /config
         - name: {{ .Chart.Name }}-init
-          image: alpine:latest
-          command:
-            - "cp"
-            - /tmp/config/config.xml
-            - /config
+          image: busybox:latest
+          command: 
+            - "/bin/sh"
+            - "-c"
+            - |
+              cat /tmp/config/config.xml.template | \
+              sed "s/\${POSTGRES_HOST}/$POSTGRES_HOST/g" | \
+              sed "s/\${POSTGRES_PORT}/$POSTGRES_PORT/g" | \
+              sed "s/\${POSTGRES_USER}/$POSTGRES_USER/g" | \
+              sed "s/\${POSTGRES_PASSWORD}/$POSTGRES_PASSWORD/g" | \
+              sed "s/\${API_KEY}/$API_KEY/g" > /config/config.xml && \
+              chmod 644 /config/config.xml
+          env:
+            - name: POSTGRES_HOST
+              value: "{{ include "radarr.fullname" . }}-rw"
+            - name: POSTGRES_PORT
+              value: "5432"
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "radarr.fullname" . }}-db-credentials
+                  key: username
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "radarr.fullname" . }}-db-credentials
+                  key: password
+            - name: API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "radarr.fullname" . }}-api-key
+                  key: api-key
           volumeMounts:
             - name: config-init
               mountPath: /tmp/config
@@ -71,12 +109,12 @@ spec:
         - name: media
           persistentVolumeClaim:
             claimName: {{ include "radarr.name" . }}-media-pvc
-        - name: backups
-          persistentVolumeClaim:
-            claimName: {{ include "radarr.name" . }}-backups-pvc
         - name: config
           persistentVolumeClaim:
             claimName: {{ include "radarr.name" . }}-config-pvc
+        - name: backups
+          persistentVolumeClaim:
+            claimName: {{ include "radarr.name" . }}-backups-pvc
         - name: config-init
           configMap:
             name: {{ include "radarr.fullname" . }}

@@ -1,3 +1,0 @@
-{{- include "common.host-volume.tpl" (dict
- "name" (printf "%s-config" (include "radarr.name" .))
-)}}
