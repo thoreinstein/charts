@@ -13,10 +13,14 @@ spec:
             registry: lscr.io/linuxserver/sonarr
             version: 0.1.*
             url: https://thoreinstein.github.io/charts
-          # - appName: radarr
-          #   registry: lscr.io/linuxserver/radarr
-          #   version: 0.1.6
-          #   url: https://thoreinstein.github.io/charts
+          - appName: radarr
+            registry: lscr.io/linuxserver/radarr
+            version: 0.1.*
+            url: https://thoreinstein.github.io/charts
+          - appName: profilarr
+            registry: santiagosayshey
+            version: 0.1.*
+            url: https://thoreinstein.github.io/charts
   template:
     metadata:
       name: '{{.appName}}'
@@ -44,4 +48,13 @@ spec:
           prune: true
           selfHeal: true
           allowEmpty: false
-        syncOptions: [CreateNamespace=true]
+        syncOptions:
+          - CreateNamespace=true
+          - PruneLast=true
+          - ApplyOutOfSyncOnly=true
+          - ServerSideApply=true
+        managedNamespaceMetadata:
+          labels:
+            pod-security.kubernetes.io/enforce: privileged
+            pod-security.kubernetes.io/audit: privileged
+            pod-security.kubernetes.io/warn: privileged
