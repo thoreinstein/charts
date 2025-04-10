@@ -107,6 +107,19 @@ entries:
     urls:
     - https://github.com/thoreinstein/manifests/releases/download/argo-image-updater-0.1.0/argo-image-updater-0.1.0.tgz
     version: 0.1.0
+  awx:
+  - apiVersion: v2
+    appVersion: latest
+    created: "2025-04-10T19:29:02.523722657Z"
+    description: A Helm chart for deploying AWX instances with the AWX Operator
+    digest: 14119f8398d2e0cbf99ea9276dfbccb6471e6ef03a914d6b020950c4e3e6c71f
+    maintainers:
+    - name: thoreinstein
+    name: awx
+    type: application
+    urls:
+    - https://github.com/thoreinstein/charts/releases/download/awx-0.1.0/awx-0.1.0.tgz
+    version: 0.1.0
   bazarr:
   - apiVersion: v2
     appVersion: v1.5.1-ls293
@@ -636,7 +649,53 @@ entries:
     urls:
     - https://github.com/thoreinstein/manifests/releases/download/openebs-0.1.0/openebs-0.1.0.tgz
     version: 0.1.0
+  plex:
+  - apiVersion: v2
+    appVersion: latest
+    created: "2025-04-10T19:29:02.646405076Z"
+    dependencies:
+    - name: common
+      repository: file://../common
+      version: '*'
+    description: A Helm chart for Plex Media Server
+    digest: 8e2f6629572826415873c3f32b6e864c604ddc49caed5fa882b45802effee6e9
+    name: plex
+    type: application
+    urls:
+    - https://github.com/thoreinstein/charts/releases/download/plex-0.1.0/plex-0.1.0.tgz
+    version: 0.1.0
+  profilarr:
+  - apiVersion: v2
+    appVersion: latest
+    created: "2025-04-10T19:29:02.755145798Z"
+    dependencies:
+    - name: common
+      repository: file://../common
+      version: '*'
+    description: A Helm chart for Profilarr - Configuration management tool for Radarr/Sonarr
+    digest: a65e229f84dfe1bdb7cbe6b32016784b3be88ea1a95344a02e94a0ea7105bb61
+    name: profilarr
+    type: application
+    urls:
+    - https://github.com/thoreinstein/charts/releases/download/profilarr-0.1.0/profilarr-0.1.0.tgz
+    version: 0.1.0
   radarr:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2025-04-10T19:29:02.865542598Z"
+    dependencies:
+    - name: common
+      repository: file://../common
+      version: 0.1.7
+    description: A Helm chart for Kubernetes
+    digest: 865aa478dae54eae7b2a4c795d9c953001ee97a9cfc0f2644eac15f9b3c49dca
+    maintainers:
+    - name: Thor
+    name: radarr
+    type: application
+    urls:
+    - https://github.com/thoreinstein/charts/releases/download/radarr-0.2.0/radarr-0.2.0.tgz
+    version: 0.2.0
   - apiVersion: v2
     appVersion: 1.16.0
     created: "2025-03-17T00:39:26.295025789Z"
@@ -746,6 +805,22 @@ entries:
     - https://github.com/thoreinstein/manifests/releases/download/radarr-0.1.0/radarr-0.1.0.tgz
     version: 0.1.0
   sonarr:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2025-04-10T19:29:02.995491426Z"
+    dependencies:
+    - name: common
+      repository: file://../common
+      version: 0.1.7
+    description: A Helm chart for Kubernetes
+    digest: 09a8ab4d75d01382a4f0370ec0db72c8f616c926fad7cd366432ac939b8866eb
+    maintainers:
+    - name: Thor
+    name: sonarr
+    type: application
+    urls:
+    - https://github.com/thoreinstein/charts/releases/download/sonarr-0.2.0/sonarr-0.2.0.tgz
+    version: 0.2.0
   - apiVersion: v2
     appVersion: 1.16.0
     created: "2025-04-01T18:31:13.155451039Z"
@@ -976,4 +1051,17 @@ entries:
     urls:
     - https://github.com/thoreinstein/manifests/releases/download/sonarr-0.1.1/sonarr-0.1.1.tgz
     version: 0.1.1
-generated: "2025-04-01T18:31:13.155645834Z"
+  storage-classes:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2025-04-10T19:29:03.175759332Z"
+    description: A Helm chart for deploying Longhorn storage classes and backup jobs
+    digest: 62ab331484842b75f340eee65fde6c7f122c686444df497561b55237410772d9
+    maintainers:
+    - name: thoreinstein
+    name: storage-classes
+    type: application
+    urls:
+    - https://github.com/thoreinstein/charts/releases/download/storage-classes-0.1.0/storage-classes-0.1.0.tgz
+    version: 0.1.0
+generated: "2025-04-10T19:29:03.175986687Z"
