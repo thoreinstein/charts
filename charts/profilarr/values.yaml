@@ -1,0 +1,49 @@
+---
+resources: {}
+nfsServer: 0.0.0.0
+ingress:
+  enabled: true
+  domain: ''
+service:
+  type: LoadBalancer
+  port: 6868
+serviceAccount:
+  create: true
+  automount: true
+  annotations: {}
+replicaCount: 1
+image:
+  repository: santiagosayshey/profilarr
+  pullPolicy: IfNotPresent
+  tag: latest
+imagePullSecrets: []
+nameOverride: ''
+fullnameOverride: ''
+podAnnotations: {}
+podLabels: {}
+podSecurityContext: {}
+  # fsGroup: 2000
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+# This is to setup the liveness and readiness probes
+livenessProbe:
+  httpGet:
+    path: /
+    port: http
+readinessProbe:
+  httpGet:
+    path: /
+    port: http
+# This section is for setting up autoscaling
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
