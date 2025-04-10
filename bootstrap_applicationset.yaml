@@ -9,18 +9,38 @@ spec:
   generators:
     - list:
         elements:
-          - appName: cloudflare-tunnel-remote
-            version: 0.1.*
+          - appName: cloudflare-tunnel
+            version: 0.3.*
             url: https://cloudflare.github.io/helm-charts
-            namespace: bootstrap
+            namespace: networking
           - appName: cert-manager
             version: v1.17.*
             url: https://charts.jetstack.io
-            namespace: bootstrap
-          - appName: metallb
-            version: 0.14.*
-            url: https://metallb.github.io/metallb
-            namespace: bootstrap
+            namespace: cert-manager
+          - appName: external-dns
+            version: 1.16.*
+            url: https://kubernetes-sigs.github.io/external-dns/
+            namespace: networking
+          - appName: kube-prometheus-stack
+            version: 70.4.*
+            url: https://prometheus-community.github.io/helm-charts
+            namespace: core
+          - appName: nfs-subdir-external-provisioner
+            version: 4.0.*
+            url: https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner
+            namespace: core
+          - appName: longhorn
+            version: 1.8.*
+            url: https://charts.longhorn.io
+            namespace: longhorn-system
+          - appName: crossplane
+            version: 1.19.*
+            url: https://charts.crossplane.io/stable
+            namespace: crossplane-system
+          - appName: awx-operator
+            version: 3.0.*
+            url: https://ansible-community.github.io/awx-operator-helm/
+            namespace: awx
   template:
     metadata:
       name: '{{.appName}}'
@@ -48,3 +68,9 @@ spec:
           - CreateNamespace=true
           - PruneLast=true
           - ApplyOutOfSyncOnly=true
+          - ServerSideApply=true
+        managedNamespaceMetadata:
+          labels:
+            pod-security.kubernetes.io/enforce: privileged
+            pod-security.kubernetes.io/audit: privileged
+            pod-security.kubernetes.io/warn: privileged
