@@ -1,0 +1,15 @@
+Thank you for installing {{ .Chart.Name }}.
+
+Your release is named {{ .Release.Name }}.
+
+The following storage classes have been created:
+{{- range $key, $storageClass := .Values.storageClasses }}
+- {{ $storageClass.name }}{{ if $storageClass.isDefault }} (default){{ end }}
+{{- end }}
+
+{{- if and .Values.backups .Values.backups.enabled }}
+The following backup jobs have been configured:
+{{- range $job := .Values.backups.jobs }}
+- {{ $job.name }}: {{ $job.cronSchedule }}
+{{- end }}
+{{- end }}
