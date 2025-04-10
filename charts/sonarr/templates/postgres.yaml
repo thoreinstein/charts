@@ -1,0 +1,37 @@
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: {{ include "sonarr.fullname" . }}
+  labels:
+    {{- include "sonarr.labels" . | nindent 4 }}
+  annotations:
+    cnpg.io/forceBinaryUpgrade: "true"
+spec:
+  instances: 1
+  postgresql:
+    parameters:
+      shared_buffers: "256MB"
+      # Standard PostgreSQL parameters for data safety
+      synchronous_commit: "on"
+      full_page_writes: "on"
+      fsync: "on"
+  storage:
+      storageClass: postgres
+      size: 2Gi
+  bootstrap:
+    # Added bootstrap configuration
+    initdb:
+      database: sonarr-main
+      owner: sonarr
+      secret:
+        name: {{ include "sonarr.fullname" . }}-db-credentials
+      postInitSQL:
+        - CREATE DATABASE "sonarr-log" WITH OWNER "sonarr";
+  serviceAccountTemplate:
+    metadata: {}
+  podSecurityContext:
+    fsGroup: 999
+    runAsUser: 999
+  monitoring:
+    enablePodMonitor: true

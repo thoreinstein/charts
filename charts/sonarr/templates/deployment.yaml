@@ -6,7 +6,7 @@ metadata:
   labels:
     {{- include "sonarr.labels" . | nindent 4 }}
 spec:
-  replicas: {{ .Values.replicaCount }}
+  replicas: 1
   selector:
     matchLabels:
       {{- include "sonarr.selectorLabels" . | nindent 6 }}
@@ -19,6 +19,56 @@ spec:
         {{- end }}
     spec:
       serviceAccountName: {{ include "sonarr.serviceAccountName" . }}
+      securityContext:
+        fsGroup: 100
+      initContainers:
+        - name: volume-permissions
+          image: busybox:latest
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              chown -R 99:100 /config && chmod -R 755 /config
+          volumeMounts:
+            - name: config
+              mountPath: /config
+        - name: {{ .Chart.Name }}-init
+          image: busybox:latest
+          command: 
+            - "/bin/sh"
+            - "-c"
+            - |
+              cat /tmp/config/config.xml.template | \
+              sed "s/\${POSTGRES_HOST}/$POSTGRES_HOST/g" | \
+              sed "s/\${POSTGRES_PORT}/$POSTGRES_PORT/g" | \
+              sed "s/\${POSTGRES_USER}/$POSTGRES_USER/g" | \
+              sed "s/\${POSTGRES_PASSWORD}/$POSTGRES_PASSWORD/g" | \
+              sed "s/\${API_KEY}/$API_KEY/g" > /config/config.xml && \
+              chmod 644 /config/config.xml
+          env:
+            - name: POSTGRES_HOST
+              value: "{{ include "sonarr.fullname" . }}-rw"
+            - name: POSTGRES_PORT
+              value: "5432"
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "sonarr.fullname" . }}-db-credentials
+                  key: username
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "sonarr.fullname" . }}-db-credentials
+                  key: password
+            - name: API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "sonarr.fullname" . }}-api-key
+                  key: api-key
+          volumeMounts:
+            - name: config-init
+              mountPath: /tmp/config
+            - name: config
+              mountPath: /config
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
@@ -50,7 +100,7 @@ spec:
           {{- end }}
           volumeMounts:
             - name: media
-              mountPath: /data
+              mountPath: /media
             - name: config
               mountPath: /config
             - name: backups
@@ -65,3 +115,6 @@ spec:
         - name: backups
           persistentVolumeClaim:
             claimName: {{ include "sonarr.name" . }}-backups-pvc
+        - name: config-init
+          configMap:
+            name: {{ include "sonarr.fullname" . }}

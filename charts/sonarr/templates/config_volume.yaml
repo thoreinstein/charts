@@ -1,5 +1,12 @@
-{{- include "common.nfs-volume.tpl" (dict
- "name" (printf "%s-config" (include "sonarr.name" .))
- "server" (required "You must provide an NFS server address." .Values.nfsServer)
- "path" (printf "/mnt/user/appdata/%s" (include "sonarr.name" .))
-)}}
+{{- $name := printf "%s-config" (include "sonarr.name" .) -}}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ $name }}-pvc
+spec:
+  accessModes: [ReadWriteOnce]
+  storageClassName: "longhorn"
+  resources:
+    requests:
+      storage: 1Gi
