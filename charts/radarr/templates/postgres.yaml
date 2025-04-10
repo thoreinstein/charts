@@ -17,11 +17,8 @@ spec:
       full_page_writes: "on"
       fsync: "on"
   storage:
-    storageClass: postgres
-    size: 1Gi
-    pvcTemplate:
-      accessModes:
-        - ReadWriteOnce
+    storageClass: longhorn
+    size: 2Gi
   bootstrap:
     # Added bootstrap configuration
     initdb:
@@ -38,3 +35,4 @@ spec:
     runAsUser: 999
   monitoring:
     enablePodMonitor: true
+  enableSuperuserAccess: true

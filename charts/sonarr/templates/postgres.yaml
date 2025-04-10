@@ -35,3 +35,4 @@ spec:
     runAsUser: 999
   monitoring:
     enablePodMonitor: true
+  enableSuperuserAccess: true
