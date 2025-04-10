@@ -1,0 +1,69 @@
+# Default values for AWX chart
+nameOverride: ""
+fullnameOverride: ""
+
+# AWX instance configuration
+awx:
+  name: awx
+  # Specify image for AWX deployment
+  image: quay.io/ansible/awx
+  imageTag: latest
+  
+  # Admin account settings
+  adminUser: admin
+  # adminPassword will be generated if not provided
+  # adminPassword: admin
+  
+  # Database configuration
+  database:
+    # Use external postgres (true) or let operator deploy one (false)
+    external: false
+    # External database settings (if external: true)
+    host: ""
+    port: 5432
+    name: awx
+    username: postgres
+    # password: postgres
+    # existingSecretName: ""
+  
+  # Ingress configuration
+  ingress:
+    enabled: false
+    hostname: awx.example.com
+    annotations:
+      kubernetes.io/ingress.class: nginx
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+    tls:
+      enabled: true
+      secretName: awx-tls
+  
+  # Resource requests and limits
+  resources:
+    requests:
+      cpu: 1000m
+      memory: 2Gi
+    limits:
+      cpu: 2000m
+      memory: 4Gi
+
+  # Persistence configuration  
+  persistence:
+    enabled: true
+    storageClass: ""
+    accessMode: ReadWriteOnce
+    size: 8Gi
+  
+  # Additional configuration options
+  replicas: 1
+  webWorkerCount: 2
+  taskWorkerCount: 2
+  eeWorkerCount: 2
+  
+  # Extra environment variables to pass to AWX
+  extraEnv: []
+  # - name: EXAMPLE_VAR
+  #   value: "example"
+
+  # Additional volumes and mounts
+  extraVolumes: []
+  extraVolumeMounts: []

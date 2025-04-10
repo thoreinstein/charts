@@ -1,0 +1,56 @@
+apiVersion: awx.ansible.com/v1beta1
+kind: AWX
+metadata:
+  name: {{ .Values.awx.name }}
+  labels:
+    {{- include "awx.labels" . | nindent 4 }}
+spec:
+  {{- if .Values.awx.image }}
+  image: {{ .Values.awx.image }}:{{ .Values.awx.imageTag | default "latest" }}
+  {{- end }}
+  {{- if .Values.awx.replicas }}
+  replicas: {{ .Values.awx.replicas }}
+  {{- end }}
+  {{- if .Values.awx.webWorkerCount }}
+  web_worker_count: {{ .Values.awx.webWorkerCount }}
+  {{- end }}
+  {{- if .Values.awx.taskWorkerCount }}
+  task_worker_count: {{ .Values.awx.taskWorkerCount }}
+  {{- end }}
+  {{- if .Values.awx.eeWorkerCount }}
+  ee_worker_count: {{ .Values.awx.eeWorkerCount }}
+  {{- end }}
+  {{- if .Values.awx.adminUser }}
+  admin_user: {{ .Values.awx.adminUser }}
+  {{- end }}
+  {{- if .Values.awx.adminPassword }}
+  admin_password_secret: {{ template "awx.fullname" . }}-admin-password
+  {{- end }}
+  {{- if .Values.awx.database.external }}
+  postgres_configuration_secret: {{ template "awx.fullname" . }}-postgres-configuration
+  {{- else }}
+  postgres_resource_requirements:
+    {{- toYaml .Values.awx.resources | nindent 4 }}
+  {{- end }}
+  {{- if .Values.awx.ingress.enabled }}
+  ingress_type: ingress
+  hostname: {{ .Values.awx.ingress.hostname }}
+  {{- if .Values.awx.ingress.tls.enabled }}
+  ingress_tls_secret: {{ .Values.awx.ingress.tls.secretName }}
+  {{- end }}
+  {{- if .Values.awx.ingress.annotations }}
+  ingress_annotations:
+    {{- toYaml .Values.awx.ingress.annotations | nindent 4 }}
+  {{- end }}
+  {{- end }}
+  service_type: ClusterIP
+  {{- if .Values.awx.persistence.enabled }}
+  projects_persistence: true
+  projects_storage_class: {{ .Values.awx.persistence.storageClass | quote }}
+  projects_storage_size: {{ .Values.awx.persistence.size }}
+  projects_storage_access_mode: {{ .Values.awx.persistence.accessMode }}
+  {{- end }}
+  {{- if .Values.awx.extraEnv }}
+  extra_settings:
+    {{- toYaml .Values.awx.extraEnv | nindent 4 }}
+  {{- end }}
