@@ -5,9 +5,31 @@ postgres:
   backup:
     storageClass: "longhorn" # Storage class to use for volume snapshots
 nfsServer: 0.0.0.0
+
+cloudflare:
+  # tunnelId is the ID of your Cloudflare Tunnel
+  # If provided, external-dns will create a CNAME record pointing to your tunnel
+  # Example: 6324d2ae-e97e-4cf7-81e5-6843af74b888
+  tunnelId: ""
 ingress:
   enabled: true
   domain: ''
+  className: nginx
+  annotations:
+    cert-manager.io/issuer: "acme-staging"
+    external-dns.alpha.kubernetes.io/cloudflare-proxied: "true"
+    external-dns.alpha.kubernetes.io/ttl: "120"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/proxy-body-size: "0"
+  security:
+    enableSecurityHeaders: true
+  performance:
+    enableOptimizations: true
+    timeouts:
+      connect: 300
+      send: 300
+      read: 300
 service:
   type: LoadBalancer
   port: 7878
