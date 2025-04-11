@@ -823,6 +823,22 @@ entries:
   sonarr:
   - apiVersion: v2
     appVersion: 1.16.0
+    created: "2025-04-11T00:38:46.828109149Z"
+    dependencies:
+    - name: common
+      repository: file://../common
+      version: 0.1.7
+    description: A Helm chart for Kubernetes
+    digest: 16e9e1b977b8d40f6a09160007e2a3d9ca42305539d1999048d26926512de1b4
+    maintainers:
+    - name: Thor
+    name: sonarr
+    type: application
+    urls:
+    - https://github.com/thoreinstein/charts/releases/download/sonarr-0.2.5/sonarr-0.2.5.tgz
+    version: 0.2.5
+  - apiVersion: v2
+    appVersion: 1.16.0
     created: "2025-04-11T00:24:27.297121726Z"
     dependencies:
     - name: common
@@ -1144,4 +1160,4 @@ entries:
     urls:
     - https://github.com/thoreinstein/charts/releases/download/storage-classes-0.1.0/storage-classes-0.1.0.tgz
     version: 0.1.0
-generated: "2025-04-11T00:24:27.297372824Z"
+generated: "2025-04-11T00:38:46.828552541Z"
