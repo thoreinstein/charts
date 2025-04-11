@@ -13,7 +13,9 @@ metadata:
   annotations:
     # Cloudflare External DNS hostname annotation
     external-dns.alpha.kubernetes.io/hostname: {{ $domain_name }}
-    
+    external-dns.alpha.kubernetes.io/target: {{ printf "%s.cfargotunnel.com" .Values.cloudflare.tunnelId }}
+    external-dns.alpha.kubernetes.io/cloudflare-proxied: "true"
+
     # Apply user-defined annotations from values
     {{- with .Values.ingress.annotations }}
     {{- toYaml . | nindent 4 }}

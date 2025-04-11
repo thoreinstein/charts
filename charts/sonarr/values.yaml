@@ -5,6 +5,12 @@ postgres:
   backup:
     storageClass: "longhorn" # Storage class to use for volume snapshots
 nfsServer: 0.0.0.0
+
+cloudflare:
+  # tunnelId is the ID of your Cloudflare Tunnel
+  # If provided, external-dns will create a CNAME record pointing to your tunnel
+  # Example: 6324d2ae-e97e-4cf7-81e5-6843af74b888
+  tunnelId: ""
 ingress:
   enabled: true
   domain: ''
