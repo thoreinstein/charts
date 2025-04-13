@@ -9,25 +9,25 @@ spec:
   generators:
     - list:
         elements:
-          - appName: sonarr
-            registry: lscr.io/linuxserver/sonarr
+          - appName: plex
             version: 0.1.*
             url: https://thoreinstein.github.io/charts
-          - appName: radarr
-            registry: lscr.io/linuxserver/radarr
-            version: 0.1.*
-            url: https://thoreinstein.github.io/charts
-          - appName: profilarr
-            registry: santiagosayshey
-            version: 0.1.*
-            url: https://thoreinstein.github.io/charts
+          - appName: plex-media-server
+            version: 0.9.*
+            url: https://raw.githubusercontent.com/plexinc/pms-docker/gh-pages
+          # - appName: sonarr
+          #   version: 0.2.*
+          #   url: https://thoreinstein.github.io/charts
+          # - appName: radarr
+          #   version: 0.2.*
+          #   url: https://thoreinstein.github.io/charts
+          # - appName: profilarr
+          #   registry: santiagosayshey
+          #   version: 0.1.*
+          #   url: https://thoreinstein.github.io/charts
   template:
     metadata:
       name: '{{.appName}}'
-      annotations:
-        argocd-image-updater.argoproj.io/image-list: '{{.appName}}={{.registry}}/{{.appName}}:latest'
-        argocd-image-updater.argoproj.io/{{.appName}}.update-strategy: digest
-        argocd-image-updater.argoproj.io/write-back-method: argocd
     spec:
       project: default
       sources:
