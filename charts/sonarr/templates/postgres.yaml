@@ -17,9 +17,14 @@ spec:
       synchronous_commit: "on"
       full_page_writes: "on"
       fsync: "on"
+      # Performance and security parameters
+      max_connections: "100"
+      work_mem: "4MB"
+      log_min_duration_statement: "1000"  # Log queries taking more than 1 second
+      password_encryption: "scram-sha-256"
   storage:
-      storageClass: postgres
-      size: 2Gi
+    storageClass: postgres
+    size: 2Gi
   bootstrap:
     # Added bootstrap configuration
     initdb:

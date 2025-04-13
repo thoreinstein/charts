@@ -5,6 +5,8 @@ metadata:
   name: {{ include "sonarr.fullname" . }}
   labels:
     {{- include "sonarr.labels" . | nindent 4 }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
 data:
   # This is a template that will be processed by the init container
   config.xml.template: |-

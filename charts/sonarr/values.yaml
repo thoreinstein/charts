@@ -1,11 +1,15 @@
 ---
-resources: {}
-
+resources:
+  limits:
+    cpu: 1
+    memory: 1Gi
+  requests:
+    cpu: 200m
+    memory: 256Mi
 postgres:
   backup:
-    storageClass: "longhorn" # Storage class to use for volume snapshots
+    storageClass: longhorn  # Storage class to use for volume snapshots
 nfsServer: 0.0.0.0
-
 cloudflare:
   # tunnelId is the ID of your Cloudflare Tunnel
   # If provided, external-dns will create a CNAME record pointing to your tunnel
@@ -55,12 +59,3 @@ securityContext: {}
   # readOnlyRootFilesystem: true
   # runAsNonRoot: true
   # runAsUser: 1000
-# This is to setup the liveness and readiness probes more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
-livenessProbe:
-  httpGet:
-    path: /
-    port: http
-readinessProbe:
-  httpGet:
-    path: /
-    port: http
