@@ -1,27 +1,31 @@
 ---
-resources: {}
-
+resources:
+  limits:
+    cpu: 1
+    memory: 1Gi
+  requests:
+    cpu: 200m
+    memory: 256Mi
 postgres:
   backup:
-    storageClass: "longhorn" # Storage class to use for volume snapshots
+    storageClass: longhorn  # Storage class to use for volume snapshots
 nfsServer: 0.0.0.0
-
 cloudflare:
   # tunnelId is the ID of your Cloudflare Tunnel
   # If provided, external-dns will create a CNAME record pointing to your tunnel
   # Example: 6324d2ae-e97e-4cf7-81e5-6843af74b888
-  tunnelId: ""
+  tunnelId: ''
 ingress:
   enabled: true
   domain: ''
   className: nginx
   annotations:
-    cert-manager.io/issuer: "acme-staging"
-    external-dns.alpha.kubernetes.io/cloudflare-proxied: "true"
-    external-dns.alpha.kubernetes.io/ttl: "120"
-    nginx.ingress.kubernetes.io/ssl-redirect: "true"
-    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-    nginx.ingress.kubernetes.io/proxy-body-size: "0"
+    cert-manager.io/issuer: acme-staging
+    external-dns.alpha.kubernetes.io/cloudflare-proxied: 'true'
+    external-dns.alpha.kubernetes.io/ttl: '120'
+    nginx.ingress.kubernetes.io/ssl-redirect: 'true'
+    nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
+    nginx.ingress.kubernetes.io/proxy-body-size: '0'
   security:
     enableSecurityHeaders: true
   performance:
@@ -47,20 +51,4 @@ fullnameOverride: ''
 podAnnotations:
 podLabels: {}
 podSecurityContext: {}
-  # fsGroup: 2000
 securityContext: {}
-  # capabilities:
-  #   drop:
-  #   - ALL
-  # readOnlyRootFilesystem: true
-  # runAsNonRoot: true
-  # runAsUser: 1000
-# This is to setup the liveness and readiness probes
-livenessProbe:
-  httpGet:
-    path: /
-    port: http
-readinessProbe:
-  httpGet:
-    path: /
-    port: http
