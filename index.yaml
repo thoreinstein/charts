@@ -1243,6 +1243,23 @@ entries:
   tautulli:
   - apiVersion: v2
     appVersion: latest
+    created: "2025-04-14T20:12:56.460909592Z"
+    dependencies:
+    - name: common
+      repository: file://../common
+      version: '*'
+    description: A Helm chart for Tautulli - a Python based monitoring and tracking
+      tool for Plex Media Server
+    digest: 15b570aedc87dbc6a8375f528f66d1df337c0525548669a4c889faa26684268c
+    maintainers:
+    - name: Thor
+    name: tautulli
+    type: application
+    urls:
+    - https://github.com/thoreinstein/charts/releases/download/tautulli-0.1.1/tautulli-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
+    appVersion: latest
     created: "2025-04-14T20:00:35.559145234Z"
     dependencies:
     - name: common
@@ -1258,4 +1275,4 @@ entries:
     urls:
     - https://github.com/thoreinstein/charts/releases/download/tautulli-0.1.0/tautulli-0.1.0.tgz
     version: 0.1.0
-generated: "2025-04-14T20:00:35.559309962Z"
+generated: "2025-04-14T20:12:56.461083807Z"
