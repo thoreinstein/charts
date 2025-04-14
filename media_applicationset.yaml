@@ -21,10 +21,12 @@ spec:
           - appName: radarr
             version: 0.3.*
             url: https://thoreinstein.github.io/charts
-          # - appName: profilarr
-          #   registry: santiagosayshey
-          #   version: 0.1.*
-          #   url: https://thoreinstein.github.io/charts
+          - appName: profilarr
+            version: 0.1.*
+            url: https://thoreinstein.github.io/charts
+          - appName: tautaulli
+            version: 0.1.*
+            url: https://thoreinstein.github.io/charts
   template:
     metadata:
       name: '{{.appName}}'

@@ -1,0 +1,14 @@
+---
+apiVersion: v2
+name: tautulli
+description: A Helm chart for Tautulli - a Python based monitoring and tracking tool
+  for Plex Media Server
+maintainers:
+  - name: Thor
+type: application
+version: 0.1.0
+appVersion: latest
+dependencies:
+  - name: common
+    version: '*'
+    repository: file://../common
