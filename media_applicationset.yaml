@@ -24,7 +24,7 @@ spec:
           - appName: profilarr
             version: 0.1.*
             url: https://thoreinstein.github.io/charts
-          - appName: tautaulli
+          - appName: tautulli
             version: 0.1.*
             url: https://thoreinstein.github.io/charts
   template:

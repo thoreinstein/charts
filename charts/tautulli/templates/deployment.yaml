@@ -21,17 +21,6 @@ spec:
         {{- end }}
     spec:
       serviceAccountName: {{ include "tautulli.serviceAccountName" . }}
-      initContainers:
-        - name: volume-permissions
-          image: busybox:1.36.1
-          command: ["/bin/sh", "-c"]
-          args:
-            - |
-              mkdir -p /config/logs /config/cache && \
-              chown -R 99:100 /config && chmod -R 755 /config
-          volumeMounts:
-            - name: config
-              mountPath: /config
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
