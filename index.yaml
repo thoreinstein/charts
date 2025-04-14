@@ -1240,4 +1240,22 @@ entries:
     urls:
     - https://github.com/thoreinstein/charts/releases/download/storage-classes-0.1.0/storage-classes-0.1.0.tgz
     version: 0.1.0
-generated: "2025-04-13T18:24:25.942007628Z"
+  tautulli:
+  - apiVersion: v2
+    appVersion: latest
+    created: "2025-04-14T20:00:35.559145234Z"
+    dependencies:
+    - name: common
+      repository: file://../common
+      version: '*'
+    description: A Helm chart for Tautulli - a Python based monitoring and tracking
+      tool for Plex Media Server
+    digest: 6adb9975c3729667a4539bd4e64ec5bc5bc724e161e4e892f8498a695542633e
+    maintainers:
+    - name: Thor
+    name: tautulli
+    type: application
+    urls:
+    - https://github.com/thoreinstein/charts/releases/download/tautulli-0.1.0/tautulli-0.1.0.tgz
+    version: 0.1.0
+generated: "2025-04-14T20:00:35.559309962Z"
