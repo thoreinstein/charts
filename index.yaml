@@ -649,6 +649,25 @@ entries:
     urls:
     - https://github.com/thoreinstein/manifests/releases/download/openebs-0.1.0/openebs-0.1.0.tgz
     version: 0.1.0
+  overseerr:
+  - apiVersion: v2
+    appVersion: 1.33.2
+    created: "2025-04-15T01:24:04.928265314Z"
+    dependencies:
+    - name: common
+      repository: file://../common
+      version: 0.1.7
+    description: Overseerr is a request management and media discovery tool for the
+      Plex ecosystem
+    digest: baf0b66a3086ecbe6cd02aef839af03278558cee434158a45cd038c682574f15
+    maintainers:
+    - email: thore@thoreinstein.com
+      name: thoreinstein
+    name: overseerr
+    type: application
+    urls:
+    - https://github.com/thoreinstein/charts/releases/download/overseerr-0.1.0/overseerr-0.1.0.tgz
+    version: 0.1.0
   plex:
   - apiVersion: v2
     appVersion: latest
@@ -1275,4 +1294,4 @@ entries:
     urls:
     - https://github.com/thoreinstein/charts/releases/download/tautulli-0.1.0/tautulli-0.1.0.tgz
     version: 0.1.0
-generated: "2025-04-14T20:12:56.461083807Z"
+generated: "2025-04-15T01:24:04.928436574Z"
