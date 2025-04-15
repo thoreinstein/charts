@@ -1,0 +1,15 @@
+ingress:
+  enabled: true
+  domain: test-overseerr.example.com
+
+persistence:
+  config:
+    size: 512Mi
+
+resources:
+  limits:
+    cpu: 500m
+    memory: 512Mi
+  requests:
+    cpu: 250m
+    memory: 256Mi

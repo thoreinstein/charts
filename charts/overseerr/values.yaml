@@ -1,0 +1,40 @@
+---
+replicaCount: 1
+image:
+  repository: sctx/overseerr
+  pullPolicy: IfNotPresent
+  tag: latest
+imagePullSecrets: []
+nameOverride: ''
+fullnameOverride: ''
+
+# User/Group identifiers
+puid: '1000'
+pgid: '1000'
+
+# Timezone
+timezone: America/New_York
+podAnnotations: {}
+podSecurityContext: {}
+securityContext: {}
+service:
+  type: LoadBalancer
+  port: 80
+ingress:
+  enabled: true
+  className: nginx
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+  domain: overseerr.example.com
+  tls:
+    secretName: overseerr-tls
+persistence:
+  config:
+    size: 1Gi
+resources:
+  limits:
+    cpu: 1000m
+    memory: 1Gi
+  requests:
+    cpu: 500m
+    memory: 512Mi
