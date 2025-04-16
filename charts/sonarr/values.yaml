@@ -6,9 +6,6 @@ resources:
   requests:
     cpu: 200m
     memory: 256Mi
-postgres:
-  backup:
-    storageClass: longhorn  # Storage class to use for volume snapshots
 nfsServer: 0.0.0.0
 cloudflare:
   # tunnelId is the ID of your Cloudflare Tunnel

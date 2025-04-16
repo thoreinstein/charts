@@ -16,7 +16,7 @@ spec:
             version: 0.9.*
             url: https://raw.githubusercontent.com/plexinc/pms-docker/gh-pages
           - appName: sonarr
-            version: 0.3.*
+            version: 0.4.*
             url: https://thoreinstein.github.io/charts
           - appName: radarr
             version: 0.4.*
