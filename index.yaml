@@ -652,6 +652,24 @@ entries:
   overseerr:
   - apiVersion: v2
     appVersion: 1.33.2
+    created: "2025-04-16T19:10:22.649752876Z"
+    dependencies:
+    - name: common
+      repository: file://../common
+      version: 0.1.7
+    description: Overseerr is a request management and media discovery tool for the
+      Plex ecosystem
+    digest: 93e92bf0a9b5c41b7f65f64154be0a0f58149b9b0cee7d2ed351adc374cbafae
+    maintainers:
+    - email: thore@thoreinstein.com
+      name: thoreinstein
+    name: overseerr
+    type: application
+    urls:
+    - https://github.com/thoreinstein/charts/releases/download/overseerr-0.1.1/overseerr-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
+    appVersion: 1.33.2
     created: "2025-04-15T01:24:04.928265314Z"
     dependencies:
     - name: common
@@ -699,6 +717,22 @@ entries:
     - https://github.com/thoreinstein/charts/releases/download/profilarr-0.1.0/profilarr-0.1.0.tgz
     version: 0.1.0
   radarr:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2025-04-16T19:10:22.773168856Z"
+    dependencies:
+    - name: common
+      repository: file://../common
+      version: 0.1.7
+    description: A Helm chart for Kubernetes
+    digest: d51e4d431d2a3aed74d6a22b7f9f00472a91fd546f6bdfcded024323909cce2f
+    maintainers:
+    - name: Thor
+    name: radarr
+    type: application
+    urls:
+    - https://github.com/thoreinstein/charts/releases/download/radarr-0.4.0/radarr-0.4.0.tgz
+    version: 0.4.0
   - apiVersion: v2
     appVersion: 1.16.0
     created: "2025-04-13T18:11:23.295772327Z"
@@ -1294,4 +1328,4 @@ entries:
     urls:
     - https://github.com/thoreinstein/charts/releases/download/tautulli-0.1.0/tautulli-0.1.0.tgz
     version: 0.1.0
-generated: "2025-04-15T01:24:04.928436574Z"
+generated: "2025-04-16T19:10:22.773425395Z"
