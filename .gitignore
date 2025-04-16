@@ -1,2 +1,3 @@
 **/charts/*.tgz
+**/charts/**/templates/secret.json
 test.yaml

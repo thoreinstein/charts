@@ -47,9 +47,15 @@ spec:
               chmod 644 /config/config.xml
           env:
             - name: POSTGRES_HOST
-              value: "{{ include "radarr.fullname" . }}-rw"
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "radarr.fullname" . }}-db-credentials
+                  key: host
             - name: POSTGRES_PORT
-              value: "5432"
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "radarr.fullname" . }}-db-credentials
+                  key: port
             - name: POSTGRES_USER
               valueFrom:
                 secretKeyRef:
