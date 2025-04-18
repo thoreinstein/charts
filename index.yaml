@@ -652,6 +652,24 @@ entries:
   overseerr:
   - apiVersion: v2
     appVersion: 1.33.2
+    created: "2025-04-18T00:33:19.782360374Z"
+    dependencies:
+    - name: common
+      repository: file://../common
+      version: 0.1.7
+    description: Overseerr is a request management and media discovery tool for the
+      Plex ecosystem
+    digest: fb22882fb40f2d39671b2625fa512c873fab3be110e2f9bde444586b3a729ee1
+    maintainers:
+    - email: thore@thoreinstein.com
+      name: thoreinstein
+    name: overseerr
+    type: application
+    urls:
+    - https://github.com/thoreinstein/charts/releases/download/overseerr-0.2.1/overseerr-0.2.1.tgz
+    version: 0.2.1
+  - apiVersion: v2
+    appVersion: 1.33.2
     created: "2025-04-16T19:10:22.649752876Z"
     dependencies:
     - name: common
@@ -1408,4 +1426,4 @@ entries:
     urls:
     - https://github.com/thoreinstein/charts/releases/download/tautulli-0.1.0/tautulli-0.1.0.tgz
     version: 0.1.0
-generated: "2025-04-18T00:28:51.907057665Z"
+generated: "2025-04-18T00:33:19.782594369Z"
