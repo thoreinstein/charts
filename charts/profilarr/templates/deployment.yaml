@@ -14,9 +14,6 @@ spec:
     metadata:
       labels:
         {{- include "profilarr.labels" . | nindent 8 }}
-        {{- with .Values.podLabels }}
-        {{- toYaml . | nindent 8 }}
-        {{- end }}
     spec:
       serviceAccountName: {{ include "profilarr.serviceAccountName" . }}
       containers:
@@ -25,7 +22,7 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             - name: TZ
-              value: America/New_York
+              value: {{ .Values.timezone | quote }}
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}

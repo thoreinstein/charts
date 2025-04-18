@@ -2,8 +2,11 @@
 resources: {}
 nfsServer: 0.0.0.0
 ingress:
-  enabled: true
+  enabled: false
   domain: ''
+  className: nginx
+  tls: true
+  annotations: {}
 service:
   type: LoadBalancer
   port: 6868
@@ -16,21 +19,7 @@ image:
   repository: santiagosayshey/profilarr
   pullPolicy: IfNotPresent
   tag: latest
-imagePullSecrets: []
-nameOverride: ''
-fullnameOverride: ''
-podAnnotations: {}
-podLabels: {}
-podSecurityContext: {}
-  # fsGroup: 2000
-securityContext: {}
-  # capabilities:
-  #   drop:
-  #   - ALL
-  # readOnlyRootFilesystem: true
-  # runAsNonRoot: true
-  # runAsUser: 1000
-# This is to setup the liveness and readiness probes
+timezone: America/New_York
 livenessProbe:
   httpGet:
     path: /
@@ -39,11 +28,3 @@ readinessProbe:
   httpGet:
     path: /
     port: http
-# This section is for setting up autoscaling
-autoscaling:
-  enabled: false
-  minReplicas: 1
-  maxReplicas: 100
-  targetCPUUtilizationPercentage: 80
-  # targetMemoryUtilizationPercentage: 80
-

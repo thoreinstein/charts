@@ -1,3 +1,4 @@
+{{- if .Values.ingress.enabled -}}
 {{- $domain_name := include "common.domain_name"  (dict
   "domain" .Values.ingress.domain
   "name" (include "profilarr.name" .)
@@ -9,10 +10,18 @@ metadata:
   name: {{ include "profilarr.fullname" . }}
   labels:
     {{- include "profilarr.labels" . | nindent 4 }}
+  {{- with .Values.ingress.annotations }}
   annotations:
-    kubernetes.io/ingress.class: "nginx"
-    cert-manager.io/issuer: "acme-staging"
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
 spec:
+  ingressClassName: {{ .Values.ingress.className }}
+  {{- if .Values.ingress.tls }}
+  tls:
+    - hosts:
+        - {{ $domain_name }}
+      secretName: {{ include "profilarr.name" . }}-tls
+  {{- end }}
   rules:
   - host: {{ $domain_name }}
     http:
@@ -23,4 +32,5 @@ spec:
           service:
             name: {{ include "profilarr.fullname" . }}
             port:
-              number: {{ .Values.service.port }}
+              number: 80
+{{- end }}
