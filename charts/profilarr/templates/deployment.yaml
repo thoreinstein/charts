@@ -25,7 +25,7 @@ spec:
               value: {{ .Values.timezone | quote }}
           ports:
             - name: http
-              containerPort: {{ .Values.service.port }}
+              containerPort: 6868
               protocol: TCP
           {{- with .Values.livenessProbe }}
           livenessProbe:
