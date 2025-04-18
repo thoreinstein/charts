@@ -5,8 +5,6 @@ metadata:
   name: {{ include "tautulli.fullname" . }}
   labels:
     {{- include "tautulli.labels" . | nindent 4 }}
-  annotations:
-    argocd.argoproj.io/sync-wave: "0"
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
@@ -16,9 +14,6 @@ spec:
     metadata:
       labels:
         {{- include "tautulli.labels" . | nindent 8 }}
-        {{- with .Values.podLabels }}
-        {{- toYaml . | nindent 8 }}
-        {{- end }}
     spec:
       serviceAccountName: {{ include "tautulli.serviceAccountName" . }}
       containers:
@@ -27,14 +22,14 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             - name: PUID
-              value: "99"
+              value: {{ .Values.puid | quote }}
             - name: PGID
-              value: "100"
+              value: {{ .Values.pgid | quote }}
             - name: TZ
-              value: America/New_York
+              value: {{ .Values.timezone | quote }}
           ports:
             - name: http
-              containerPort: {{ .Values.service.port }}
+              containerPort: 8181
               protocol: TCP
           {{- with .Values.livenessProbe }}
           livenessProbe:

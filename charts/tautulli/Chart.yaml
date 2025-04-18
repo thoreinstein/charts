@@ -4,9 +4,10 @@ name: tautulli
 description: A Helm chart for Tautulli - a Python based monitoring and tracking tool
   for Plex Media Server
 maintainers:
-  - name: Thor
+  - name: thoreinstein
+    email: thore@thoreinstein.com
 type: application
-version: 0.1.1
+version: 0.2.0
 appVersion: latest
 dependencies:
   - name: common

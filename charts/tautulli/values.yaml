@@ -1,44 +1,33 @@
 ---
 ingress:
-  enabled: true
+  enabled: false
   domain: ''
+  className: nginx
+  tls: true
+  annotations: {}
 service:
   type: LoadBalancer
-  port: 8181
+  port: 80
 serviceAccount:
   create: true
   automount: true
   annotations: {}
 replicaCount: 1
 image:
-  repository: tautulli/tautulli
+  repository: lscr.io/linuxserver/tautulli
   pullPolicy: IfNotPresent
   tag: latest
-imagePullSecrets: []
-nameOverride: ''
-fullnameOverride: ''
-podAnnotations: {}
-podLabels: {}
-podSecurityContext: {}
-  # fsGroup: 2000
-securityContext: {}
-  # capabilities:
-  #   drop:
-  #   - ALL
-  # readOnlyRootFilesystem: true
-  # runAsNonRoot: true
-  # runAsUser: 1000
-resources: {}
-  # We usually recommend not to specify default resources and to leave this as a conscious
-  # choice for the user. This also increases chances charts run on environments with little
-  # resources, such as Minikube. If you do want to specify resources, uncomment the following
-  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-  # limits:
-  #   cpu: 100m
-  #   memory: 128Mi
-  # requests:
-  #   cpu: 100m
-  #   memory: 128Mi
+nfsServer: 0.0.0.0
+puid: '1000'
+pgid: '1000'
+timezone: America/New_York
+resources:
+  limits:
+    cpu: 500m
+    memory: 512Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
 livenessProbe:
   httpGet:
     path: /

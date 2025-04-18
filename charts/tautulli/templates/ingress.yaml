@@ -1,20 +1,29 @@
 {{- if .Values.ingress.enabled -}}
+{{- $domain_name := include "common.domain_name"  (dict
+  "domain" .Values.ingress.domain
+  "name" (include "tautulli.name" .)
+)}}
+---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: {{ include "tautulli.fullname" . }}
   labels:
     {{- include "tautulli.labels" . | nindent 4 }}
+  {{- with .Values.ingress.annotations }}
   annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-prod
-    kubernetes.io/ingress.class: traefik
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
 spec:
+  ingressClassName: {{ .Values.ingress.className }}
+  {{- if .Values.ingress.tls }}
   tls:
     - hosts:
-        - {{ include "tautulli.domain_name" . }}
+        - {{ $domain_name }}
       secretName: {{ include "tautulli.name" . }}-tls
+  {{- end }}
   rules:
-    - host: {{ include "tautulli.domain_name" . }}
+    - host: {{ $domain_name }}
       http:
         paths:
           - path: /
@@ -23,5 +32,5 @@ spec:
               service:
                 name: {{ include "tautulli.fullname" . }}
                 port:
-                  name: http
+                  number: 80
 {{- end }}
