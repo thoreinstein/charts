@@ -3,37 +3,44 @@
   "domain" .Values.ingress.domain
   "name" (include "sonarr.name" .)
 )}}
+{{- $fullname := include "sonarr.fullname" . }}
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ include "sonarr.fullname" . }}
+  name: {{ $fullname }}
   labels:
     {{- include "sonarr.labels" . | nindent 4 }}
   annotations:
-    # Cloudflare External DNS hostname annotation
-    external-dns.alpha.kubernetes.io/hostname: {{ $domain_name }}
-    external-dns.alpha.kubernetes.io/target: {{ printf "%s.cfargotunnel.com" .Values.cloudflare.tunnelId }}
-    external-dns.alpha.kubernetes.io/cloudflare-proxied: "true"
-
-    # Apply user-defined annotations from values
     {{- with .Values.ingress.annotations }}
     {{- toYaml . | nindent 4 }}
     {{- end }}
-    
+    {{- if .Values.ingress.security.enableSecurityHeaders }}
+    # Security headers
+    nginx.ingress.kubernetes.io/x-frame-options: "SAMEORIGIN"
+    nginx.ingress.kubernetes.io/x-content-type-options: "nosniff"
+    nginx.ingress.kubernetes.io/x-xss-protection: "1; mode=block"
+    nginx.ingress.kubernetes.io/referrer-policy: "strict-origin-when-cross-origin"
+    {{- end }}
     {{- if .Values.ingress.performance.enableOptimizations }}
     # Performance optimizations
+    nginx.ingress.kubernetes.io/proxy-buffering: "on"
+    nginx.ingress.kubernetes.io/proxy-buffer-size: "8k"
+    nginx.ingress.kubernetes.io/proxy-buffers-number: "4"
+    nginx.ingress.kubernetes.io/ssl-session-timeout: "10m"
+    nginx.ingress.kubernetes.io/ssl-session-cache-size: "10m"
     nginx.ingress.kubernetes.io/proxy-connect-timeout: "{{ .Values.ingress.performance.timeouts.connect }}"
     nginx.ingress.kubernetes.io/proxy-send-timeout: "{{ .Values.ingress.performance.timeouts.send }}"
     nginx.ingress.kubernetes.io/proxy-read-timeout: "{{ .Values.ingress.performance.timeouts.read }}"
-    nginx.ingress.kubernetes.io/proxy-buffer-size: "8k"
     {{- end }}
 spec:
   ingressClassName: {{ .Values.ingress.className }}
+  {{- if .Values.ingress.domain }}
   tls:
   - hosts:
     - {{ $domain_name }}
-    secretName: {{ include "sonarr.fullname" . }}-tls
+    secretName: {{ $fullname }}-tls
+  {{- end }}
   rules:
   - host: {{ $domain_name }}
     http:
@@ -42,7 +49,7 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: {{ include "sonarr.fullname" . }}
+            name: {{ $fullname }}
             port:
-              number: 80
+              number: {{ .Values.service.port }}
 {{- end }}

@@ -7,18 +7,12 @@ resources:
     cpu: 200m
     memory: 256Mi
 nfsServer: 0.0.0.0
-cloudflare:
-  # tunnelId is the ID of your Cloudflare Tunnel
-  # If provided, external-dns will create a CNAME record pointing to your tunnel
-  # Example: 6324d2ae-e97e-4cf7-81e5-6843af74b888
-  tunnelId: ''
 ingress:
-  enabled: false
+  enabled: true
   domain: ''
   className: nginx
   annotations:
     cert-manager.io/issuer: acme-staging
-    external-dns.alpha.kubernetes.io/cloudflare-proxied: 'true'
     external-dns.alpha.kubernetes.io/ttl: '120'
     nginx.ingress.kubernetes.io/ssl-redirect: 'true'
     nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
@@ -42,17 +36,3 @@ image:
   repository: lscr.io/linuxserver/sonarr
   pullPolicy: IfNotPresent
   tag: latest
-imagePullSecrets: []
-nameOverride: ''
-fullnameOverride: ''
-podAnnotations:
-podLabels: {}
-podSecurityContext: {}
-  # fsGroup: 2000
-securityContext: {}
-  # capabilities:
-  #   drop:
-  #   - ALL
-  # readOnlyRootFilesystem: true
-  # runAsNonRoot: true
-  # runAsUser: 1000

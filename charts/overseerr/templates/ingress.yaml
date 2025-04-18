@@ -1,10 +1,13 @@
 {{- if .Values.ingress.enabled -}}
-{{- $fullName := include "overseerr.fullname" . -}}
-{{- $svcPort := .Values.service.port -}}
+{{- $domain_name := include "common.domain_name"  (dict
+  "domain" .Values.ingress.domain
+  "name" (include "overseerr.name" .)
+)}}
+---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ $fullName }}
+  name: {{ include "overseerr.name" . }}
   labels:
     {{- include "overseerr.labels" . | nindent 4 }}
   {{- with .Values.ingress.annotations }}
@@ -12,24 +15,22 @@ metadata:
     {{- toYaml . | nindent 4 }}
   {{- end }}
 spec:
-  {{- if .Values.ingress.className }}
   ingressClassName: {{ .Values.ingress.className }}
+  {{- if .Values.ingress.tls }}
+  tls:
+    - hosts:
+        - {{ $domain_name }}
+      secretName: {{ include "overseerr.name" . }}-tls
   {{- end }}
   rules:
-    - host: {{ .Values.ingress.domain }}
+    - host: {{ $domain_name }}
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: {{ $fullName }}
+                name: {{ include "overseerr.fullname" . }}
                 port:
-                  number: {{ $svcPort }}
-  {{- if .Values.ingress.tls }}
-  tls:
-    - hosts:
-        - {{ .Values.ingress.domain }}
-      secretName: {{ .Values.ingress.tls.secretName }}
-  {{- end }}
+                  number: 80
 {{- end }}
