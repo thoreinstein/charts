@@ -3,43 +3,24 @@
   "domain" .Values.ingress.domain
   "name" (include "sonarr.name" .)
 )}}
-{{- $fullname := include "sonarr.fullname" . }}
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ $fullname }}
+  name: {{ include "sonarr.name" . }}
   labels:
     {{- include "sonarr.labels" . | nindent 4 }}
+  {{- with .Values.ingress.annotations }}
   annotations:
-    {{- with .Values.ingress.annotations }}
     {{- toYaml . | nindent 4 }}
-    {{- end }}
-    {{- if .Values.ingress.security.enableSecurityHeaders }}
-    # Security headers
-    nginx.ingress.kubernetes.io/x-frame-options: "SAMEORIGIN"
-    nginx.ingress.kubernetes.io/x-content-type-options: "nosniff"
-    nginx.ingress.kubernetes.io/x-xss-protection: "1; mode=block"
-    nginx.ingress.kubernetes.io/referrer-policy: "strict-origin-when-cross-origin"
-    {{- end }}
-    {{- if .Values.ingress.performance.enableOptimizations }}
-    # Performance optimizations
-    nginx.ingress.kubernetes.io/proxy-buffering: "on"
-    nginx.ingress.kubernetes.io/proxy-buffer-size: "8k"
-    nginx.ingress.kubernetes.io/proxy-buffers-number: "4"
-    nginx.ingress.kubernetes.io/ssl-session-timeout: "10m"
-    nginx.ingress.kubernetes.io/ssl-session-cache-size: "10m"
-    nginx.ingress.kubernetes.io/proxy-connect-timeout: "{{ .Values.ingress.performance.timeouts.connect }}"
-    nginx.ingress.kubernetes.io/proxy-send-timeout: "{{ .Values.ingress.performance.timeouts.send }}"
-    nginx.ingress.kubernetes.io/proxy-read-timeout: "{{ .Values.ingress.performance.timeouts.read }}"
-    {{- end }}
+  {{- end }}
 spec:
   ingressClassName: {{ .Values.ingress.className }}
-  {{- if .Values.ingress.domain }}
+  {{- if .Values.ingress.tls }}
   tls:
   - hosts:
     - {{ $domain_name }}
-    secretName: {{ $fullname }}-tls
+    secretName: {{ include "sonarr.name" . }}-tls
   {{- end }}
   rules:
   - host: {{ $domain_name }}
@@ -49,7 +30,7 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: {{ $fullname }}
+            name: {{ include "sonarr.name" . }}
             port:
-              number: {{ .Values.service.port }}
+              number: 80
 {{- end }}
