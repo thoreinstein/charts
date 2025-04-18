@@ -740,6 +740,23 @@ entries:
   profilarr:
   - apiVersion: v2
     appVersion: latest
+    created: "2025-04-18T01:59:32.59087413Z"
+    dependencies:
+    - name: common
+      repository: file://../common
+      version: '*'
+    description: A Helm chart for Profilarr - Configuration management tool for Radarr/Sonarr
+    digest: 9d64415fe4b84ed76b87738ad6e7c19d8aeba1b5278f568025066a9f5c641172
+    maintainers:
+    - email: thore@thoreinstein.com
+      name: thoreinstein
+    name: profilarr
+    type: application
+    urls:
+    - https://github.com/thoreinstein/charts/releases/download/profilarr-0.2.2/profilarr-0.2.2.tgz
+    version: 0.2.2
+  - apiVersion: v2
+    appVersion: latest
     created: "2025-04-18T01:42:40.380745698Z"
     dependencies:
     - name: common
@@ -1478,4 +1495,4 @@ entries:
     urls:
     - https://github.com/thoreinstein/charts/releases/download/tautulli-0.1.0/tautulli-0.1.0.tgz
     version: 0.1.0
-generated: "2025-04-18T01:42:40.380916647Z"
+generated: "2025-04-18T01:59:32.591059337Z"
