@@ -9,7 +9,7 @@ ingress:
   annotations: {}
 service:
   type: LoadBalancer
-  port: 6868
+  port: 80
 serviceAccount:
   create: true
   automount: true

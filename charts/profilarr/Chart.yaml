@@ -3,7 +3,7 @@ apiVersion: v2
 name: profilarr
 description: A Helm chart for Profilarr - Configuration management tool for Radarr/Sonarr
 type: application
-version: 0.2.0
+version: 0.2.1
 appVersion: latest
 dependencies:
   - name: common
