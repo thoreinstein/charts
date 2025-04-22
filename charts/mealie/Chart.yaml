@@ -1,0 +1,11 @@
+---
+apiVersion: v2
+name: mealie
+description: A self-hosted recipe management and meal planning application
+type: application
+version: 0.1.0
+appVersion: v1.3.2
+dependencies:
+  - name: common
+    version: '*'
+    repository: file://../common

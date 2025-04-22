@@ -1,0 +1,25 @@
+---
+replicaCount: 1
+image:
+  repository: miniflux/miniflux
+  pullPolicy: IfNotPresent
+  tag: 2.0.51
+serviceAccount:
+  create: true
+  annotations: {}
+  name: ''
+service:
+  type: LoadBalancer
+  port: 80
+ingress:
+  enabled: false
+  tls: false
+resources:
+  limits:
+    cpu: 500m
+    memory: 512Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+timezone: America/New_York
+

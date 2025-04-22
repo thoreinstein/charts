@@ -1,0 +1,29 @@
+---
+replicaCount: 1
+image:
+  repository: ghcr.io/mealie-recipes/mealie
+  pullPolicy: IfNotPresent
+  tag: v2.8.0
+serviceAccount:
+  create: true
+  annotations: {}
+  name: ''
+service:
+  type: LoadBalancer
+  port: 80
+ingress:
+  enabled: false
+  tls: false
+env:
+  PUID: 1000
+  PGID: 1000
+  allowSignup: 'false'
+resources:
+  limits:
+    cpu: 1000m
+    memory: 1Gi
+  requests:
+    cpu: 200m
+    memory: 256Mi
+timezone: America/New_York
+
