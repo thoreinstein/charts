@@ -1,9 +1,0 @@
-apiVersion: v2
-name: awx
-description: A Helm chart for deploying AWX instances with the AWX Operator
-type: application
-version: 0.1.0
-appVersion: "latest"
-maintainers:
-  - name: thoreinstein
-
