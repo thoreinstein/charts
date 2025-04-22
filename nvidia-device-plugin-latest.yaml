@@ -1,0 +1,118 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  annotations:
+    argocd.argoproj.io/tracking-id: nvidia-device-plugin:apps/DaemonSet:nvidia-device-plugin/nvidia-device-plugin
+    deprecated.daemonset.template.generation: "2"
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"apps/v1","kind":"DaemonSet","metadata":{"annotations":{"argocd.argoproj.io/tracking-id":"nvidia-device-plugin:apps/DaemonSet:nvidia-device-plugin/nvidia-device-plugin","deprecated.daemonset.template.generation":"1"},"creationTimestamp":"2025-04-18T15:01:21Z","generation":1,"labels":{"app.kubernetes.io/instance":"nvidia-device-plugin","app.kubernetes.io/managed-by":"Helm","app.kubernetes.io/name":"nvidia-device-plugin","app.kubernetes.io/version":"0.17.1","helm.sh/chart":"nvidia-device-plugin-0.17.1"},"name":"nvidia-device-plugin","namespace":"nvidia-device-plugin","resourceVersion":"8574783","uid":"4691fa2d-d9b5-49b6-b1a8-e6b8237d1b0b"},"spec":{"revisionHistoryLimit":10,"selector":{"matchLabels":{"app.kubernetes.io/instance":"nvidia-device-plugin","app.kubernetes.io/name":"nvidia-device-plugin"}},"template":{"metadata":{"creationTimestamp":null,"labels":{"app.kubernetes.io/instance":"nvidia-device-plugin","app.kubernetes.io/name":"nvidia-device-plugin"}},"spec":{"affinity":{"nodeAffinity":{"requiredDuringSchedulingIgnoredDuringExecution":{"nodeSelectorTerms":[{"matchExpressions":[{"key":"feature.node.kubernetes.io/pci-10de.present","operator":"In","values":["true"]}]},{"matchExpressions":[{"key":"feature.node.kubernetes.io/cpu-model.vendor_id","operator":"In","values":["NVIDIA"]}]},{"matchExpressions":[{"key":"nvidia.com/gpu.present","operator":"In","values":["true"]}]}]}}},"containers":[{"command":["nvidia-device-plugin"],"env":[{"name":"MPS_ROOT","value":"/run/nvidia/mps"},{"name":"NVIDIA_VISIBLE_DEVICES","value":"all"},{"name":"NVIDIA_DRIVER_CAPABILITIES","value":"compute,utility"},{"name":"NVIDIA_DISABLE_STRICT_BPF","value":"true"}],"image":"nvcr.io/nvidia/k8s-device-plugin:v0.17.1","imagePullPolicy":"IfNotPresent","name":"nvidia-device-plugin-ctr","resources":{},"securityContext":{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]}},"terminationMessagePath":"/dev/termination-log","terminationMessagePolicy":"File","volumeMounts":[{"mountPath":"/var/lib/kubelet/device-plugins","name":"device-plugin"},{"mountPath":"/dev/shm","name":"mps-shm"},{"mountPath":"/mps","name":"mps-root"},{"mountPath":"/var/run/cdi","name":"cdi-root"}]}],"dnsPolicy":"ClusterFirst","priorityClassName":"system-node-critical","restartPolicy":"Always","schedulerName":"default-scheduler","securityContext":{},"terminationGracePeriodSeconds":30,"tolerations":[{"key":"CriticalAddonsOnly","operator":"Exists"},{"effect":"NoSchedule","key":"nvidia.com/gpu","operator":"Exists"}],"volumes":[{"hostPath":{"path":"/var/lib/kubelet/device-plugins","type":""},"name":"device-plugin"},{"hostPath":{"path":"/run/nvidia/mps","type":"DirectoryOrCreate"},"name":"mps-root"},{"hostPath":{"path":"/run/nvidia/mps/shm","type":""},"name":"mps-shm"},{"hostPath":{"path":"/var/run/cdi","type":"DirectoryOrCreate"},"name":"cdi-root"}]}},"updateStrategy":{"rollingUpdate":{"maxSurge":0,"maxUnavailable":1},"type":"RollingUpdate"}}}
+  creationTimestamp: "2025-04-18T15:01:21Z"
+  generation: 2
+  labels:
+    app.kubernetes.io/instance: nvidia-device-plugin
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: nvidia-device-plugin
+    app.kubernetes.io/version: 0.17.1
+    helm.sh/chart: nvidia-device-plugin-0.17.1
+  name: nvidia-device-plugin
+  namespace: nvidia-device-plugin
+  resourceVersion: "8582795"
+  uid: 4691fa2d-d9b5-49b6-b1a8-e6b8237d1b0b
+spec:
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: nvidia-device-plugin
+      app.kubernetes.io/name: nvidia-device-plugin
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app.kubernetes.io/instance: nvidia-device-plugin
+        app.kubernetes.io/name: nvidia-device-plugin
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: feature.node.kubernetes.io/pci-10de.present
+                operator: In
+                values:
+                - "true"
+            - matchExpressions:
+              - key: feature.node.kubernetes.io/cpu-model.vendor_id
+                operator: In
+                values:
+                - NVIDIA
+            - matchExpressions:
+              - key: nvidia.com/gpu.present
+                operator: In
+                values:
+                - "true"
+      containers:
+      - command:
+        - nvidia-device-plugin
+        env:
+        - name: MPS_ROOT
+          value: /run/nvidia/mps
+        - name: NVIDIA_VISIBLE_DEVICES
+          value: all
+        - name: NVIDIA_DRIVER_CAPABILITIES
+          value: compute,utility
+        - name: NVIDIA_DISABLE_STRICT_BPF
+          value: "true"
+        image: nvcr.io/nvidia/k8s-device-plugin:v0.14.0
+        imagePullPolicy: IfNotPresent
+        name: nvidia-device-plugin-ctr
+        resources: {}
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /var/lib/kubelet/device-plugins
+          name: device-plugin
+        - mountPath: /dev/shm
+          name: mps-shm
+        - mountPath: /mps
+          name: mps-root
+        - mountPath: /var/run/cdi
+          name: cdi-root
+      dnsPolicy: ClusterFirst
+      priorityClassName: system-node-critical
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+      tolerations:
+      - key: CriticalAddonsOnly
+        operator: Exists
+      - effect: NoSchedule
+        key: nvidia.com/gpu
+        operator: Exists
+      volumes:
+      - hostPath:
+          path: /var/lib/kubelet/device-plugins
+          type: ""
+        name: device-plugin
+      - hostPath:
+          path: /run/nvidia/mps
+          type: DirectoryOrCreate
+        name: mps-root
+      - hostPath:
+          path: /run/nvidia/mps/shm
+          type: ""
+        name: mps-shm
+      - hostPath:
+          path: /var/run/cdi
+          type: DirectoryOrCreate
+        name: cdi-root
+  updateStrategy:
+    rollingUpdate:
+      maxSurge: 0
+      maxUnavailable: 1
+    type: RollingUpdate

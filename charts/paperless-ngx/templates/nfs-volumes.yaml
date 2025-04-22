@@ -1,0 +1,25 @@
+{{- $fullname := include "paperless-ngx.fullname" . -}}
+
+{{- include "common.nfs-volume.tpl" (dict
+"name" (printf "%s-data" $fullname)
+"server" .Values.nfsServer
+"path" "/mnt/user/paperless/data"
+"storage" "1Gi"
+"accessModes" "ReadWriteMany"
+)}}
+
+{{- include "common.nfs-volume.tpl" (dict
+"name" (printf "%s-media" $fullname)
+"server" .Values.nfsServer
+"path" "/mnt/user/paperless/media"
+"storage" "10Gi"
+"accessModes" "ReadWriteMany"
+)}}
+
+{{- include "common.nfs-volume.tpl" (dict
+"name" (printf "%s-consume" $fullname)
+"server" .Values.nfsServer
+"path" "/mnt/user/paperless/consume"
+"storage" "5Gi"
+"accessModes" "ReadWriteMany"
+)}}

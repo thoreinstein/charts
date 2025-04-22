@@ -1,0 +1,14 @@
+---
+apiVersion: v2
+name: recommendarr
+description: A Helm chart for Recommendarr - Media recommendations for Radarr/Sonarr
+type: application
+version: 0.1.0
+appVersion: latest
+dependencies:
+  - name: common
+    version: '*'
+    repository: file://../common
+maintainers:
+  - name: thoreinstein
+    email: thore@thoreinstein.com

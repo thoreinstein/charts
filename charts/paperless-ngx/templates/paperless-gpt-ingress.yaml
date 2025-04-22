@@ -1,0 +1,44 @@
+{{- if and .Values.paperlessGpt.enabled .Values.paperlessGpt.ingress.enabled -}}
+{{- $fullName := printf "%s-gpt" (include "paperless-ngx.fullname" .) -}}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ $fullName }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    {{- include "paperless-ngx.labels" . | nindent 4 }}
+    app.kubernetes.io/component: paperless-gpt
+  {{- with .Values.paperlessGpt.ingress.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  {{- if .Values.paperlessGpt.ingress.className }}
+  ingressClassName: {{ .Values.paperlessGpt.ingress.className }}
+  {{- end }}
+  {{- if .Values.paperlessGpt.ingress.tls }}
+  tls:
+    {{- range .Values.paperlessGpt.ingress.tls }}
+    - hosts:
+        {{- range .hosts }}
+        - {{ . | quote }}
+        {{- end }}
+      secretName: {{ .secretName }}
+    {{- end }}
+  {{- end }}
+  rules:
+    {{- range .Values.paperlessGpt.ingress.hosts }}
+    - host: {{ .host | quote }}
+      http:
+        paths:
+          {{- range .paths }}
+          - path: {{ .path }}
+            pathType: {{ .pathType }}
+            backend:
+              service:
+                name: {{ $fullName }}
+                port:
+                  number: 8080
+          {{- end }}
+    {{- end }}
+{{- end }}

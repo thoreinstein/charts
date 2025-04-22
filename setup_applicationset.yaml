@@ -13,10 +13,6 @@ spec:
             version: 4.12.*
             url: https://kubernetes.github.io/ingress-nginx
             namespace: networking
-          - appName: cloudnative-pg
-            version: 0.23.*
-            url: https://cloudnative-pg.github.io/charts
-            namespace: core
           - appName: metrics-server
             version: 3.12.*
             url: https://kubernetes-sigs.github.io/metrics-server/
@@ -25,6 +21,10 @@ spec:
             version: 0.1.*
             url: https://thoreinstein.github.io/charts
             namespace: cert-manager
+          - appName: ollama
+            version: 1.14.*
+            url: https://otwld.github.io/ollama-helm/
+            namespace: ollama
   template:
     metadata:
       name: '{{.appName}}'

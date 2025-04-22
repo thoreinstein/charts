@@ -1,0 +1,54 @@
+{{- if .Values.paperlessGpt.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "paperless-ngx.fullname" . }}-gpt
+  namespace: {{ .Values.namespace }}
+  labels:
+    {{- include "paperless-ngx.labels" . | nindent 4 }}
+    app.kubernetes.io/component: paperless-gpt
+spec:
+  replicas: {{ .Values.paperlessGpt.replicaCount | default 1 }}
+  selector:
+    matchLabels:
+      {{- include "paperless-ngx.gptSelectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "paperless-ngx.gptSelectorLabels" . | nindent 8 }}
+    spec:
+      serviceAccountName: {{ include "paperless-ngx.serviceAccountName" . }}
+      containers:
+        - name: paperless-gpt
+          image: "{{ .Values.paperlessGpt.image.repository }}:{{ .Values.paperlessGpt.image.tag }}"
+          imagePullPolicy: {{ .Values.paperlessGpt.image.pullPolicy }}
+          env:
+            - name: PAPERLESS_BASE_URL
+              value: "http://{{ include "paperless-ngx.fullname" . }}"
+            - name: PAPERLESS_API_TOKEN
+              value: {{ .Values.paperlessGpt.config.apiToken | quote }}
+            - name: LLM_PROVIDER
+              value: {{ .Values.paperlessGpt.config.llmProvider | quote }}
+            - name: LLM_MODEL
+              value: {{ .Values.paperlessGpt.config.llmModel | quote }}
+            - name: OLLAMA_HOST
+              value: {{ .Values.paperlessGpt.config.ollamaHost | quote }}
+            - name: AUTO_GENERATE_TAGS
+              value: {{ .Values.paperlessGpt.config.autoTagging | quote }}
+            - name: AUTO_GENERATE_TITLE
+              value: {{ .Values.paperlessGpt.config.autoTitle | quote }}
+            - name: AUTO_GENERATE_CORRESPONDENTS
+              value: {{ .Values.paperlessGpt.config.autoCorrespondent | quote }}
+            - name: AUTO_GENERATE_CREATED_DATE
+              value: {{ .Values.paperlessGpt.config.autoGenerateCreatedDate | quote }}
+            - name: VISION_LLM_PROVIDER
+              value: {{ .Values.paperlessGpt.config.visionLlmProvider | quote }}
+            - name: VISION_LLM_MODEL
+              value: {{ .Values.paperlessGpt.config.visionLlmModel | quote }}
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          resources:
+            {{- toYaml .Values.paperlessGpt.resources | default dict | nindent 12 }}
+{{- end }}

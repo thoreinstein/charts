@@ -1,0 +1,36 @@
+{{- if .Values.ingress.enabled -}}
+{{- $domain_name := include "common.domain_name"  (dict
+  "domain" .Values.ingress.domain
+  "name" (include "recommendarr.name" .)
+)}}
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ include "recommendarr.fullname" . }}
+  labels:
+    {{- include "recommendarr.labels" . | nindent 4 }}
+  {{- with .Values.ingress.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  ingressClassName: {{ .Values.ingress.className }}
+  {{- if .Values.ingress.tls }}
+  tls:
+    - hosts:
+        - {{ $domain_name }}
+      secretName: {{ include "recommendarr.name" . }}-tls
+  {{- end }}
+  rules:
+  - host: {{ $domain_name }}
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: {{ include "recommendarr.fullname" . }}
+            port:
+              number: {{ .Values.service.port }}
+{{- end }}

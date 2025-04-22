@@ -1,10 +1,10 @@
----
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "overseerr.fullname" . }}
+  name: {{ include "paperless-ngx.fullname" . }}
+  namespace: {{ .Values.namespace }}
   labels:
-    {{- include "overseerr.labels" . | nindent 4 }}
+    {{- include "paperless-ngx.labels" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
   ports:
@@ -13,4 +13,4 @@ spec:
       protocol: TCP
       name: http
   selector:
-    {{- include "overseerr.selectorLabels" . | nindent 4 }}
+    {{- include "paperless-ngx.selectorLabels" . | nindent 4 }}

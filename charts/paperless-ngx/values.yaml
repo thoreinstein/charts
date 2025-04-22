@@ -1,0 +1,82 @@
+---
+namespace: paperless
+serviceAccount:
+  create: true
+  name: ''
+# Main paperless-ngx container
+image:
+  repository: ghcr.io/paperless-ngx/paperless-ngx
+  tag: 2.2.1
+  pullPolicy: IfNotPresent
+# paperless-gpt deployment (optional)
+paperlessGpt:
+  enabled: true
+  replicaCount: 1
+  image:
+    repository: icereed/paperless-gpt
+    tag: latest
+    pullPolicy: IfNotPresent
+  service:
+    type: LoadBalancer
+    port: 80
+  ingress:
+    enabled: false
+    className: ''
+    annotations: {}
+    hosts:
+      - host: paperless-gpt.example.com
+        paths:
+          - path: /
+            pathType: Prefix
+    tls: []
+  resources:
+    limits:
+      cpu: 1000m
+      memory: 1Gi
+    requests:
+      cpu: 500m
+      memory: 512Mi
+  config:
+    apiToken: df7e09ff52117826a5b60813c46891a6e5c8da68
+    llmProvider: ollama
+    llmModel: llama3.1:8b
+    ollamaHost: http://ollama.ollama.svc.myersha.us:11434
+    visionLlmProvider: ollama
+    visionLlmModel: minicpm-v:8b
+    autoTagging: true
+    autoTitle: true
+    autoCorrespondent: true
+    autoGenerateCreatedDate: true
+replicaCount: 1
+pollingInterval: 20
+resources: {}
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+nfsServer: 0.0.0.0
+redis:
+  enabled: true
+  architecture: standalone
+  auth:
+    enabled: false
+  master:
+    persistence:
+      enabled: true
+      storageClass: longhorn
+      size: 2Gi
+service:
+  type: LoadBalancer
+  port: 80
+ingress:
+  enabled: false
+  className: ''
+  annotations: {}
+  hosts:
+    - host: paperless.chart.local
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: []
