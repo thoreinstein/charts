@@ -6,3 +6,4 @@ chart-repos:
   - openebs=https://openebs.github.io/charts
   - cloudflare=https://cloudflare.github.io/helm-charts
   - ingress-nginx=https://kubernetes.github.io/ingress-nginx
+  - bitnami=https://charts.bitnami.com/bitnami

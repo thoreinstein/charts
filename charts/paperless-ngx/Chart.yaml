@@ -1,17 +1,17 @@
+---
 apiVersion: v2
 name: paperless-ngx
 description: A Helm chart for Paperless-ngx document management system
 type: application
 version: 0.1.0
-appVersion: "2.2.1"
+appVersion: 2.2.1
 maintainers:
   - name: thoreinstein
-
 dependencies:
   - name: common
-    version: 0.1.7
+    version: '*'
     repository: file://../common
   - name: redis
-    version: 20.12.1
+    version: 20.13.0
     repository: https://charts.bitnami.com/bitnami
     condition: redis.enabled
