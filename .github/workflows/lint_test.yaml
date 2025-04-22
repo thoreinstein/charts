@@ -15,6 +15,9 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: 3.x
+      - name: add repos
+        run: |
+          helm repo add bitnami https://charts.bitnami.com/bitnami
       - name: Set up chart-testing
         uses: helm/chart-testing-action@v2
       - name: Run chart-testing (list-changed)
