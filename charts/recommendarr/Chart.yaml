@@ -3,7 +3,7 @@ apiVersion: v2
 name: recommendarr
 description: A Helm chart for Recommendarr - Media recommendations for Radarr/Sonarr
 type: application
-version: 0.1.0
+version: 0.1.1
 appVersion: latest
 dependencies:
   - name: common
