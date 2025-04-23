@@ -603,6 +603,23 @@ entries:
     urls:
     - https://github.com/thoreinstein/manifests/releases/download/metallb-bootstrap-0.1.0/metallb-bootstrap-0.1.0.tgz
     version: 0.1.0
+  miniflux:
+  - apiVersion: v2
+    appVersion: 2.0.51
+    created: "2025-04-23T01:12:55.607736122Z"
+    dependencies:
+    - name: common
+      repository: file://../common
+      version: '*'
+    description: Miniflux RSS feed reader
+    digest: 9c9c7d73eed55a0bb9f9d91ed2d6ea6435e826f844e0913f02309482df88ea71
+    maintainers:
+    - name: thoreinstein
+    name: miniflux
+    type: application
+    urls:
+    - https://github.com/thoreinstein/charts/releases/download/miniflux-0.1.1/miniflux-0.1.1.tgz
+    version: 0.1.1
   nginx:
   - apiVersion: v2
     appVersion: 1.12.0
@@ -1570,4 +1587,4 @@ entries:
     urls:
     - https://github.com/thoreinstein/charts/releases/download/tautulli-0.1.0/tautulli-0.1.0.tgz
     version: 0.1.0
-generated: "2025-04-23T01:04:57.597869963Z"
+generated: "2025-04-23T01:12:55.607895654Z"
