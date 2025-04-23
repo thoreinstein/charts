@@ -559,6 +559,23 @@ entries:
     urls:
     - https://github.com/thoreinstein/manifests/releases/download/mayastore-0.1.0/mayastore-0.1.0.tgz
     version: 0.1.0
+  mealie:
+  - apiVersion: v2
+    appVersion: v1.3.2
+    created: "2025-04-23T01:15:56.652585839Z"
+    dependencies:
+    - name: common
+      repository: file://../common
+      version: '*'
+    description: A self-hosted recipe management and meal planning application
+    digest: 52008bf8bd23f1aad9e24a34fe0e03311fc7064942cc408b666794eba7123594
+    maintainers:
+    - name: thoreinstein
+    name: mealie
+    type: application
+    urls:
+    - https://github.com/thoreinstein/charts/releases/download/mealie-0.1.1/mealie-0.1.1.tgz
+    version: 0.1.1
   metallb:
   - apiVersion: v2
     appVersion: 0.14.9
@@ -1587,4 +1604,4 @@ entries:
     urls:
     - https://github.com/thoreinstein/charts/releases/download/tautulli-0.1.0/tautulli-0.1.0.tgz
     version: 0.1.0
-generated: "2025-04-23T01:12:55.607895654Z"
+generated: "2025-04-23T01:15:56.652870988Z"
