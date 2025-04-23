@@ -740,6 +740,27 @@ entries:
     urls:
     - https://github.com/thoreinstein/charts/releases/download/overseerr-0.1.0/overseerr-0.1.0.tgz
     version: 0.1.0
+  paperless-ngx:
+  - apiVersion: v2
+    appVersion: 2.2.1
+    created: "2025-04-23T00:50:41.586785729Z"
+    dependencies:
+    - name: common
+      repository: file://../common
+      version: '*'
+    - condition: redis.enabled
+      name: redis
+      repository: https://charts.bitnami.com/bitnami
+      version: 20.13.0
+    description: A Helm chart for Paperless-ngx document management system
+    digest: 1201ba2977f18268ffc1b0a73fa0132e2b920c51f5035fa2e07ccd66845f8e93
+    maintainers:
+    - name: thoreinstein
+    name: paperless-ngx
+    type: application
+    urls:
+    - https://github.com/thoreinstein/charts/releases/download/paperless-ngx-0.1.1/paperless-ngx-0.1.1.tgz
+    version: 0.1.1
   plex:
   - apiVersion: v2
     appVersion: latest
@@ -1531,4 +1552,4 @@ entries:
     urls:
     - https://github.com/thoreinstein/charts/releases/download/tautulli-0.1.0/tautulli-0.1.0.tgz
     version: 0.1.0
-generated: "2025-04-23T00:24:14.44641894Z"
+generated: "2025-04-23T00:50:41.5869525Z"
