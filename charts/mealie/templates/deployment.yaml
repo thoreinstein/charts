@@ -19,6 +19,9 @@ spec:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          envFrom:
+            - secretRef:
+                name: mealie
           env:
             - name: TZ
               value: {{ .Values.timezone }}
@@ -31,7 +34,7 @@ spec:
               value: "{{ .Values.env.baseURL }}"
             {{- end }}
             - name: DB_ENGINE
-              value: "sqlite"
+              value: "postgres"
             - name: ALLOW_SIGNUP
               value: "{{ .Values.env.allowSignup }}"
             {{- with .Values.extraEnv }}

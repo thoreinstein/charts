@@ -3,7 +3,7 @@ apiVersion: v2
 name: mealie
 description: A self-hosted recipe management and meal planning application
 type: application
-version: 0.1.1
+version: 0.1.2
 appVersion: v1.3.2
 maintainers:
   - name: thoreinstein
