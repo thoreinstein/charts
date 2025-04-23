@@ -1095,6 +1095,24 @@ entries:
     urls:
     - https://github.com/thoreinstein/manifests/releases/download/radarr-0.1.0/radarr-0.1.0.tgz
     version: 0.1.0
+  recommendarr:
+  - apiVersion: v2
+    appVersion: latest
+    created: "2025-04-23T01:04:57.597673113Z"
+    dependencies:
+    - name: common
+      repository: file://../common
+      version: '*'
+    description: A Helm chart for Recommendarr - Media recommendations for Radarr/Sonarr
+    digest: 7288dca4494579530a2f41995e7af136236e3b4e26abda9b6026ae5a4a5aba5a
+    maintainers:
+    - email: thore@thoreinstein.com
+      name: thoreinstein
+    name: recommendarr
+    type: application
+    urls:
+    - https://github.com/thoreinstein/charts/releases/download/recommendarr-0.1.1/recommendarr-0.1.1.tgz
+    version: 0.1.1
   sonarr:
   - apiVersion: v2
     appVersion: 1.16.0
@@ -1552,4 +1570,4 @@ entries:
     urls:
     - https://github.com/thoreinstein/charts/releases/download/tautulli-0.1.0/tautulli-0.1.0.tgz
     version: 0.1.0
-generated: "2025-04-23T00:50:41.5869525Z"
+generated: "2025-04-23T01:04:57.597869963Z"
