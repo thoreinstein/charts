@@ -1,11 +1,16 @@
 ---
-apiVersion: v1
-kind: Secret
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
 metadata:
+  creationTimestamp: null
   name: cloudflare-api-token-secret
-  namespace: {{ .Release.Namespace | quote }}
-  annotations:
-    argocd.argoproj.io/sync-wave: "-1"
-type: Opaque
-stringData:
-  api-token: {{ required "You must provide a Cloudflare API token." .Values.cloudflareApiToken }}
+  namespace: cert-manager
+spec:
+  encryptedData:
+    api-token: AgC0UglZ9qUyRQ5r3PuQxwXBR9xipXhlTBn8X2m5KNy07xG7JTP5QM/rEbYfO0GrCTQ2o/CMwcOaBMXGIeHl30lh9Nx4gz7vI1GyOplCFYRWOgKpI1WiTI51inVdK10NBcShtdA5wObMuJ24fdJOFfyEUuQANobc9iRRaf98g8LvSV7e5IjPvJDSuysHdiMyIy4jqtkQFwgHG6kx3l3vjEmMVvR/POxHp4+UdnQzjqDKZLXQW3Gl2qWvdfnSHuUAgBtgf7FW3Ydb0S5ZVw1KYYSrZfu7tAWmFGO7rrfApI41jQXbk1HMy2vWk18a8sFGkXz/l9KZZrSReUI+E3tv2M3gBL4mFzmOmejON3eYgqDw9SrhoMRrEIcrByBFnlPfmltsTLWj+njDGB2JXNrYa78/1iFXdHUzlwnsjGjXZJ4v6KJ7i15sMgGcbP+6TwQ4nq5ZRkWRQFCFA3SvtXs8SHrjmK0aoFO1f5OKMO0sDI08QF8G7m568KPbl+4awQcgFN/LXYqG31gK0nAFOXf/Khc2HQ2tdiAA5qxl/RjneVC/Q4scT+u5qUlIsnnwyfyWarxOgKMUWd7Cv+8YtjbHQizRUVC9JakacVI83GuHrkJWRu2Mt9TW8G2qcaUdj43bHBbjXMT7c4OQkKq8WBgTWPmVU+kZj+BaPUXGPdg/cop+VM5dll/bw9ebhCl9scQwGdBROuPTeuj4wXVbNV5pc1tc3XSlm69Skbi/wAxV6Rtos3W/0m7BeenA
+  template:
+    metadata:
+      creationTimestamp: null
+      name: cloudflare-api-token-secret
+      namespace: cert-manager
+    type: Opaque
