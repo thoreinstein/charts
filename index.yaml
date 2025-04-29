@@ -556,6 +556,23 @@ entries:
     urls:
     - https://github.com/thoreinstein/charts/releases/download/issuers-0.1.1/issuers-0.1.1.tgz
     version: 0.1.1
+  karakeep:
+  - apiVersion: v2
+    appVersion: latest
+    created: "2025-04-29T19:03:11.509003241Z"
+    dependencies:
+    - name: common
+      repository: file://../common
+      version: 0.1.8
+    description: Bookmark Everything with AI-powered tagging and search
+    digest: b62fe0aa61f233f72b0c38b62fb0568e4c3f6cc4d49ddf607b82f891de16db55
+    maintainers:
+    - name: thoreinstein
+    name: karakeep
+    type: application
+    urls:
+    - https://github.com/thoreinstein/charts/releases/download/karakeep-0.1.0/karakeep-0.1.0.tgz
+    version: 0.1.0
   mayastore:
   - apiVersion: v2
     appVersion: 3.10.0
@@ -1632,4 +1649,4 @@ entries:
     urls:
     - https://github.com/thoreinstein/charts/releases/download/tautulli-0.1.0/tautulli-0.1.0.tgz
     version: 0.1.0
-generated: "2025-04-26T18:46:47.235278722Z"
+generated: "2025-04-29T19:03:11.509150425Z"
