@@ -1,0 +1,74 @@
+---
+replicaCount: 1
+# Chrome settings
+chrome:
+  replicaCount: 1
+  securityContext:
+    privileged: true  # Chrome often needs privileged mode to run headless
+# Meilisearch settings
+meilisearch:
+  replicaCount: 1
+  masterKey: ''  # Will be stored in a secret, leave empty to generate random key
+  env:
+    noAnalytics: true
+# NFS server for volumes
+nfsServer: ''
+image:
+  repository: ghcr.io/karakeep-app/karakeep
+  pullPolicy: IfNotPresent
+  tag: latest  # Specify a tag when deploying
+chromeImage:
+  repository: gcr.io/zenika-hub/alpine-chrome
+  pullPolicy: IfNotPresent
+  tag: '123'
+meilisearchImage:
+  repository: getmeili/meilisearch
+  pullPolicy: IfNotPresent
+  tag: v1.13.3
+serviceAccount:
+  create: true
+  annotations: {}
+  name: ''
+service:
+  type: LoadBalancer
+  port: 80
+# Service configurations
+services:
+  chrome:
+    url: http://karakeep-chrome:9222
+  meilisearch:
+    url: http://karakeep-meilisearch:7700
+ingress:
+  enabled: false
+  className: ''
+  annotations: {}
+  hosts: []
+  tls: []
+resources:
+  limits:
+    cpu: 1000m
+    memory: 1Gi
+  requests:
+    cpu: 200m
+    memory: 256Mi
+chromeResources:
+  limits:
+    cpu: 500m
+    memory: 512Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+meilisearchResources:
+  limits:
+    cpu: 2000m
+    memory: 2Gi
+  requests:
+    cpu: 200m
+    memory: 512Mi
+env:
+  DATA_DIR: /data
+# AI Configuration
+ai:
+  ollama:
+    url: ''
+    model: ''

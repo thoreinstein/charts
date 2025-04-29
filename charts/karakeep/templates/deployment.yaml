@@ -1,0 +1,76 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "karakeep.fullname" . }}
+  labels:
+    {{- include "karakeep.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "karakeep.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: app
+  template:
+    metadata:
+      labels:
+        {{- include "karakeep.selectorLabels" . | nindent 8 }}
+        app.kubernetes.io/component: app
+    spec:
+      serviceAccountName: {{ include "karakeep.serviceAccountName" . }}
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: TZ
+              value: {{ .Values.timezone | default "UTC" }}
+            - name: DISABLE_SIGNUPS
+              value: 'true'
+            - name: DATA_DIR
+              value: "{{ .Values.env.DATA_DIR }}"
+            - name: MEILI_ADDR
+              value: "{{ .Values.services.meilisearch.url }}"
+            - name: MEILI_MASTER_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: karakeep
+                  key: meili-master-key
+            - name: BROWSER_WEB_URL
+              value: "{{ .Values.services.chrome.url }}"
+            - name: OLLAMA_BASE_URL
+              value: "{{ .Values.ai.ollama.url }}"
+            - name: INFERENCE_TEXT_MODEL
+              value: "{{ .Values.ai.ollama.model }}"
+            - name: NEXTAUTH_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: karakeep
+                  key: auth-secret
+          ports:
+            - name: http
+              containerPort: 3000
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /api/health
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 30
+            timeoutSeconds: 10
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /api/health
+              port: http
+            initialDelaySeconds: 15
+            periodSeconds: 10
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            - name: data
+              mountPath: {{ .Values.env.DATA_DIR }}
+
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: {{ include "karakeep.fullname" . }}-data-pvc

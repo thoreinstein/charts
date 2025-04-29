@@ -1,0 +1,12 @@
+---
+{{- include "common.nfs-volume.tpl" (dict
+  "name" (printf "%s-data" (include "karakeep.name" .))
+  "server" (required "You must provide an NFS server address." .Values.nfsServer)
+  "path" (printf "/mnt/user/appdata/%s" (include "karakeep.name" .))
+)}}
+---
+{{- include "common.nfs-volume.tpl" (dict
+  "name" "meili-data"
+  "server" (required "You must provide an NFS server address." .Values.nfsServer)
+  "path" "/mnt/user/appdata/meili"
+)}}

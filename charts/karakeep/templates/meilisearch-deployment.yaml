@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "karakeep.fullname" . }}-meilisearch
+  labels:
+    {{- include "karakeep.labels" . | nindent 4 }}
+    app.kubernetes.io/component: meilisearch
+spec:
+  replicas: {{ .Values.meilisearch.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "karakeep.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: meilisearch
+  template:
+    metadata:
+      labels:
+        {{- include "karakeep.selectorLabels" . | nindent 8 }}
+        app.kubernetes.io/component: meilisearch
+    spec:
+      serviceAccountName: {{ include "karakeep.serviceAccountName" . }}
+      containers:
+        - name: meilisearch
+          image: "{{ .Values.meilisearchImage.repository }}:{{ .Values.meilisearchImage.tag }}"
+          imagePullPolicy: {{ .Values.meilisearchImage.pullPolicy }}
+          env:
+            - name: MEILI_MASTER_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: karakeep
+                  key: meili-master-key
+            {{- if .Values.meilisearch.env.noAnalytics }}
+            - name: MEILI_NO_ANALYTICS
+              value: "true"
+            {{- end }}
+            # Add environment variables to optimize memory usage
+            - name: MEILI_MAX_INDEX_SIZE
+              value: "10737418240"  # 10GB
+            - name: MEILI_MAX_MDB_SIZE
+              value: "1073741824"   # 1GB
+          ports:
+            - name: http
+              containerPort: 7700
+              protocol: TCP
+          resources:
+            {{- toYaml .Values.meilisearchResources | nindent 12 }}
+          volumeMounts:
+            - name: meili-data
+              mountPath: /meili_data
+      volumes:
+        - name: meili-data
+          persistentVolumeClaim:
+            claimName: meili-data-pvc
