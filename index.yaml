@@ -399,6 +399,18 @@ entries:
     urls:
     - https://github.com/thoreinstein/manifests/releases/download/cert-manager-0.1.0/cert-manager-0.1.0.tgz
     version: 0.1.0
+  cloudflare-tunnel:
+  - apiVersion: v2
+    appVersion: 2024.8.3
+    created: "2025-04-30T19:34:25.158254609Z"
+    description: Creation of a cloudflared deployment - a reverse tunnel for an environment
+    digest: 7d5dbe7230a8d47055f1bd6f3cd74cccb9e9f1d9962e5f1210ba5989894de557
+    icon: https://developers.cloudflare.com/cloudflare-one/favicon-32x32.png
+    name: cloudflare-tunnel
+    type: application
+    urls:
+    - https://github.com/thoreinstein/charts/releases/download/cloudflare-tunnel-0.3.2/cloudflare-tunnel-0.3.2.tgz
+    version: 0.3.2
   cloudflared:
   - apiVersion: v2
     appVersion: 2024.8.3
@@ -1649,4 +1661,4 @@ entries:
     urls:
     - https://github.com/thoreinstein/charts/releases/download/tautulli-0.1.0/tautulli-0.1.0.tgz
     version: 0.1.0
-generated: "2025-04-29T19:03:11.509150425Z"
+generated: "2025-04-30T19:34:25.158470134Z"
