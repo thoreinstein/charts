@@ -18,6 +18,11 @@ env:
   PUID: 1000
   PGID: 1000
   allowSignup: 'false'
+extraEnv:
+  - name: "RECIPE_INGREDIENT_PARSE_AMOUNT"
+    value: "true"
+  - name: "RECIPE_AMOUNT_PARSER_ENABLED"
+    value: "true"
 resources:
   limits:
     cpu: 1000m
