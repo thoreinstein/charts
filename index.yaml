@@ -571,6 +571,22 @@ entries:
   karakeep:
   - apiVersion: v2
     appVersion: latest
+    created: "2025-05-03T02:15:04.364298987Z"
+    dependencies:
+    - name: common
+      repository: file://../common
+      version: 0.1.8
+    description: Bookmark Everything with AI-powered tagging and search
+    digest: 4a25ce77269f251fb6376cb1f9d99ca97ccb1c7d518bd7632c2111c1aaef6be5
+    maintainers:
+    - name: thoreinstein
+    name: karakeep
+    type: application
+    urls:
+    - https://github.com/thoreinstein/charts/releases/download/karakeep-0.1.1/karakeep-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
+    appVersion: latest
     created: "2025-04-29T19:03:11.509003241Z"
     dependencies:
     - name: common
@@ -601,6 +617,22 @@ entries:
     - https://github.com/thoreinstein/manifests/releases/download/mayastore-0.1.0/mayastore-0.1.0.tgz
     version: 0.1.0
   mealie:
+  - apiVersion: v2
+    appVersion: v2.8.0
+    created: "2025-05-03T02:15:04.463692514Z"
+    dependencies:
+    - name: common
+      repository: file://../common
+      version: '*'
+    description: A self-hosted recipe management and meal planning application
+    digest: 761415031b412d371ed3d84a3b2069e6218d9c02c96cf4f04f08167853c85b1f
+    maintainers:
+    - name: thoreinstein
+    name: mealie
+    type: application
+    urls:
+    - https://github.com/thoreinstein/charts/releases/download/mealie-0.1.3/mealie-0.1.3.tgz
+    version: 0.1.3
   - apiVersion: v2
     appVersion: v1.3.2
     created: "2025-04-23T17:13:25.136038471Z"
@@ -1661,4 +1693,4 @@ entries:
     urls:
     - https://github.com/thoreinstein/charts/releases/download/tautulli-0.1.0/tautulli-0.1.0.tgz
     version: 0.1.0
-generated: "2025-04-30T19:34:25.158470134Z"
+generated: "2025-05-03T02:15:04.463935218Z"
