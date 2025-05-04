@@ -22,11 +22,11 @@ spec:
   {{- if .Values.ingress.tls }}
   tls:
     - hosts:
-        - {{ include "common.domain_name" (dict "name" "mealie" "domain" .Values.ingress.domain) | quote }}
+        - {{ include "common.domain_name" (dict "name" (include "mealie.name" .) "domain" .Values.ingress.domain) | quote }}
       secretName: {{ $fullName }}-tls
   {{- end }}
   rules:
-    - host: {{ include "common.domain_name" (dict "name" "mealie" "domain" .Values.ingress.domain) | quote }}
+    - host: {{ include "common.domain_name" (dict "name" (include "mealie.name" .) "domain" .Values.ingress.domain) | quote }}
       http:
         paths:
           - path: /
