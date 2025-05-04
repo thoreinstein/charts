@@ -20,15 +20,15 @@ spec:
       {{- toYaml .Values.hostAliases | nindent 8 }}
       {{- end }}
       containers:
-        - name: {{ .Chart.Name }}
+        - name: {{ include "mealie.name" . }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           envFrom:
             - secretRef:
-                name: mealie
+                name: {{ include "mealie.fullname" . }}
             {{- if .Values.oidc.enabled }}
             - secretRef:
-                name: mealie-oidc
+                name: {{ include "mealie.fullname" . }}-oidc
             {{- end }}
           env:
             - name: TZ
