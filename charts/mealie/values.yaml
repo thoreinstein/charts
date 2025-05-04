@@ -1,5 +1,8 @@
 ---
 replicaCount: 1
+# NFS Server address for persistent volumes
+# Required: Set this value to your NFS server address
+nfsServer: ''
 image:
   repository: ghcr.io/mealie-recipes/mealie
   pullPolicy: IfNotPresent
@@ -11,18 +14,34 @@ serviceAccount:
 service:
   type: LoadBalancer
   port: 80
+  # Optional: Customize service annotations if needed
+  annotations: {}
 ingress:
-  enabled: false
+  enabled: true
+  className: nginx
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: 'false'
+    nginx.ingress.kubernetes.io/proxy-body-size: '0'
+  # Define your ingress hosts
+  hosts:
+    - host: your-mealie-domain.example.com
+      paths:
+        - path: /
+          pathType: Prefix
   tls: false
 env:
   PUID: 1000
   PGID: 1000
   allowSignup: 'false'
-extraEnv:
-  - name: "RECIPE_INGREDIENT_PARSE_AMOUNT"
-    value: "true"
-  - name: "RECIPE_AMOUNT_PARSER_ENABLED"
-    value: "true"
+  # Optional: Specify a base URL explicitly
+  # (otherwise derived from ingress host)
+  # baseURL: "https://your-mealie-domain.example.com"
+# Optional: Used for hostname resolution in OAuth
+hostAliases: []
+# Enable OIDC integration
+oidc:
+  enabled: false
+# Configure resource limits and requests
 resources:
   limits:
     cpu: 1000m
@@ -30,5 +49,5 @@ resources:
   requests:
     cpu: 200m
     memory: 256Mi
+# Set your timezone
 timezone: America/New_York
-

@@ -1,30 +1,52 @@
 {{- if .Values.ingress.enabled -}}
+{{- $fullName := include "mealie.fullname" . -}}
+{{- $svcPort := .Values.service.port -}}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ include "mealie.fullname" . }}
+  name: {{ $fullName }}
   labels:
     {{- include "mealie.labels" . | nindent 4 }}
   annotations:
     {{- with .Values.ingress.annotations }}
     {{- toYaml . | nindent 4 }}
     {{- end }}
+    {{- if .Values.cloudflare }}
+    external-dns.alpha.kubernetes.io/target: d4f9f44c-a4a8-48c5-a95a-1e5f1d6c55cb.cfargotunnel.com
+    external-dns.alpha.kubernetes.io/cloudflare-proxied: "true"
+    {{- end }}
 spec:
+  {{- if .Values.ingress.className }}
+  ingressClassName: {{ .Values.ingress.className }}
+  {{- end }}
   {{- if .Values.ingress.tls }}
   tls:
+    {{- range .Values.ingress.hosts }}
     - hosts:
-        - {{ .Values.ingress.host | quote }}
-      secretName: {{ .Values.ingress.tlsSecretName }}
+        - {{ .host | quote }}
+      secretName: {{ $fullName }}-tls
+    {{- end }}
   {{- end }}
   rules:
-    - host: {{ .Values.ingress.host | quote }}
+    {{- range .Values.ingress.hosts }}
+    - host: {{ .host | quote }}
       http:
         paths:
-          - path: /
+          {{- range .paths | default (list (dict "path" "/" "pathType" "Prefix")) }}
+          - path: {{ .path }}
+            pathType: {{ .pathType | default "Prefix" }}
+            backend:
+              service:
+                name: {{ $fullName }}
+                port:
+                  number: {{ $svcPort }}
+          {{- end }}
+          - path: /login
             pathType: Prefix
             backend:
               service:
-                name: {{ include "mealie.fullname" . }}
+                name: {{ $fullName }}
                 port:
-                  name: http
+                  number: {{ $svcPort }}
+    {{- end }}
 {{- end }}

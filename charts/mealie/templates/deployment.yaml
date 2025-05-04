@@ -15,6 +15,10 @@ spec:
         {{- include "mealie.selectorLabels" . | nindent 8 }}
     spec:
       serviceAccountName: {{ include "mealie.serviceAccountName" . }}
+      {{- if .Values.hostAliases }}
+      hostAliases:
+      {{- toYaml .Values.hostAliases | nindent 8 }}
+      {{- end }}
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
@@ -22,6 +26,10 @@ spec:
           envFrom:
             - secretRef:
                 name: mealie
+            {{- if .Values.oidc.enabled }}
+            - secretRef:
+                name: mealie-oidc
+            {{- end }}
           env:
             - name: TZ
               value: {{ .Values.timezone }}
@@ -32,6 +40,9 @@ spec:
             {{- if .Values.env.baseURL }}
             - name: BASE_URL
               value: "{{ .Values.env.baseURL }}"
+            {{- else if and .Values.ingress.enabled .Values.ingress.hosts }}
+            - name: BASE_URL
+              value: "https://{{ (index .Values.ingress.hosts 0).host }}"
             {{- end }}
             - name: DB_ENGINE
               value: "postgres"
