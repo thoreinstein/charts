@@ -1,3 +1,6 @@
 **/charts/*.tgz
-**/charts/**/files/secret.json
+**/charts/**/files/*.json
 test.yaml
+rendered_templates/*
+**/CLAUDE.local.md
+.claude
