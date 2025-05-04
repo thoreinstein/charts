@@ -22,12 +22,9 @@ ingress:
   annotations:
     nginx.ingress.kubernetes.io/ssl-redirect: 'false'
     nginx.ingress.kubernetes.io/proxy-body-size: '0'
-  # Define your ingress hosts
-  hosts:
-    - host: your-mealie-domain.example.com
-      paths:
-        - path: /
-          pathType: Prefix
+  # Domain from common values
+  domain: ""
+  # Host is now managed by common.domain_name
   tls: false
 env:
   PUID: 1000

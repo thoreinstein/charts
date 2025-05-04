@@ -21,26 +21,21 @@ spec:
   {{- end }}
   {{- if .Values.ingress.tls }}
   tls:
-    {{- range .Values.ingress.hosts }}
     - hosts:
-        - {{ .host | quote }}
+        - {{ include "common.domain_name" (dict "name" "mealie" "domain" .Values.ingress.domain) | quote }}
       secretName: {{ $fullName }}-tls
-    {{- end }}
   {{- end }}
   rules:
-    {{- range .Values.ingress.hosts }}
-    - host: {{ .host | quote }}
+    - host: {{ include "common.domain_name" (dict "name" "mealie" "domain" .Values.ingress.domain) | quote }}
       http:
         paths:
-          {{- range .paths | default (list (dict "path" "/" "pathType" "Prefix")) }}
-          - path: {{ .path }}
-            pathType: {{ .pathType | default "Prefix" }}
+          - path: /
+            pathType: Prefix
             backend:
               service:
                 name: {{ $fullName }}
                 port:
                   number: {{ $svcPort }}
-          {{- end }}
           - path: /login
             pathType: Prefix
             backend:
@@ -48,5 +43,4 @@ spec:
                 name: {{ $fullName }}
                 port:
                   number: {{ $svcPort }}
-    {{- end }}
 {{- end }}
