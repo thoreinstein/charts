@@ -11,9 +11,28 @@ serviceAccount:
 service:
   type: LoadBalancer
   port: 80
+  # Optional: Customize service annotations if needed
+  annotations: {}
 ingress:
-  enabled: false
+  enabled: true
+  className: nginx
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: 'false'
+    nginx.ingress.kubernetes.io/proxy-body-size: '0'
+  # Domain from common values
+  domain: ""
+  # Override the automatically generated host name (e.g., "rss" instead of "miniflux")
+  overrideHost: "rss"
+  # Host is now managed by common.domain_name
   tls: false
+# Cloudflare configuration
+cloudflare:
+  # Enable Cloudflare DNS integration - set to true to use Cloudflare tunnels
+  enabled: false
+  # tunnelId comes from common.yaml
+# Optional: Configure additional environment variables
+extraEnv: []
+# Configure resource limits and requests
 resources:
   limits:
     cpu: 500m
@@ -21,5 +40,6 @@ resources:
   requests:
     cpu: 100m
     memory: 128Mi
+# Set your timezone
 timezone: America/New_York
 
