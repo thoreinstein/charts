@@ -9,37 +9,39 @@ serviceAccount:
   annotations: {}
   name: ''
 service:
-  type: LoadBalancer
+  # ClusterIP is recommended for production, but can be overridden in values/main/miniflux.yaml
+  type: ClusterIP
   port: 80
   # Optional: Customize service annotations if needed
   annotations: {}
+  # Optional: Set loadBalancerIP if service.type is LoadBalancer
+  # loadBalancerIP:
 ingress:
-  enabled: true
+  enabled: false
   className: nginx
   annotations:
     nginx.ingress.kubernetes.io/ssl-redirect: 'false'
     nginx.ingress.kubernetes.io/proxy-body-size: '0'
   # Domain from common values
-  domain: ""
-  # Override the automatically generated host name (e.g., "rss" instead of "miniflux")
-  overrideHost: "rss"
-  # Host is now managed by common.domain_name
+  domain: ''
+  # Override hostname can be set in values/main/miniflux.yaml
+  overrideHost: ""
+  # Host is managed by common.domain_name
   tls: false
 # Cloudflare configuration
 cloudflare:
-  # Enable Cloudflare DNS integration - set to true to use Cloudflare tunnels
+  # Enable Cloudflare DNS integration in values/main/miniflux.yaml or values/main/common.yaml
   enabled: false
   # tunnelId comes from common.yaml
 # Optional: Configure additional environment variables
 extraEnv: []
-# Configure resource limits and requests
+# Configure resource limits and requests - can be overridden in values/main/miniflux.yaml
 resources:
   limits:
-    cpu: 500m
-    memory: 512Mi
+    cpu: 250m
+    memory: 256Mi
   requests:
-    cpu: 100m
-    memory: 128Mi
-# Set your timezone
-timezone: America/New_York
-
+    cpu: 50m
+    memory: 64Mi
+# Set timezone in values/main/miniflux.yaml or values/main/common.yaml
+timezone: UTC
