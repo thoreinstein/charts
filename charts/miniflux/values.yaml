@@ -25,7 +25,7 @@ ingress:
   # Domain from common values
   domain: ''
   # Override hostname can be set in values/main/miniflux.yaml
-  overrideHost: ""
+  overrideHost: ''
   # Host is managed by common.domain_name
   tls: false
 # Cloudflare configuration
@@ -45,3 +45,5 @@ resources:
     memory: 64Mi
 # Set timezone in values/main/miniflux.yaml or values/main/common.yaml
 timezone: UTC
+# Optional: Override the automatically generated base URL
+# baseUrl: ""
