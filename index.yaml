@@ -831,6 +831,22 @@ entries:
   miniflux:
   - apiVersion: v2
     appVersion: 2.0.51
+    created: "2025-05-05T18:01:03.077738409Z"
+    dependencies:
+    - name: common
+      repository: file://../common
+      version: '*'
+    description: Miniflux RSS feed reader
+    digest: efc9cd72548fdb6bc4a16949277c06946b77959ae76936d073a0150e24f60971
+    maintainers:
+    - name: thoreinstein
+    name: miniflux
+    type: application
+    urls:
+    - https://github.com/thoreinstein/charts/releases/download/miniflux-0.1.7/miniflux-0.1.7.tgz
+    version: 0.1.7
+  - apiVersion: v2
+    appVersion: 2.0.51
     created: "2025-05-05T13:58:53.013577696Z"
     dependencies:
     - name: common
@@ -1876,4 +1892,4 @@ entries:
     urls:
     - https://github.com/thoreinstein/charts/releases/download/tautulli-0.1.0/tautulli-0.1.0.tgz
     version: 0.1.0
-generated: "2025-05-05T13:58:53.01405158Z"
+generated: "2025-05-05T18:01:03.077899779Z"
