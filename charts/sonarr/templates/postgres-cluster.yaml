@@ -35,6 +35,3 @@ spec:
   storage:
     size: 10Gi
     storageClass: {{ .Values.postgres.storageClass | default "longhorn" }}
-
-  monitoring:
-    enabled: true
