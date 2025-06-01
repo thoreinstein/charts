@@ -1925,6 +1925,18 @@ entries:
   storage-classes:
   - apiVersion: v2
     appVersion: 1.0.0
+    created: "2025-06-01T03:17:06.36504128Z"
+    description: A Helm chart for deploying Longhorn storage classes and backup jobs
+    digest: 06cf4342086b822b8b9465c742a584a1817826b4c010a1da495e3a1265c21efc
+    maintainers:
+    - name: thoreinstein
+    name: storage-classes
+    type: application
+    urls:
+    - https://github.com/thoreinstein/charts/releases/download/storage-classes-0.2.0/storage-classes-0.2.0.tgz
+    version: 0.2.0
+  - apiVersion: v2
+    appVersion: 1.0.0
     created: "2025-04-10T19:29:03.175759332Z"
     description: A Helm chart for deploying Longhorn storage classes and backup jobs
     digest: 62ab331484842b75f340eee65fde6c7f122c686444df497561b55237410772d9
@@ -1988,4 +2000,4 @@ entries:
     urls:
     - https://github.com/thoreinstein/charts/releases/download/tautulli-0.1.0/tautulli-0.1.0.tgz
     version: 0.1.0
-generated: "2025-06-01T02:36:20.404364083Z"
+generated: "2025-06-01T03:17:06.365253554Z"
