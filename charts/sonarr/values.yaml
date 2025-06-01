@@ -38,3 +38,8 @@ image:
   tag: latest
 postgres:
   storageClass: longhorn
+profilarr:
+  enabled: true
+  url: http://profilarr.media.svc.cluster.local
+  apiKeySecret: profilarr-api-key
+  apiKeySecretKey: api-key

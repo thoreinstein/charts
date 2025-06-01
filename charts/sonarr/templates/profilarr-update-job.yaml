@@ -1,0 +1,101 @@
+{{- if .Values.profilarr.enabled }}
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ include "sonarr.fullname" . }}-profilarr-update
+  labels:
+    {{- include "sonarr.labels" . | nindent 4 }}
+  annotations:
+    argocd.argoproj.io/hook: PostSync
+    argocd.argoproj.io/hook-delete-policy: HookSucceeded
+spec:
+  template:
+    spec:
+      restartPolicy: OnFailure
+      initContainers:
+        - name: wait-for-sonarr
+          image: curlimages/curl:latest
+          command:
+          - /bin/sh
+          - -c
+          - |
+            echo "Waiting for Sonarr to be ready..."
+            until curl -s -f "http://{{ include "sonarr.fullname" . }}:{{ .Values.service.port }}/api/v3/system/status?apikey=${API_KEY}" | grep -q '"isLinux":true'; do
+              echo "Sonarr is not ready yet..."
+              sleep 5
+            done
+            echo "Sonarr is ready!"
+          env:
+            - name: API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "sonarr.fullname" . }}-api-key
+                  key: api-key
+      containers:
+        - name: update-profilarr
+          image: curlimages/curl:latest
+          command:
+          - /bin/sh
+          - -c
+          - |
+            echo "Updating Profilarr configuration for Sonarr..."
+            
+            # Get the Sonarr API key
+            SONARR_API_KEY=$(cat /secrets/api-key)
+            
+            # First, check if Sonarr config already exists
+            EXISTING_CONFIG=$(curl -s -H "X-API-Key: ${PROFILARR_API_KEY}" \
+              "{{ .Values.profilarr.url }}/api/arr/config" | \
+              grep -o '"id":[0-9]*,"name":"Sonarr"' | \
+              grep -o '"id":[0-9]*' | \
+              cut -d: -f2)
+            
+            if [ -n "$EXISTING_CONFIG" ]; then
+              echo "Updating existing Sonarr configuration (ID: $EXISTING_CONFIG)..."
+              
+              # Update existing configuration
+              curl -X PUT \
+                -H "Content-Type: application/json" \
+                -H "X-API-Key: ${PROFILARR_API_KEY}" \
+                -d "{
+                  \"name\": \"Sonarr\",
+                  \"type\": \"sonarr\",
+                  \"arr_server\": \"http://{{ include "sonarr.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.port }}\",
+                  \"api_key\": \"${SONARR_API_KEY}\",
+                  \"sync_method\": \"manual\"
+                }" \
+                "{{ .Values.profilarr.url }}/api/arr/config/${EXISTING_CONFIG}"
+            else
+              echo "Creating new Sonarr configuration..."
+              
+              # Create new configuration
+              curl -X POST \
+                -H "Content-Type: application/json" \
+                -H "X-API-Key: ${PROFILARR_API_KEY}" \
+                -d "{
+                  \"name\": \"Sonarr\",
+                  \"type\": \"sonarr\",
+                  \"arr_server\": \"http://{{ include "sonarr.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.port }}\",
+                  \"api_key\": \"${SONARR_API_KEY}\",
+                  \"sync_method\": \"manual\"
+                }" \
+                "{{ .Values.profilarr.url }}/api/arr/config"
+            fi
+            
+            echo "Profilarr configuration updated successfully!"
+          env:
+            - name: PROFILARR_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.profilarr.apiKeySecret }}
+                  key: {{ .Values.profilarr.apiKeySecretKey }}
+          volumeMounts:
+            - name: api-key
+              mountPath: /secrets
+              readOnly: true
+      volumes:
+        - name: api-key
+          secret:
+            secretName: {{ include "sonarr.fullname" . }}-api-key
+{{- end }}
