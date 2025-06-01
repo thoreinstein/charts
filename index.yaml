@@ -1101,6 +1101,23 @@ entries:
   profilarr:
   - apiVersion: v2
     appVersion: latest
+    created: "2025-06-01T13:14:13.687386311Z"
+    dependencies:
+    - name: common
+      repository: file://../common
+      version: '*'
+    description: A Helm chart for Profilarr - Configuration management tool for Radarr/Sonarr
+    digest: b551defdfce072aa2b4ffa4ed7cba3b5a8e880087682567118b9b01c87fdeb67
+    maintainers:
+    - email: thore@thoreinstein.com
+      name: thoreinstein
+    name: profilarr
+    type: application
+    urls:
+    - https://github.com/thoreinstein/charts/releases/download/profilarr-0.3.0/profilarr-0.3.0.tgz
+    version: 0.3.0
+  - apiVersion: v2
+    appVersion: latest
     created: "2025-04-18T01:59:32.59087413Z"
     dependencies:
     - name: common
@@ -1468,6 +1485,22 @@ entries:
     - https://github.com/thoreinstein/charts/releases/download/recommendarr-0.1.1/recommendarr-0.1.1.tgz
     version: 0.1.1
   sonarr:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2025-06-01T13:14:13.855176897Z"
+    dependencies:
+    - name: common
+      repository: file://../common
+      version: 0.1.8
+    description: A Helm chart for Kubernetes
+    digest: c5baa0d5191ae1b35933d4b49f0c3584acdc774303a2b30ca71504141fb37aa8
+    maintainers:
+    - name: Thor
+    name: sonarr
+    type: application
+    urls:
+    - https://github.com/thoreinstein/charts/releases/download/sonarr-0.5.4/sonarr-0.5.4.tgz
+    version: 0.5.4
   - apiVersion: v2
     appVersion: 1.16.0
     created: "2025-06-01T02:15:16.295073522Z"
@@ -2000,4 +2033,4 @@ entries:
     urls:
     - https://github.com/thoreinstein/charts/releases/download/tautulli-0.1.0/tautulli-0.1.0.tgz
     version: 0.1.0
-generated: "2025-06-01T03:17:06.365253554Z"
+generated: "2025-06-01T13:14:13.855690548Z"
