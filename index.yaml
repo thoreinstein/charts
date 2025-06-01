@@ -1438,6 +1438,22 @@ entries:
   sonarr:
   - apiVersion: v2
     appVersion: 1.16.0
+    created: "2025-06-01T01:49:15.544676072Z"
+    dependencies:
+    - name: common
+      repository: file://../common
+      version: 0.1.8
+    description: A Helm chart for Kubernetes
+    digest: 8969a6c3af4fc628c5d467b9b67a20f3c73e767b7702cd622c0ff263c64b9d0d
+    maintainers:
+    - name: Thor
+    name: sonarr
+    type: application
+    urls:
+    - https://github.com/thoreinstein/charts/releases/download/sonarr-0.5.1/sonarr-0.5.1.tgz
+    version: 0.5.1
+  - apiVersion: v2
+    appVersion: 1.16.0
     created: "2025-06-01T01:38:19.956610024Z"
     dependencies:
     - name: common
@@ -1908,4 +1924,4 @@ entries:
     urls:
     - https://github.com/thoreinstein/charts/releases/download/tautulli-0.1.0/tautulli-0.1.0.tgz
     version: 0.1.0
-generated: "2025-06-01T01:38:19.958445634Z"
+generated: "2025-06-01T01:49:15.545380757Z"
