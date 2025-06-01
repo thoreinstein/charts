@@ -1167,6 +1167,22 @@ entries:
   radarr:
   - apiVersion: v2
     appVersion: 1.16.0
+    created: "2025-06-01T02:36:20.404042513Z"
+    dependencies:
+    - name: common
+      repository: file://../common
+      version: 0.1.8
+    description: A Helm chart for Kubernetes
+    digest: 7870b4f71b30e7801e184b27826e3f3c356fff6266f4b7e4edc4b56d90782c71
+    maintainers:
+    - name: Thor
+    name: radarr
+    type: application
+    urls:
+    - https://github.com/thoreinstein/charts/releases/download/radarr-0.5.1/radarr-0.5.1.tgz
+    version: 0.5.1
+  - apiVersion: v2
+    appVersion: 1.16.0
     created: "2025-06-01T02:25:58.627871503Z"
     dependencies:
     - name: common
@@ -1972,4 +1988,4 @@ entries:
     urls:
     - https://github.com/thoreinstein/charts/releases/download/tautulli-0.1.0/tautulli-0.1.0.tgz
     version: 0.1.0
-generated: "2025-06-01T02:25:58.628189455Z"
+generated: "2025-06-01T02:36:20.404364083Z"
