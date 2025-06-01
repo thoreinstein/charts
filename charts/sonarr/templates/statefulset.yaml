@@ -47,24 +47,18 @@ spec:
               chmod 644 /config/config.xml
           env:
             - name: POSTGRES_HOST
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "sonarr.fullname" . }}-db-credentials
-                  key: host
+              value: {{ include "sonarr.fullname" . }}-postgres-rw
             - name: POSTGRES_PORT
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "sonarr.fullname" . }}-db-credentials
-                  key: port
+              value: "5432"
             - name: POSTGRES_USER
               valueFrom:
                 secretKeyRef:
-                  name: {{ include "sonarr.fullname" . }}-db-credentials
+                  name: {{ include "sonarr.fullname" . }}-postgres-app
                   key: username
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ include "sonarr.fullname" . }}-db-credentials
+                  name: {{ include "sonarr.fullname" . }}-postgres-app
                   key: password
             - name: API_KEY
               valueFrom:
