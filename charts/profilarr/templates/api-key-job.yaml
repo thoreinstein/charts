@@ -1,0 +1,77 @@
+{{- if .Values.apiKey.autoCreate }}
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ include "profilarr.fullname" . }}-api-key-extractor
+  labels:
+    {{- include "profilarr.labels" . | nindent 4 }}
+  annotations:
+    argocd.argoproj.io/hook: PostSync
+    argocd.argoproj.io/hook-delete-policy: HookSucceeded
+spec:
+  template:
+    spec:
+      restartPolicy: OnFailure
+      serviceAccountName: {{ include "profilarr.serviceAccountName" . }}
+      initContainers:
+        - name: wait-for-profilarr
+          image: busybox:latest
+          command:
+          - /bin/sh
+          - -c
+          - |
+            echo "Waiting for Profilarr to initialize..."
+            # Wait for the database file to exist and be populated
+            while [ ! -f /config/profilarr.db ] || [ $(stat -c%s /config/profilarr.db) -eq 0 ]; do
+              echo "Database not ready yet..."
+              sleep 5
+            done
+            # Give it a bit more time to ensure the API key is generated
+            sleep 10
+            echo "Profilarr database is ready!"
+          volumeMounts:
+            - name: config
+              mountPath: /config
+      containers:
+        - name: extract-api-key
+          image: alpine:latest
+          command:
+          - /bin/sh
+          - -c
+          - |
+            # Install sqlite3
+            apk add --no-cache sqlite kubectl
+            
+            echo "Extracting API key from Profilarr database..."
+            
+            # Extract the API key from the auth table
+            API_KEY=$(sqlite3 /config/profilarr.db "SELECT api_key FROM auth LIMIT 1;" 2>/dev/null)
+            
+            if [ -z "$API_KEY" ]; then
+              echo "ERROR: Could not extract API key from database"
+              echo "Database tables:"
+              sqlite3 /config/profilarr.db ".tables"
+              echo "Auth table content:"
+              sqlite3 /config/profilarr.db "SELECT * FROM auth;"
+              exit 1
+            fi
+            
+            echo "API key found: ${API_KEY:0:8}..."
+            
+            # Create or update the secret
+            kubectl create secret generic {{ .Values.apiKey.secretName }} \
+              --from-literal={{ .Values.apiKey.secretKey }}="$API_KEY" \
+              --namespace={{ .Release.Namespace }} \
+              --dry-run=client -o yaml | kubectl apply -f -
+            
+            echo "Secret '{{ .Values.apiKey.secretName }}' created/updated successfully!"
+          volumeMounts:
+            - name: config
+              mountPath: /config
+              readOnly: true
+      volumes:
+        - name: config
+          persistentVolumeClaim:
+            claimName: {{ include "profilarr.name" . }}-config-pvc
+{{- end }}

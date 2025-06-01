@@ -28,3 +28,12 @@ readinessProbe:
   httpGet:
     path: /
     port: http
+
+# Automatic API key extraction
+apiKey:
+  # Enable automatic extraction of API key from database
+  autoCreate: true
+  # Name of the secret to create
+  secretName: profilarr-api-key
+  # Key within the secret
+  secretKey: api-key
