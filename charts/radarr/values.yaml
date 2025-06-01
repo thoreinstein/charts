@@ -42,6 +42,8 @@ image:
   repository: lscr.io/linuxserver/radarr
   pullPolicy: IfNotPresent
   tag: latest
+postgres:
+  storageClass: longhorn
 imagePullSecrets: []
 nameOverride: ''
 fullnameOverride: ''
