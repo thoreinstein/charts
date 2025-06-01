@@ -1,0 +1,39 @@
+# Longhorn backup configuration
+backup:
+  # Enable backup configuration
+  enabled: false
+  
+  # Backup target URL
+  # Examples:
+  # - NFS: nfs://192.168.1.100:/mnt/backups/longhorn
+  # - SMB/CIFS: cifs://192.168.1.100/backups/longhorn
+  # - S3: s3://bucket@region/prefix/
+  target: ""
+  
+  # Name of secret containing credentials (optional)
+  # Leave empty for NFS without auth
+  credentialSecret: ""
+  
+  # Credentials for SMB/CIFS or authenticated NFS
+  # Only used if credentialSecret is not provided
+  credentials: {}
+    # username: ""
+    # password: ""
+    # domain: ""  # For SMB/CIFS
+
+# PostgreSQL storage class configuration
+postgres:
+  # Number of replicas for data redundancy
+  numberOfReplicas: "2"
+  
+  # Snapshot schedule (cron format)
+  snapshotCron: "0 */6 * * *"
+  
+  # Number of snapshots to retain
+  snapshotRetain: 14
+  
+  # Backup schedule (cron format)
+  backupCron: "0 1 * * *"
+  
+  # Number of backups to retain
+  backupRetain: 7

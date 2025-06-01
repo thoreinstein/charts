@@ -5,11 +5,11 @@ metadata:
   name: postgres-backup
   namespace: longhorn-system
 spec:
-  cron: "0 1 * * *"
+  cron: {{ .Values.postgres.backupCron | quote }}
   task: backup
   groups:
-  - backup
-  retain: 7
+  - postgres-backup
+  retain: {{ .Values.postgres.backupRetain }}
   concurrency: 1
   labels:
     recurring-job-type: postgres
@@ -20,11 +20,11 @@ metadata:
   name: postgres-snapshot
   namespace: longhorn-system
 spec:
-  cron: "0 */6 * * *"
+  cron: {{ .Values.postgres.snapshotCron | quote }}
   task: snapshot
   groups:
-  - snap
-  retain: 14
+  - postgres-snap
+  retain: {{ .Values.postgres.snapshotRetain }}
   concurrency: 1
   labels:
     recurring-job-type: postgres

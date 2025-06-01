@@ -10,17 +10,17 @@ allowVolumeExpansion: true
 reclaimPolicy: Retain
 volumeBindingMode: Immediate
 parameters:
-  numberOfReplicas: "1"
+  numberOfReplicas: {{ .Values.postgres.numberOfReplicas | quote }}
   staleReplicaTimeout: "2880"
   dataLocality: "strict-local"
   fromBackup: ""
   recurringJobSelector: '[
     {
-      "name":"snap",
+      "name":"postgres-snap",
       "isGroup":true
     },
     {
-      "name":"backup",
+      "name":"postgres-backup",
       "isGroup":true
     }
   ]'
