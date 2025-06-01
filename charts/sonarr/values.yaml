@@ -36,3 +36,5 @@ image:
   repository: lscr.io/linuxserver/sonarr
   pullPolicy: IfNotPresent
   tag: latest
+postgres:
+  storageClass: longhorn
