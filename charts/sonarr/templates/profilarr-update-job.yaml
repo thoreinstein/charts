@@ -21,7 +21,7 @@ spec:
           - -c
           - |
             echo "Waiting for Sonarr to be ready..."
-            until curl -s -f "http://{{ include "sonarr.fullname" . }}:{{ .Values.service.port }}/api/v3/system/status?apikey=${API_KEY}" | grep -q '"isLinux":true'; do
+            until curl -s -f "http://{{ include "sonarr.fullname" . }}:{{ .Values.service.port }}/ping" >/dev/null 2>&1; do
               echo "Sonarr is not ready yet..."
               sleep 5
             done
@@ -41,8 +41,8 @@ spec:
           - |
             echo "Updating Profilarr configuration for Sonarr..."
             
-            # Get the Sonarr API key
-            SONARR_API_KEY=$(cat /secrets/api-key)
+            # Get the Sonarr API key from environment variable
+            SONARR_API_KEY="$SONARR_API_KEY_VALUE"
             
             # First, check if Sonarr config already exists
             EXISTING_CONFIG=$(curl -s -H "X-API-Key: ${PROFILARR_API_KEY}" \
@@ -90,12 +90,9 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.profilarr.apiKeySecret }}
                   key: {{ .Values.profilarr.apiKeySecretKey }}
-          volumeMounts:
-            - name: api-key
-              mountPath: /secrets
-              readOnly: true
-      volumes:
-        - name: api-key
-          secret:
-            secretName: {{ include "sonarr.fullname" . }}-api-key
+            - name: SONARR_API_KEY_VALUE
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "sonarr.fullname" . }}-api-key
+                  key: api-key
 {{- end }}
