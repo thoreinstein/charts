@@ -1,0 +1,126 @@
+{{- if .Values.profilarr.enabled }}
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ include "radarr.fullname" . }}-profilarr-update
+  labels:
+    {{- include "radarr.labels" . | nindent 4 }}
+  annotations:
+    argocd.argoproj.io/hook: PostSync
+    argocd.argoproj.io/hook-delete-policy: HookSucceeded
+spec:
+  template:
+    spec:
+      restartPolicy: OnFailure
+      initContainers:
+        - name: wait-for-radarr
+          image: curlimages/curl:latest
+          command:
+          - /bin/sh
+          - -c
+          - |
+            echo "Waiting for Radarr to be ready..."
+            until curl -s -f "http://{{ include "radarr.fullname" . }}/ping" >/dev/null 2>&1; do
+              echo "Radarr is not ready yet..."
+              sleep 5
+            done
+            echo "Radarr is ready!"
+          env:
+            - name: API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "radarr.fullname" . }}-api-key
+                  key: api-key
+      containers:
+        - name: update-profilarr
+          image: curlimages/curl:latest
+          command:
+          - /bin/sh
+          - -c
+          - |
+            echo "Updating Profilarr configuration for Radarr..."
+            
+            # Get the Radarr API key from environment variable
+            RADARR_API_KEY="$RADARR_API_KEY_VALUE"
+            
+            # First, check if Radarr config already exists
+            EXISTING_CONFIG=$(curl -s -H "X-API-Key: ${PROFILARR_API_KEY}" \
+              "{{ .Values.profilarr.url }}/api/arr/config" | \
+              grep -o '"id":[0-9]*,"name":"Radarr"' | \
+              grep -o '"id":[0-9]*' | \
+              cut -d: -f2)
+            
+            if [ -n "$EXISTING_CONFIG" ]; then
+              echo "Updating existing Radarr configuration (ID: $EXISTING_CONFIG)..."
+              
+              # Update existing configuration
+              curl -X PUT \
+                -H "Content-Type: application/json" \
+                -H "X-API-Key: ${PROFILARR_API_KEY}" \
+                -d "{
+                  \"name\": \"Radarr\",
+                  \"type\": \"radarr\",
+                  \"arrServer\": \"http://{{ include "radarr.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local\",
+                  \"apiKey\": \"${RADARR_API_KEY}\",
+                  \"sync_method\": \"schedule\",
+                  \"sync_interval\": 300,
+                  \"sync_percentage\": 100,
+                  \"import_as_unique\": false,
+                  \"data_to_sync\": {
+                    \"profiles\": [
+                      \"1080p Balanced\",
+                      \"1080p Quality\",
+                      \"1080p Quality (HDR)\",
+                      \"1080p Remux\",
+                      \"2160p Balanced\",
+                      \"2160p Quality\",
+                      \"2160p Remux\"
+                    ]
+                  }
+                }" \
+                "{{ .Values.profilarr.url }}/api/arr/config/${EXISTING_CONFIG}"
+            else
+              echo "Creating new Radarr configuration..."
+              
+              # Create new configuration
+              curl -X POST \
+                -H "Content-Type: application/json" \
+                -H "X-API-Key: ${PROFILARR_API_KEY}" \
+                -d "{
+                  \"name\": \"Radarr\",
+                  \"type\": \"radarr\",
+                  \"arrServer\": \"http://{{ include "radarr.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local\",
+                  \"apiKey\": \"${RADARR_API_KEY}\",
+                  \"sync_method\": \"schedule\",
+                  \"sync_interval\": 300,
+                  \"sync_percentage\": 100,
+                  \"import_as_unique\": false,
+                  \"data_to_sync\": {
+                    \"profiles\": [
+                      \"1080p Balanced\",
+                      \"1080p Quality\",
+                      \"1080p Quality (HDR)\",
+                      \"1080p Remux\",
+                      \"2160p Balanced\",
+                      \"2160p Quality\",
+                      \"2160p Remux\"
+                    ]
+                  }
+                }" \
+                "{{ .Values.profilarr.url }}/api/arr/config"
+            fi
+            
+            echo "Profilarr configuration updated successfully!"
+          env:
+            - name: PROFILARR_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.profilarr.apiKeySecret }}
+                  key: {{ .Values.profilarr.apiKeySecretKey }}
+            - name: RADARR_API_KEY_VALUE
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "radarr.fullname" . }}-api-key
+                  key: api-key
+{{- end }}
