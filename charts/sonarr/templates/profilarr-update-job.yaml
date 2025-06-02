@@ -61,8 +61,8 @@ spec:
                 -d "{
                   \"name\": \"Sonarr\",
                   \"type\": \"sonarr\",
-                  \"arr_server\": \"http://{{ include "sonarr.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.port }}\",
-                  \"api_key\": \"${SONARR_API_KEY}\",
+                  \"arrServer\": \"http://{{ include "sonarr.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local\",
+                  \"apiKey\": \"${SONARR_API_KEY}\",
                   \"sync_method\": \"manual\"
                 }" \
                 "{{ .Values.profilarr.url }}/api/arr/config/${EXISTING_CONFIG}"
@@ -76,8 +76,8 @@ spec:
                 -d "{
                   \"name\": \"Sonarr\",
                   \"type\": \"sonarr\",
-                  \"arr_server\": \"http://{{ include "sonarr.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.port }}\",
-                  \"api_key\": \"${SONARR_API_KEY}\",
+                  \"arrServer\": \"http://{{ include "sonarr.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local\",
+                  \"apiKey\": \"${SONARR_API_KEY}\",
                   \"sync_method\": \"manual\"
                 }" \
                 "{{ .Values.profilarr.url }}/api/arr/config"
