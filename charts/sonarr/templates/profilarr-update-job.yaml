@@ -63,7 +63,20 @@ spec:
                   \"type\": \"sonarr\",
                   \"arrServer\": \"http://{{ include "sonarr.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local\",
                   \"apiKey\": \"${SONARR_API_KEY}\",
-                  \"sync_method\": \"manual\"
+                  \"sync_method\": \"schedule\",
+                  \"sync_interval\": 300,
+                  \"sync_percentage\": 100,
+                  \"import_as_unique\": false,
+                  \"data_to_sync\": {
+                    \"profiles\": [
+                      \"1080p Balanced\",
+                      \"1080p Quality\",
+                      \"1080p Remux\",
+                      \"2160p Balanced\",
+                      \"2160p Quality\",
+                      \"2160p Remux\"
+                    ]
+                  }
                 }" \
                 "{{ .Values.profilarr.url }}/api/arr/config/${EXISTING_CONFIG}"
             else
@@ -78,7 +91,20 @@ spec:
                   \"type\": \"sonarr\",
                   \"arrServer\": \"http://{{ include "sonarr.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local\",
                   \"apiKey\": \"${SONARR_API_KEY}\",
-                  \"sync_method\": \"manual\"
+                  \"sync_method\": \"schedule\",
+                  \"sync_interval\": 300,
+                  \"sync_percentage\": 100,
+                  \"import_as_unique\": false,
+                  \"data_to_sync\": {
+                    \"profiles\": [
+                      \"1080p Balanced\",
+                      \"1080p Quality\",
+                      \"1080p Remux\",
+                      \"2160p Balanced\",
+                      \"2160p Quality\",
+                      \"2160p Remux\"
+                    ]
+                  }
                 }" \
                 "{{ .Values.profilarr.url }}/api/arr/config"
             fi
