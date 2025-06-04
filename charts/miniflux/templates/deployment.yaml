@@ -15,6 +15,34 @@ spec:
         {{- include "miniflux.selectorLabels" . | nindent 8 }}
     spec:
       serviceAccountName: {{ include "miniflux.serviceAccountName" . }}
+      initContainers:
+        - name: wait-for-postgres
+          image: postgres:15-alpine
+          command:
+            - "/bin/sh"
+            - "-c"
+            - |
+              echo "Waiting for PostgreSQL to be ready..."
+              until pg_isready -h $POSTGRES_HOST -p $POSTGRES_PORT -U $POSTGRES_USER; do
+                echo "PostgreSQL is not ready yet..."
+                sleep 2
+              done
+              echo "PostgreSQL is ready!"
+          env:
+            - name: POSTGRES_HOST
+              value: {{ include "miniflux.fullname" . }}-postgres-rw
+            - name: POSTGRES_PORT
+              value: "5432"
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "miniflux.fullname" . }}-postgres-app
+                  key: username
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "miniflux.fullname" . }}-postgres-app
+                  key: password
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
@@ -29,6 +57,11 @@ spec:
               value: "1"
             - name: CREATE_ADMIN
               value: "1"
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "miniflux.fullname" . }}-postgres-app
+                  key: uri
             - name: BASE_URL
               value: {{ .Values.baseUrl | default (printf "https://%s/" (include "common.domain_name" (dict "name" (default (include "miniflux.name" .) .Values.ingress.overrideHost) "domain" .Values.ingress.domain))) | quote }}
             {{- with .Values.extraEnv }}

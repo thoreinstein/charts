@@ -47,3 +47,5 @@ resources:
 timezone: UTC
 # Optional: Override the automatically generated base URL
 # baseUrl: ""
+postgres:
+  storageClass: longhorn
