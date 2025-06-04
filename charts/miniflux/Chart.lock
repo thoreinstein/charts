@@ -1,6 +1,6 @@
 dependencies:
 - name: common
-  repository: https://thoreinstein.github.io/charts
+  repository: file://../common
   version: 0.1.9
-digest: sha256:e3db3f5646bfc38c43687847ee078288e8ea2ed0051ae6ea29625bb2ff9ca036
-generated: "2025-06-04T11:54:21.126206-04:00"
+digest: sha256:b2cbb26540fb311ec4b124dd453482b8bef48b153ae6f36abe3eb840f6aa3ca2
+generated: "2025-06-04T12:45:40.092709-04:00"

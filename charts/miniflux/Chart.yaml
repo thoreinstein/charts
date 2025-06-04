@@ -9,4 +9,4 @@ maintainers:
 dependencies:
   - name: common
     version: '0.1.9'
-    repository: https://thoreinstein.github.io/charts
+    repository: file://../common
