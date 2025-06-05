@@ -23,10 +23,12 @@ spec:
           image: "{{ .Values.meilisearchImage.repository }}:{{ .Values.meilisearchImage.tag }}"
           imagePullPolicy: {{ .Values.meilisearchImage.pullPolicy }}
           env:
+            - name: TZ
+              value: {{ .Values.timezone }}
             - name: MEILI_MASTER_KEY
               valueFrom:
                 secretKeyRef:
-                  name: karakeep
+                  name: {{ include "karakeep.fullname" . }}
                   key: meili-master-key
             {{- if .Values.meilisearch.env.noAnalytics }}
             - name: MEILI_NO_ANALYTICS
@@ -41,6 +43,19 @@ spec:
             - name: http
               containerPort: 7700
               protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 30
+            timeoutSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 15
+            periodSeconds: 10
           resources:
             {{- toYaml .Values.meilisearchResources | nindent 12 }}
           volumeMounts:
@@ -49,4 +64,4 @@ spec:
       volumes:
         - name: meili-data
           persistentVolumeClaim:
-            claimName: meili-data-pvc
+            claimName: {{ include "karakeep.fullname" . }}-meili-data-pvc

@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "booklore.name" . }}
+  labels:
+    {{- include "booklore.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "booklore.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "booklore.selectorLabels" . | nindent 8 }}
+    spec:
+      serviceAccountName: {{ include "booklore.serviceAccountName" . }}
+      containers:
+        - name: {{ include "booklore.name" . }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          envFrom:
+            - secretRef:
+                name: {{ include "booklore.name" . }}
+          env:
+            - name: TZ
+              value: {{ .Values.timezone }}
+            - name: PUID
+              value: "{{ .Values.env.PUID }}"
+            - name: PGID
+              value: "{{ .Values.env.PGID }}"
+            {{- if .Values.mariadb.enabled }}
+            - name: DATABASE_URL
+              value: "jdbc:mariadb://{{ include "booklore.name" . }}-mariadb:3306/{{ .Values.mariadb.database }}"
+            {{- end }}
+          ports:
+            - name: http
+              containerPort: 6060
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 60
+            periodSeconds: 30
+            timeoutSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            - name: data
+              mountPath: /app/data
+            - name: books
+              mountPath: /books
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: {{ include "booklore.name" . }}-data-pvc
+        - name: books
+          persistentVolumeClaim:
+            claimName: {{ include "booklore.name" . }}-books-pvc

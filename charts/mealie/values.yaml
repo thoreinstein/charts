@@ -26,6 +26,11 @@ ingress:
   domain: ""
   # Host is now managed by common.domain_name
   tls: false
+# Cloudflare configuration
+cloudflare:
+  # Enable Cloudflare DNS integration - set to true to use Cloudflare tunnels
+  enabled: false
+  # tunnelId comes from common.yaml
 env:
   PUID: 1000
   PGID: 1000

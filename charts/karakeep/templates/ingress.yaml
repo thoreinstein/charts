@@ -7,37 +7,36 @@ metadata:
   name: {{ $fullName }}
   labels:
     {{- include "karakeep.labels" . | nindent 4 }}
-  {{- with .Values.ingress.annotations }}
   annotations:
+    {{- with .Values.ingress.annotations }}
     {{- toYaml . | nindent 4 }}
-  {{- end }}
+    {{- end }}
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+    nginx.ingress.kubernetes.io/proxy-set-headers: "true"
+    nginx.ingress.kubernetes.io/use-forwarded-headers: "true"
+    {{- if .Values.cloudflare.enabled }}
+    external-dns.alpha.kubernetes.io/target: {{ .Values.cloudflare.tunnelId }}.cfargotunnel.com
+    external-dns.alpha.kubernetes.io/cloudflare-proxied: "true"
+    {{- end }}
 spec:
+  {{- if .Values.ingress.className }}
   ingressClassName: {{ .Values.ingress.className }}
+  {{- end }}
   {{- if .Values.ingress.tls }}
   tls:
-    {{- range .Values.ingress.tls }}
     - hosts:
-        {{- range .hosts }}
-        - {{ . | quote }}
-        {{- end }}
+        - {{ include "common.domain_name" (dict "name" (default (include "karakeep.name" .) .Values.ingress.overrideHost) "domain" .Values.ingress.domain) | quote }}
       secretName: {{ $fullName }}-tls
-    {{- end }}
   {{- end }}
   rules:
-    {{- range .Values.ingress.hosts }}
-    - host: {{ .host | quote }}
+    - host: {{ include "common.domain_name" (dict "name" (default (include "karakeep.name" .) .Values.ingress.overrideHost) "domain" .Values.ingress.domain) | quote }}
       http:
         paths:
-          {{- range .paths }}
-          - path: {{ .path }}
-            {{- if .pathType }}
-            pathType: {{ .pathType }}
-            {{- end }}
+          - path: /
+            pathType: Prefix
             backend:
               service:
                 name: {{ $fullName }}
                 port:
-                  number: 80
-          {{- end }}
-    {{- end }}
+                  number: {{ $svcPort }}
 {{- end }}

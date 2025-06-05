@@ -1,26 +1,37 @@
----
+nameOverride: ""
+fullnameOverride: ""
 replicaCount: 1
+# Storage configuration
+storage:
+  # Protocol: nfs or smb
+  protocol: nfs
+  # Storage server address (NFS server IP or SMB server name)
+  server: ""
+  # SMB-specific configuration
+  smb:
+    # Secret containing SMB credentials (username/password)
+    secretName: smb-credentials
+# Legacy NFS support (deprecated - use storage.server instead)
+nfsServer: ""
 # Chrome settings
 chrome:
   replicaCount: 1
   securityContext:
-    privileged: true  # Chrome often needs privileged mode to run headless
+    privileged: true # Chrome often needs privileged mode to run headless
 # Meilisearch settings
 meilisearch:
   replicaCount: 1
-  masterKey: ''  # Will be stored in a secret, leave empty to generate random key
+  masterKey: "" # Will be stored in a secret, leave empty to generate random key
   env:
     noAnalytics: true
-# NFS server for volumes
-nfsServer: ''
 image:
   repository: ghcr.io/karakeep-app/karakeep
   pullPolicy: IfNotPresent
-  tag: latest  # Specify a tag when deploying
+  tag: latest # Specify a tag when deploying
 chromeImage:
   repository: gcr.io/zenika-hub/alpine-chrome
   pullPolicy: IfNotPresent
-  tag: '123'
+  tag: "123"
 meilisearchImage:
   repository: getmeili/meilisearch
   pullPolicy: IfNotPresent
@@ -28,10 +39,12 @@ meilisearchImage:
 serviceAccount:
   create: true
   annotations: {}
-  name: ''
+  name: ""
 service:
-  type: LoadBalancer
+  type: ClusterIP
   port: 80
+  # Optional: Customize service annotations if needed
+  annotations: {}
 # Service configurations
 services:
   chrome:
@@ -40,10 +53,21 @@ services:
     url: http://karakeep-meilisearch:7700
 ingress:
   enabled: false
-  className: ''
-  annotations: {}
-  hosts: []
-  tls: []
+  className: nginx
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/proxy-body-size: "0"
+  # Domain from common values
+  domain: ""
+  # Override hostname can be set in values/main/karakeep.yaml
+  overrideHost: ""
+  # Host is managed by common.domain_name
+  tls: false
+# Cloudflare configuration
+cloudflare:
+  # Enable Cloudflare DNS integration - set to true to use Cloudflare tunnels
+  enabled: false
+  # tunnelId comes from common.yaml
 resources:
   limits:
     cpu: 1000m
@@ -65,10 +89,11 @@ meilisearchResources:
   requests:
     cpu: 200m
     memory: 512Mi
+# Environment variables
 env:
   DATA_DIR: /data
-# AI Configuration
-ai:
-  ollama:
-    url: ''
-    model: ''
+  DISABLE_SIGNUPS: "true"
+# Optional: Configure additional environment variables
+extraEnv: []
+# Set timezone
+timezone: UTC

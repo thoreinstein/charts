@@ -21,28 +21,32 @@ spec:
             version: 0.1.*
             url: https://thoreinstein.github.io/charts
             namespace: cert-manager
-          - appName: ollama
-            version: 1.14.*
-            url: https://otwld.github.io/ollama-helm/
-            namespace: ollama
+          - appName: cloudnative-pg
+            version: 0.24.*
+            url: https://cloudnative-pg.github.io/charts
+            namespace: cnpg-system
+          - appName: storage-classes
+            version: 0.2.*
+            url: https://thoreinstein.github.io/charts
+            namespace: longhorn-system
   template:
     metadata:
-      name: '{{.appName}}'
+      name: "{{.appName}}"
     spec:
       project: default
       sources:
-        - repoURL: '{{.url}}'
-          targetRevision: '{{.version}}'
-          chart: '{{.appName}}'
+        - repoURL: "{{.url}}"
+          targetRevision: "{{.version}}"
+          chart: "{{.appName}}"
           helm:
-            valueFiles: ['$values/{{.appName}}.yaml']
+            valueFiles: ["$values/{{.appName}}.yaml"]
             ignoreMissingValueFiles: true
         - repoURL: git@github.com:thoreinstein/values.git
           targetRevision: HEAD
           ref: values
       destination:
         name: in-cluster
-        namespace: '{{.namespace}}'
+        namespace: "{{.namespace}}"
       syncPolicy:
         automated:
           prune: true

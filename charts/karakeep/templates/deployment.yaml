@@ -9,23 +9,21 @@ spec:
   selector:
     matchLabels:
       {{- include "karakeep.selectorLabels" . | nindent 6 }}
-      app.kubernetes.io/component: app
   template:
     metadata:
       labels:
         {{- include "karakeep.selectorLabels" . | nindent 8 }}
-        app.kubernetes.io/component: app
     spec:
       serviceAccountName: {{ include "karakeep.serviceAccountName" . }}
       containers:
-        - name: {{ .Chart.Name }}
+        - name: {{ include "karakeep.name" . }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             - name: TZ
-              value: {{ .Values.timezone | default "UTC" }}
+              value: {{ .Values.timezone }}
             - name: DISABLE_SIGNUPS
-              value: 'true'
+              value: '{{ .Values.env.DISABLE_SIGNUPS }}'
             - name: DATA_DIR
               value: "{{ .Values.env.DATA_DIR }}"
             - name: MEILI_ADDR
@@ -46,6 +44,13 @@ spec:
                 secretKeyRef:
                   name: karakeep
                   key: auth-secret
+            {{- if .Values.ingress.enabled }}
+            - name: BASE_URL
+              value: {{ printf "https://%s/" (include "common.domain_name" (dict "name" (default (include "karakeep.name" .) .Values.ingress.overrideHost) "domain" .Values.ingress.domain)) | quote }}
+            {{- end }}
+            {{- with .Values.extraEnv }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
           ports:
             - name: http
               containerPort: 3000
@@ -69,7 +74,6 @@ spec:
           volumeMounts:
             - name: data
               mountPath: {{ .Values.env.DATA_DIR }}
-
       volumes:
         - name: data
           persistentVolumeClaim:

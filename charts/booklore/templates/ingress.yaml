@@ -1,0 +1,39 @@
+{{- if .Values.ingress.enabled -}}
+{{- $fullName := include "booklore.name" . -}}
+{{- $svcPort := .Values.service.port -}}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ $fullName }}
+  labels:
+    {{- include "booklore.labels" . | nindent 4 }}
+  annotations:
+    {{- with .Values.ingress.annotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+    {{- if .Values.cloudflare.enabled }}
+    external-dns.alpha.kubernetes.io/target: {{ .Values.cloudflare.tunnelId }}.cfargotunnel.com
+    external-dns.alpha.kubernetes.io/cloudflare-proxied: "true"
+    {{- end }}
+spec:
+  {{- if .Values.ingress.className }}
+  ingressClassName: {{ .Values.ingress.className }}
+  {{- end }}
+  {{- if .Values.ingress.tls }}
+  tls:
+    - hosts:
+        - {{ include "common.domain_name" (dict "name" (include "booklore.name" .) "domain" .Values.ingress.domain) | quote }}
+      secretName: {{ $fullName }}-tls
+  {{- end }}
+  rules:
+    - host: {{ include "common.domain_name" (dict "name" (include "booklore.name" .) "domain" .Values.ingress.domain) | quote }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ $fullName }}
+                port:
+                  number: {{ $svcPort }}
+{{- end }}

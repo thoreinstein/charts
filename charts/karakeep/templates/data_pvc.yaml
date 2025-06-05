@@ -1,12 +1,11 @@
----
-{{- include "common.nfs-volume.tpl" (dict
-  "name" (printf "%s-data" (include "karakeep.name" .))
-  "server" (required "You must provide an NFS server address." .Values.nfsServer)
-  "path" (printf "/mnt/user/appdata/%s" (include "karakeep.name" .))
+{{- include "common.smb-volume.tpl" (dict
+  "name" (printf "%s-data" .Chart.Name)
+  "server" (required "You must provide a storage server address." (default .Values.nfsServer .Values.storage.server))
+  "share" (printf "appdata/%s" .Chart.Name)
 )}}
 ---
-{{- include "common.nfs-volume.tpl" (dict
-  "name" "meili-data"
-  "server" (required "You must provide an NFS server address." .Values.nfsServer)
-  "path" "/mnt/user/appdata/meili"
+{{- include "common.smb-volume.tpl" (dict
+  "name" (printf "%s-meili-data" .Chart.Name)
+  "server" (required "You must provide a storage server address." (default .Values.nfsServer .Values.storage.server))
+  "share" (printf "appdata/%s-meili" .Chart.Name)
 )}}

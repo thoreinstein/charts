@@ -1,0 +1,14 @@
+---
+apiVersion: v2
+name: booklore
+description: A self-hosted book library management application with multi-user support and OPDS compatibility
+type: application
+version: 0.1.0
+appVersion: "latest"
+icon: https://raw.githubusercontent.com/adityachandelgit/BookLore/main/src/main/resources/static/favicon.ico
+maintainers:
+  - name: thoreinstein
+dependencies:
+  - name: common
+    version: '*'
+    repository: file://../common

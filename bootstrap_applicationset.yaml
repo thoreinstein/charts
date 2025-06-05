@@ -1,4 +1,3 @@
----
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
@@ -9,22 +8,26 @@ spec:
   generators:
     - list:
         elements:
-          # - appName: cloudflare-tunnel
-          #   version: 0.3.*
-          #   url: https://cloudflare.github.io/helm-charts
-          #   namespace: networking
+          - appName: cloudflare-tunnel
+            version: 0.3.*
+            url: https://cloudflare.github.io/helm-charts
+            namespace: networking
           - appName: cert-manager
             version: v1.17.*
             url: https://charts.jetstack.io
             namespace: cert-manager
-          # - appName: external-dns
-          #   version: 1.16.*
-          #   url: https://kubernetes-sigs.github.io/external-dns/
-          #   namespace: networking
+          - appName: external-dns
+            version: 1.16.*
+            url: https://kubernetes-sigs.github.io/external-dns/
+            namespace: networking
           - appName: longhorn
             version: 1.8.*
             url: https://charts.longhorn.io
             namespace: longhorn-system
+          - appName: csi-driver-smb
+            version: 1.18.*
+            url: https://raw.githubusercontent.com/kubernetes-csi/csi-driver-smb/master/charts
+            namespace: csi-driver-smb
           - appName: nvidia-device-plugin
             version: 0.17.*
             url: https://nvidia.github.io/k8s-device-plugin

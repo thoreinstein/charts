@@ -1,0 +1,12 @@
+apiVersion: v2
+name: channels-dvr
+description: Channels DVR Server - Advanced TV recording and streaming
+
+type: application
+version: 0.1.0
+appVersion: "latest"
+
+dependencies:
+  - name: common
+    version: "0.1.8"
+    repository: "file://../common"

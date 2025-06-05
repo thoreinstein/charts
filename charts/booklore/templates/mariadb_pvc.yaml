@@ -1,0 +1,7 @@
+{{- if .Values.mariadb.enabled }}
+{{- include "common.nfs-volume.tpl" (dict
+  "name" (printf "%s-mariadb" (include "booklore.name" .))
+  "server" (required "You must provide an NFS server address." .Values.nfsServer)
+  "path" (printf "/mnt/user/appdata/%s/mariadb" (include  "booklore.name" .))
+)}}
+{{- end }}

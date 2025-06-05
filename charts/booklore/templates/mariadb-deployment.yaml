@@ -1,0 +1,73 @@
+{{- if .Values.mariadb.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "booklore.name" . }}-mariadb
+  labels:
+    {{- include "booklore.labels" . | nindent 4 }}
+    app.kubernetes.io/component: database
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      {{- include "booklore.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: database
+  template:
+    metadata:
+      labels:
+        {{- include "booklore.selectorLabels" . | nindent 8 }}
+        app.kubernetes.io/component: database
+    spec:
+      securityContext:
+        fsGroup: 999
+        runAsUser: 999
+        runAsGroup: 999
+      containers:
+        - name: mariadb
+          image: "{{ .Values.mariadb.image.repository }}:{{ .Values.mariadb.image.tag }}"
+          imagePullPolicy: IfNotPresent
+          envFrom:
+            - secretRef:
+                name: {{ include "booklore.name" . }}
+          env:
+            - name: MYSQL_DATABASE
+              value: "{{ .Values.mariadb.database }}"
+            - name: MYSQL_USER
+              value: "{{ .Values.mariadb.username }}"
+            - name: TZ
+              value: {{ .Values.timezone }}
+          ports:
+            - name: mysql
+              containerPort: 3306
+              protocol: TCP
+          livenessProbe:
+            exec:
+              command:
+                - mysqladmin
+                - ping
+                - -h
+                - localhost
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+          readinessProbe:
+            exec:
+              command:
+                - mysqladmin
+                - ping
+                - -h
+                - localhost
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          resources:
+            {{- toYaml .Values.mariadbResources | nindent 12 }}
+          volumeMounts:
+            - name: mariadb-data
+              mountPath: /var/lib/mysql
+      volumes:
+        - name: mariadb-data
+          persistentVolumeClaim:
+            claimName: {{ include "booklore.name" . }}-mariadb-pvc
+{{- end }}

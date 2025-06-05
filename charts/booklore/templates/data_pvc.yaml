@@ -1,0 +1,5 @@
+{{- include "common.nfs-volume.tpl" (dict
+  "name" (printf "%s-data" (include "booklore.name" .))
+  "server" (required "You must provide an NFS server address." .Values.nfsServer)
+  "path" (printf "/mnt/user/appdata/%s" (include  "booklore.name" .))
+)}}

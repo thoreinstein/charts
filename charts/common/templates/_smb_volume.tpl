@@ -5,8 +5,6 @@
 {{- $policy := default "Retain" .policy }}
 {{- $storage := default "1Gi" .storage }}
 {{- $accessModes := default "ReadWriteOnce" .accessModes }}
-{{- $secretName := .secretName }}
-{{- $secretNamespace := default .namespace .secretNamespace }}
 ---
 apiVersion: v1
 kind: PersistentVolume
@@ -19,12 +17,11 @@ spec:
   csi:
     driver: smb.csi.k8s.io
     readOnly: false
+    volumeHandle: {{ printf "%s-%s" (include "karakeep.fullname" .) (sha1sum .Release.Name | trunc 8) }}
     volumeId: {{ $name }}-pv
     volumeAttributes:
       source: //{{ $server }}/{{ $share }}
-    nodeStageSecretRef:
-      name: {{ $secretName }}
-      namespace: {{ $secretNamespace }}
+      options: "dir_mode=0777,file_mode=0777,vers=3.0"
   persistentVolumeReclaimPolicy: {{ $policy }}
 ---
 apiVersion: v1

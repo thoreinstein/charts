@@ -1,13 +1,13 @@
----
 apiVersion: v2
 name: karakeep
 description: Bookmark Everything with AI-powered tagging and search
 type: application
-version: 0.1.1
+version: 0.2.0
 appVersion: latest
-dependencies:
-  - name: common
-    version: 0.1.8
-    repository: file://../common
+icon: https://raw.githubusercontent.com/karakeep-app/karakeep/main/public/logo.png
 maintainers:
   - name: thoreinstein
+dependencies:
+  - name: common
+    version: '0.1.10'
+    repository: file://../common

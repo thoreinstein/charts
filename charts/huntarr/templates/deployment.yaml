@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "huntarr.fullname" . }}
+  labels:
+    {{- include "huntarr.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "huntarr.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "huntarr.selectorLabels" . | nindent 8 }}
+    spec:
+      serviceAccountName: {{ include "huntarr.serviceAccountName" . }}
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: TZ
+              value: {{ .Values.env.TZ }}
+          ports:
+            - name: http
+              containerPort: 9705
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 30
+            timeoutSeconds: 10
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 15
+            periodSeconds: 10
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            - name: config
+              mountPath: /config
+      volumes:
+        - name: config
+          persistentVolumeClaim:
+            claimName: {{ include "huntarr.fullname" . }}-config-pvc

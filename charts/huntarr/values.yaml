@@ -1,0 +1,31 @@
+---
+replicaCount: 1
+image:
+  repository: huntarr/huntarr
+  pullPolicy: IfNotPresent
+  tag: latest
+# NFS server for volumes
+nfsServer: ''
+serviceAccount:
+  create: true
+  annotations: {}
+  name: ''
+service:
+  type: LoadBalancer
+  port: 80
+ingress:
+  enabled: false
+  className: ''
+  annotations: {}
+  hosts: []
+  tls: []
+resources:
+  limits:
+    cpu: 1000m
+    memory: 1Gi
+  requests:
+    cpu: 200m
+    memory: 256Mi
+env:
+  TZ: America/New_York
+

@@ -11,8 +11,8 @@ metadata:
     {{- with .Values.ingress.annotations }}
     {{- toYaml . | nindent 4 }}
     {{- end }}
-    {{- if .Values.cloudflare }}
-    external-dns.alpha.kubernetes.io/target: d4f9f44c-a4a8-48c5-a95a-1e5f1d6c55cb.cfargotunnel.com
+    {{- if .Values.cloudflare.enabled }}
+    external-dns.alpha.kubernetes.io/target: {{ .Values.cloudflare.tunnelId }}.cfargotunnel.com
     external-dns.alpha.kubernetes.io/cloudflare-proxied: "true"
     {{- end }}
 spec:

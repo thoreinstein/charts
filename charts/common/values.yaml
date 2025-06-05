@@ -1,0 +1,20 @@
+# Common storage configuration
+storage:
+  # Protocol: nfs or smb
+  protocol: nfs
+  
+  # NFS Configuration
+  nfs:
+    server: ""
+    
+  # SMB Configuration  
+  smb:
+    server: ""
+    # Default SMB secret name for authentication
+    secretName: "smb-credentials"
+    secretNamespace: ""
+
+# Common domain configuration
+domain:
+  # Base domain for services
+  name: ""

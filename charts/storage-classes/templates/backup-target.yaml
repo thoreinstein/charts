@@ -1,0 +1,55 @@
+{{- if .Values.backup.enabled }}
+---
+# This Job configures the Longhorn backup target
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: configure-longhorn-backup
+  namespace: longhorn-system
+  annotations:
+    argocd.argoproj.io/hook: PostSync
+    argocd.argoproj.io/hook-delete-policy: HookSucceeded
+spec:
+  template:
+    spec:
+      serviceAccountName: longhorn-service-account
+      restartPolicy: OnFailure
+      containers:
+      - name: configure-backup
+        image: bitnami/kubectl:latest
+        command:
+        - /bin/bash
+        - -c
+        - |
+          # Wait for Longhorn to be ready
+          kubectl wait --for=condition=ready pod -l app=longhorn-manager -n longhorn-system --timeout=300s
+          
+          # Configure backup target
+          kubectl patch settings.longhorn.io/backup-target -n longhorn-system --type='json' -p='[{"op": "replace", "path": "/value", "value": "{{ .Values.backup.target }}"}]'
+          
+          {{- if .Values.backup.credentialSecret }}
+          # Configure backup credential secret
+          kubectl patch settings.longhorn.io/backup-target-credential-secret -n longhorn-system --type='json' -p='[{"op": "replace", "path": "/value", "value": "{{ .Values.backup.credentialSecret }}"}]'
+          {{- end }}
+          
+          echo "Backup target configured successfully"
+---
+{{- if and .Values.backup.credentials (not .Values.backup.credentialSecret) }}
+apiVersion: v1
+kind: Secret
+metadata:
+  name: longhorn-backup-credentials
+  namespace: longhorn-system
+type: Opaque
+stringData:
+  {{- if .Values.backup.credentials.username }}
+  USERNAME: {{ .Values.backup.credentials.username | quote }}
+  {{- end }}
+  {{- if .Values.backup.credentials.password }}
+  PASSWORD: {{ .Values.backup.credentials.password | quote }}
+  {{- end }}
+  {{- if .Values.backup.credentials.domain }}
+  DOMAIN: {{ .Values.backup.credentials.domain | quote }}
+  {{- end }}
+{{- end }}
+{{- end }}

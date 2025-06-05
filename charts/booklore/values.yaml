@@ -1,0 +1,85 @@
+---
+# Default values for BookLore
+# These are generic values suitable for any environment
+# Production-specific values should be set in the values repository:
+# - nfsServer: Your actual NFS server address
+# - ingress.domain: Your actual domain
+# - timezone: Your local timezone
+# - storage sizes: Based on your library size requirements
+# - Sealed secrets: Database credentials and JWT secrets
+
+replicaCount: 1
+
+# NFS Server address for persistent volumes
+# This value should be set in your values repository
+nfsServer: ""
+
+image:
+  repository: ghcr.io/adityachandelgit/booklore-app
+  pullPolicy: IfNotPresent
+  tag: latest
+
+serviceAccount:
+  create: true
+  annotations: {}
+  name: ""
+
+service:
+  type: ClusterIP
+  port: 80
+  # Optional: Customize service annotations if needed
+  annotations: {}
+
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+  domain: ""
+  tls: false
+
+env:
+  PUID: 1000
+  PGID: 1000
+
+# MariaDB configuration for database
+mariadb:
+  enabled: true
+  image:
+    repository: mariadb
+    tag: "10.11"
+  database: booklore
+  username: booklore
+
+# Configure resource limits and requests
+resources:
+  limits:
+    cpu: 1000m
+    memory: 2Gi
+  requests:
+    cpu: 200m
+    memory: 512Mi
+
+# MariaDB resources
+mariadbResources:
+  limits:
+    cpu: 500m
+    memory: 1Gi
+  requests:
+    cpu: 100m
+    memory: 256Mi
+
+# Set your timezone - override in values repository
+timezone: UTC
+
+# Optional: Configure authentication
+auth:
+  # Enable OIDC/OAuth2 authentication
+  oidcEnabled: false
+  # Enable remote header authentication
+  remoteAuthEnabled: false
+
+# Optional: Configure OPDS settings
+opds:
+  enabled: true
+  path: "/opds"
+

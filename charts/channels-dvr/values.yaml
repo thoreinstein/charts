@@ -1,0 +1,138 @@
+---
+# NFS server for persistent storage
+nfsServer: 0.0.0.0
+
+# Container configuration
+replicaCount: 1
+
+image:
+  repository: fancybits/channels-dvr
+  pullPolicy: Always
+  tag: "tve"
+
+# Service configuration
+service:
+  type: LoadBalancer
+  port: 8089
+
+# Ingress configuration
+ingress:
+  enabled: false
+  className: "nginx"
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/proxy-body-size: "10g"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+  hosts:
+    - host: '{{ include "common.domain_name" (dict "name" "channels" "domain" .Values.domain) }}'
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - secretName: channels-dvr-tls
+      hosts:
+        - '{{ include "common.domain_name" (dict "name" "channels" "domain" .Values.domain) }}'
+
+# Domain configuration for ingress
+domain: "example.com"
+
+# Storage configuration
+persistence:
+  config:
+    enabled: true
+    size: 20Gi
+    storageClass: "nfs-channels-dvr-config"
+    accessMode: ReadWriteOnce
+  recordings:
+    enabled: true
+    size: 2Ti
+    storageClass: "nfs-channels-dvr-recordings"
+    accessMode: ReadWriteOnce
+
+# Environment variables
+env:
+  PUID: "1000"
+  PGID: "1000"
+  TZ: "America/New_York"
+
+# Host networking for Bonjour discovery
+hostNetwork: false
+dnsPolicy: ClusterFirst
+
+# Security context
+securityContext:
+  privileged: true
+  allowPrivilegeEscalation: true
+
+podSecurityContext:
+  runAsUser: 1000
+  runAsGroup: 1000
+  fsGroup: 1000
+
+# Resource limits - CPU only, no GPU
+resources:
+  requests:
+    cpu: 500m
+    memory: 1Gi
+  limits:
+    cpu: 4000m
+    memory: 8Gi
+
+# Health checks
+livenessProbe:
+  httpGet:
+    path: /
+    port: 8089
+  initialDelaySeconds: 60
+  periodSeconds: 30
+  timeoutSeconds: 10
+
+readinessProbe:
+  httpGet:
+    path: /
+    port: 8089
+  initialDelaySeconds: 30
+  periodSeconds: 10
+  timeoutSeconds: 5
+
+startupProbe:
+  httpGet:
+    path: /
+    port: 8089
+  initialDelaySeconds: 10
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 30
+
+# Service account
+serviceAccount:
+  create: true
+  automount: true
+  annotations: {}
+  name: ""
+
+# Name overrides
+nameOverride: ""
+fullnameOverride: ""
+
+# Node selector for hardware requirements
+nodeSelector: {}
+
+# Tolerations
+tolerations: []
+
+# Affinity - prefer high CPU nodes for software transcoding
+affinity:
+  nodeAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 100
+        preference:
+          matchExpressions:
+            - key: "node.kubernetes.io/instance-type"
+              operator: In
+              values: ["high-cpu"]
+
+# No autoscaling for DVR server
+autoscaling:
+  enabled: false

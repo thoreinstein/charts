@@ -1,0 +1,19 @@
+{{- if .Values.mariadb.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "booklore.name" . }}-mariadb
+  labels:
+    {{- include "booklore.labels" . | nindent 4 }}
+    app.kubernetes.io/component: database
+spec:
+  type: ClusterIP
+  ports:
+    - port: 3306
+      targetPort: mysql
+      protocol: TCP
+      name: mysql
+  selector:
+    {{- include "booklore.selectorLabels" . | nindent 4 }}
+    app.kubernetes.io/component: database
+{{- end }}

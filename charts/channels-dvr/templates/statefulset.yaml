@@ -1,0 +1,98 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "channels-dvr.fullname" . }}
+  labels:
+    {{- include "channels-dvr.labels" . | nindent 4 }}
+spec:
+  serviceName: {{ include "channels-dvr.fullname" . }}
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "channels-dvr.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "channels-dvr.labels" . | nindent 8 }}
+    spec:
+      {{- if .Values.hostNetwork }}
+      hostNetwork: true
+      dnsPolicy: {{ .Values.dnsPolicy | default "ClusterFirstWithHostNet" }}
+      {{- end }}
+      serviceAccountName: {{ include "channels-dvr.serviceAccountName" . }}
+      {{- with .Values.podSecurityContext }}
+      securityContext:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: {{ .Chart.Name }}
+          {{- with .Values.securityContext }}
+          securityContext:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+            - name: DISPLAY
+              value: ":99"
+            - name: CHANNELS_DVR_TVE
+              value: "1"
+            - name: TZ
+              value: America/New_York
+            - name: CHANNELS_DVR_TVE_CHROME
+              value: "/usr/bin/google-chrome --no-sandbox --disable-gpu --disable-software-rasterizer --headless --disable-crash-reporter"
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.port }}
+              protocol: TCP
+          {{- with .Values.livenessProbe }}
+          livenessProbe:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.readinessProbe }}
+          readinessProbe:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.startupProbe }}
+          startupProbe:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.resources }}
+          resources:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          volumeMounts:
+            - name: config
+              mountPath: /channels-dvr
+            - name: recordings
+              mountPath: /shares/DVR
+            - name: dshm
+              mountPath: /dev/shm
+      volumes:
+        - name: config
+          persistentVolumeClaim:
+            claimName: {{ include "channels-dvr.fullname" . }}-config-pvc
+        - name: recordings
+          persistentVolumeClaim:
+            claimName: {{ include "channels-dvr.fullname" . }}-recordings-pvc
+        - name: dshm
+          emptyDir:
+            medium: Memory
+            sizeLimit: 1Gi
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

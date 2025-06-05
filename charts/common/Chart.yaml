@@ -1,9 +1,8 @@
----
 apiVersion: v2
 name: common
 description: Common templates and helpers for the homelab
 maintainers:
   - name: Thor
 type: library
-version: 0.1.9
+version: 0.1.10
 appVersion: 1.16.0

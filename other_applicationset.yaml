@@ -1,0 +1,67 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: other-stack
+  namespace: argocd
+spec:
+  goTemplate: true
+  generators:
+    - list:
+        elements:
+          # - appName: paperless-ngx
+          #   version: 0.1.*
+          #   url: https://thoreinstein.github.io/charts
+          #   namespace: paperless
+          - appName: miniflux
+            version: 0.2.*
+            url: https://thoreinstein.github.io/charts
+            namespace: miniflux
+          # - appName: mealie
+          #   version: 0.2.*
+          #   url: https://thoreinstein.github.io/charts
+          #   namespace: mealie
+          - appName: kestra
+            version: "*"
+            url: https://helm.kestra.io/
+            namespace: kestra
+          - appName: booklore
+            version: 0.1.*
+            url: https://thoreinstein.github.io/charts
+            namespace: booklore
+            # - appName: karakeep
+            #   version: 0.1.*
+            #   url: https://thoreinstein.github.io/charts
+            #   namespace: karakeep
+  template:
+    metadata:
+      name: "{{.appName}}"
+    spec:
+      project: default
+      sources:
+        - repoURL: "{{.url}}"
+          targetRevision: "{{.version}}"
+          chart: "{{.appName}}"
+          helm:
+            valueFiles: [$values/common.yaml, "$values/{{.appName}}.yaml"]
+            ignoreMissingValueFiles: true
+        - repoURL: git@github.com/thoreinstein/values.git
+          targetRevision: HEAD
+          ref: values
+      destination:
+        name: in-cluster
+        namespace: "{{.namespace}}"
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: false
+          allowEmpty: false
+        syncOptions:
+          - CreateNamespace=true
+          - PruneLast=true
+          - ApplyOutOfSyncOnly=true
+          - ServerSideApply=true
+        managedNamespaceMetadata:
+          labels:
+            pod-security.kubernetes.io/enforce: privileged
+            pod-security.kubernetes.io/audit: privileged
+            pod-security.kubernetes.io/warn: privileged

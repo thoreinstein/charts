@@ -9,20 +9,20 @@ spec:
   generators:
     - list:
         elements:
-          - appName: plex
-            version: 0.1.*
-            url: https://thoreinstein.github.io/charts
-          - appName: plex-media-server
-            version: 0.9.*
-            url: https://raw.githubusercontent.com/plexinc/pms-docker/gh-pages
+          # - appName: plex
+          #   version: 0.1.*
+          #   url: https://thoreinstein.github.io/charts
+          # - appName: plex-media-server
+          #   version: 0.9.*
+          #   url: https://raw.githubusercontent.com/plexinc/pms-docker/gh-pages
           - appName: sonarr
-            version: 0.4.*
+            version: 0.5.*
             url: https://thoreinstein.github.io/charts
           - appName: radarr
-            version: 0.4.*
+            version: 0.5.*
             url: https://thoreinstein.github.io/charts
           - appName: profilarr
-            version: 0.2.*
+            version: 0.3.*
             url: https://thoreinstein.github.io/charts
           - appName: tautulli
             version: 0.2.*
@@ -32,17 +32,17 @@ spec:
             url: https://thoreinstein.github.io/charts
   template:
     metadata:
-      name: '{{.appName}}'
+      name: "{{.appName}}"
     spec:
       project: default
       sources:
-        - repoURL: '{{.url}}'
-          targetRevision: '{{.version}}'
-          chart: '{{.appName}}'
+        - repoURL: "{{.url}}"
+          targetRevision: "{{.version}}"
+          chart: "{{.appName}}"
           helm:
-            valueFiles: [$values/common.yaml, '$values/{{.appName}}.yaml']
+            valueFiles: [$values/common.yaml, "$values/{{.appName}}.yaml"]
             ignoreMissingValueFiles: true
-        - repoURL: git@github.com/thoreinstein/values.git
+        - repoURL: git@github.com:thoreinstein/values.git
           targetRevision: HEAD
           ref: values
       destination:
