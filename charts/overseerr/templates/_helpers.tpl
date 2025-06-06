@@ -49,3 +49,14 @@ Selector labels
 app.kubernetes.io/name: {{ include "overseerr.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
+
+{{/*
+Create the name of the service account to use
+*/}}
+{{- define "overseerr.serviceAccountName" -}}
+{{- if .Values.serviceAccount.create }}
+{{- default (include "overseerr.fullname" .) .Values.serviceAccount.name }}
+{{- else }}
+{{- default "default" .Values.serviceAccount.name }}
+{{- end }}
+{{- end }}

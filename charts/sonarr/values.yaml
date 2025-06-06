@@ -1,7 +1,7 @@
 resources:
   limits:
-    cpu: 1
-    memory: 1Gi
+    cpu: 200m
+    memory: 256Mi
   requests:
     cpu: 200m
     memory: 256Mi
@@ -10,7 +10,7 @@ cloudflare:
   enabled: false
   tunnelId: ''
 ingress:
-  enabled: true
+  enabled: false
   domain: ''
   className: nginx
   annotations:
@@ -28,7 +28,7 @@ ingress:
       send: 300
       read: 300
 service:
-  type: LoadBalancer
+  type: ClusterIP
   port: 8989
 serviceAccount:
   create: true
@@ -37,11 +37,12 @@ serviceAccount:
 image:
   repository: lscr.io/linuxserver/sonarr
   pullPolicy: IfNotPresent
-  tag: 4.0.14.2939-ls283
+  tag: ''
 postgres:
-  storageClass: longhorn
+  enabled: false
+  storageClass: ''
 profilarr:
-  enabled: true
-  url: http://profilarr.media.svc.cluster.local
-  apiKeySecret: profilarr-api-key
-  apiKeySecretKey: api-key
+  enabled: false
+  url: ''
+  apiKeySecret: ''
+  apiKeySecretKey: ''

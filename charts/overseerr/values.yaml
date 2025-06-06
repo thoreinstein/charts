@@ -1,26 +1,45 @@
 ---
 replicaCount: 1
 image:
-  repository: lscr.io/linuxserver/overseerr
+  repository: sctx/overseerr
   pullPolicy: IfNotPresent
-  tag: latest
-puid: '1000'
-pgid: '1000'
-timezone: America/New_York
+  tag: "latest"
+nameOverride: ""
+fullnameOverride: ""
+serviceAccount:
+  create: true
+  annotations: {}
+  name: ""
 service:
   type: LoadBalancer
   port: 80
 ingress:
   enabled: false
   className: nginx
-  tls: true
+  annotations:
+    cert-manager.io/cluster-issuer: acme-staging
+    external-dns.alpha.kubernetes.io/ttl: '120'
+    nginx.ingress.kubernetes.io/ssl-redirect: 'true'
+    nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
+    nginx.ingress.kubernetes.io/proxy-body-size: '0'
   domain: ''
-  annotations: {}
-nfsServer: 0.0.0.0
+  tls: true
 resources:
   limits:
-    cpu: 1000m
-    memory: 1Gi
-  requests:
     cpu: 500m
     memory: 512Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+persistence:
+  config:
+    enabled: true
+    storageClass: longhorn
+    size: 1Gi
+    accessMode: ReadWriteOnce
+env:
+  TZ: America/New_York
+# NFS server for config volume
+nfsServer: ""
+# API key for other services to access Overseerr
+apiKey: ""
