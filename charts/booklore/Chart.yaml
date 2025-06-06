@@ -1,4 +1,3 @@
----
 apiVersion: v2
 name: booklore
 description: A self-hosted book library management application with multi-user support and OPDS compatibility
@@ -10,5 +9,6 @@ maintainers:
   - name: thoreinstein
 dependencies:
   - name: common
-    version: '*'
+    version: 0.1.10
     repository: file://../common
+
