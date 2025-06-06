@@ -6,6 +6,9 @@ resources:
     cpu: 200m
     memory: 256Mi
 nfsServer: 0.0.0.0
+cloudflare:
+  enabled: false
+  tunnelId: ''
 ingress:
   enabled: true
   domain: ''

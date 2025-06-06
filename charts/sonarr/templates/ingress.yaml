@@ -10,10 +10,15 @@ metadata:
   name: {{ include "sonarr.name" . }}
   labels:
     {{- include "sonarr.labels" . | nindent 4 }}
-  {{- with .Values.ingress.annotations }}
   annotations:
+    {{- with .Values.ingress.annotations }}
     {{- toYaml . | nindent 4 }}
-  {{- end }}
+    {{- end }}
+    {{- if .Values.cloudflare.enabled }}
+    external-dns.alpha.kubernetes.io/hostname: {{ $domain_name }}
+    external-dns.alpha.kubernetes.io/target: {{ printf "%s.cfargotunnel.com" .Values.cloudflare.tunnelId }}
+    external-dns.alpha.kubernetes.io/cloudflare-proxied: "true"
+    {{- end }}
 spec:
   ingressClassName: {{ .Values.ingress.className }}
   {{- if .Values.ingress.tls }}
