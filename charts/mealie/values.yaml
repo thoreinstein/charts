@@ -1,4 +1,3 @@
----
 replicaCount: 1
 # NFS Server address for persistent volumes
 # Required: Set this value to your NFS server address
@@ -42,7 +41,7 @@ env:
 hostAliases: []
 # Enable OIDC integration
 oidc:
-  enabled: false
+  enabled: true
 # Configure resource limits and requests
 resources:
   limits:
@@ -53,3 +52,5 @@ resources:
     memory: 256Mi
 # Set your timezone
 timezone: America/New_York
+postgres:
+  storageClass: longhorn

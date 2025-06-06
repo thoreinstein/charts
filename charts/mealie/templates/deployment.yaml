@@ -19,6 +19,34 @@ spec:
       hostAliases:
       {{- toYaml .Values.hostAliases | nindent 8 }}
       {{- end }}
+      initContainers:
+        - name: wait-for-postgres
+          image: postgres:15-alpine
+          command:
+            - "/bin/sh"
+            - "-c"
+            - |
+              echo "Waiting for PostgreSQL to be ready..."
+              until pg_isready -h $POSTGRES_HOST -p $POSTGRES_PORT -U $POSTGRES_USER; do
+                echo "PostgreSQL is not ready yet..."
+                sleep 2
+              done
+              echo "PostgreSQL is ready!"
+          env:
+            - name: POSTGRES_HOST
+              value: {{ include "mealie.fullname" . }}-postgres-rw
+            - name: POSTGRES_PORT
+              value: "5432"
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "mealie.fullname" . }}-postgres-app
+                  key: username
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "mealie.fullname" . }}-postgres-app
+                  key: password
       containers:
         - name: {{ include "mealie.name" . }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
@@ -46,6 +74,31 @@ spec:
             {{- end }}
             - name: DB_ENGINE
               value: "postgres"
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "mealie.fullname" .}}-postgres-app
+                  key: username
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "mealie.fullname" .}}-postgres-app
+                  key: password
+            - name: POSTGRES_SERVER
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "mealie.fullname" .}}-postgres-app
+                  key: host
+            - name: POSTGRES_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "mealie.fullname" .}}-postgres-app
+                  key: port
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "mealie.fullname" .}}-postgres-app
+                  key: dbname
             - name: ALLOW_SIGNUP
               value: "{{ .Values.env.allowSignup }}"
             {{- with .Values.extraEnv }}
