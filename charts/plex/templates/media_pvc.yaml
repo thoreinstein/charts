@@ -1,6 +1,0 @@
-{{- include "common.nfs-volume.tpl" (dict
- "name" (printf "%s-media" (include "plex.name" .))
- "server" (required "You must provide an NFS server address." .Values.nfsServer)
- "path" "/mnt/user/media"
- "accessModes" "ReadWriteMany"
-)}}
