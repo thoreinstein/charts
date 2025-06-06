@@ -65,13 +65,18 @@ spec:
             - "/bin/sh"
             - "-c"
             - |
-              cat /tmp/config/config.xml.template | \
-              sed "s/\${POSTGRES_HOST}/$POSTGRES_HOST/g" | \
-              sed "s/\${POSTGRES_PORT}/$POSTGRES_PORT/g" | \
-              sed "s/\${POSTGRES_USER}/$POSTGRES_USER/g" | \
-              sed "s/\${POSTGRES_PASSWORD}/$POSTGRES_PASSWORD/g" | \
-              sed "s/\${API_KEY}/$API_KEY/g" > /config/config.xml && \
-              chmod 644 /config/config.xml
+              if [ ! -f /config/config.xml ]; then
+                echo "Creating initial config.xml..."
+                cat /tmp/config/config.xml.template | \
+                sed "s/\${POSTGRES_HOST}/$POSTGRES_HOST/g" | \
+                sed "s/\${POSTGRES_PORT}/$POSTGRES_PORT/g" | \
+                sed "s/\${POSTGRES_USER}/$POSTGRES_USER/g" | \
+                sed "s/\${POSTGRES_PASSWORD}/$POSTGRES_PASSWORD/g" | \
+                sed "s/\${API_KEY}/$API_KEY/g" > /config/config.xml && \
+                chmod 644 /config/config.xml
+              else
+                echo "Config file already exists, preserving existing configuration"
+              fi
           env:
             - name: POSTGRES_HOST
               value: {{ include "sonarr.fullname" . }}-postgres-rw
