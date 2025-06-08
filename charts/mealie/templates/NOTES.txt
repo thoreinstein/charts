@@ -1,0 +1,22 @@
+{{- define "mealie.notes" -}}
+{{- if and .Values.oidc.enabled .Values.oidc.existingSecretName }}
+OIDC Integration Notes:
+-----------------------
+You have enabled OIDC integration for Mealie and specified `oidc.existingSecretName: {{ .Values.oidc.existingSecretName }}`.
+
+Please ensure that the Kubernetes secret named "{{ .Values.oidc.existingSecretName }}" exists in the namespace "{{ .Release.Namespace }}" and contains the required OIDC configuration data.
+The expected keys in the secret are:
+  - AUTH_PROVIDER_NAME
+  - OIDC_AUTH_ENABLED (should be "true")
+  - OIDC_CLIENT_ID
+  - OIDC_CLIENT_SECRET
+  - OIDC_CONFIGURATION_URL
+  - OIDC_REMEMBER_ME
+  - OIDC_SIGNUP_ENABLED
+
+If this secret is not correctly set up, Mealie may not start or OIDC authentication will fail.
+Refer to the oidc section in values.yaml for more details on creating this secret.
+{{- end }}
+{{- end -}}
+
+{{ template "mealie.notes" . }}

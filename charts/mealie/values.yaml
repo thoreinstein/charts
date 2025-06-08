@@ -11,7 +11,8 @@ serviceAccount:
   annotations: {}
   name: ''
 service:
-  type: LoadBalancer
+  # Type of the service. ClusterIP is recommended when using Ingress.
+  type: ClusterIP
   port: 80
   # Optional: Customize service annotations if needed
   annotations: {}
@@ -34,14 +35,36 @@ env:
   PUID: 1000
   PGID: 1000
   allowSignup: 'false'
-  # Optional: Specify a base URL explicitly
-  # (otherwise derived from ingress host)
+  # Optional: Specify a base URL explicitly.
+  # If not set and ingress is enabled with a domain, this will be automatically
+  # derived using your ingress settings (e.g., "http[s]://mealie.yourdomain.com").
   # baseURL: "https://your-mealie-domain.example.com"
 # Optional: Used for hostname resolution in OAuth
 hostAliases: []
 # Enable OIDC integration
 oidc:
+  # Enable OIDC integration for Mealie.
   enabled: true
+  # Name of the existing Kubernetes secret that contains your OIDC provider configuration.
+  # This secret must be created manually in the same namespace as Mealie.
+  # It should contain the following keys (as environment variables):
+  #   AUTH_PROVIDER_NAME: "Your OIDC Provider Name (e.g., keycloak, authelia)"
+  #   OIDC_AUTH_ENABLED: "true" # Must be true to enable OIDC in the app
+  #   OIDC_CLIENT_ID: "your_client_id"
+  #   OIDC_CLIENT_SECRET: "your_client_secret"
+  #   OIDC_CONFIGURATION_URL: "your_provider_oidc_discovery_url (e.g., https://keycloak.example.com/realms/your-realm/.well-known/openid-configuration)"
+  #   OIDC_REMEMBER_ME: "true" # Or "false"
+  #   OIDC_SIGNUP_ENABLED: "false" # Or "true", if you want to allow signups via OIDC
+  # Example secret creation:
+  # kubectl create secret generic mealie-oidc-secrets \
+  #   --from-literal=AUTH_PROVIDER_NAME="keycloak" \
+  #   --from-literal=OIDC_AUTH_ENABLED="true" \
+  #   --from-literal=OIDC_CLIENT_ID="mealie" \
+  #   --from-literal=OIDC_CLIENT_SECRET="your-very-secret-client-secret" \
+  #   --from-literal=OIDC_CONFIGURATION_URL="https://keycloak.example.com/realms/your-realm/.well-known/openid-configuration" \
+  #   --from-literal=OIDC_REMEMBER_ME="true" \
+  #   --from-literal=OIDC_SIGNUP_ENABLED="false"
+  existingSecretName: ""
 # Configure resource limits and requests
 resources:
   limits:
