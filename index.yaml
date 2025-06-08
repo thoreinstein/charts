@@ -655,6 +655,23 @@ entries:
   mealie:
   - apiVersion: v2
     appVersion: v2.8.0
+    created: "2025-06-08T20:07:54.190007681Z"
+    dependencies:
+    - name: common
+      repository: file://../common
+      version: 0.1.12
+    description: A self-hosted recipe management and meal planning application
+    digest: a3c0bb5adf7d321e88a2926c32da82146987e1f40048d888f2132c473eccea8b
+    icon: https://raw.githubusercontent.com/mealie-recipes/mealie/dev/frontend/public/icon.png
+    maintainers:
+    - name: thoreinstein
+    name: mealie
+    type: application
+    urls:
+    - https://github.com/thoreinstein/charts/releases/download/mealie-0.3.1/mealie-0.3.1.tgz
+    version: 0.3.1
+  - apiVersion: v2
+    appVersion: v2.8.0
     created: "2025-06-08T19:58:57.737559203Z"
     dependencies:
     - name: common
@@ -2284,4 +2301,4 @@ entries:
     urls:
     - https://github.com/thoreinstein/charts/releases/download/tautulli-0.1.0/tautulli-0.1.0.tgz
     version: 0.1.0
-generated: "2025-06-08T20:05:02.218048695Z"
+generated: "2025-06-08T20:07:54.190293286Z"
