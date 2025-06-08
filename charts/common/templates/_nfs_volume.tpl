@@ -18,6 +18,12 @@ spec:
   nfs:
     server: {{ $server }}
     path: {{ $path }}
+    mountOptions:
+      - hard
+      - nfsvers=4.1
+      - timeo=600
+      - retrans=2
+      - noatime
   persistentVolumeReclaimPolicy: {{ $policy }}
 ---
 apiVersion: v1

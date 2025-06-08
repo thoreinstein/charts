@@ -45,8 +45,6 @@ spec:
             # cloudflared will actually do. This file is created by a ConfigMap.
             - --config
             - /etc/cloudflared/config/config.yaml
-            - --metrics
-            - 0.0.0.0:60123
             - run
           livenessProbe:
             httpGet:

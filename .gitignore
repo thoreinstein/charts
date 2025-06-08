@@ -4,3 +4,4 @@ test.yaml
 rendered_templates/*
 **/CLAUDE.local.md
 .claude
+**/.claude/settings.local.json
