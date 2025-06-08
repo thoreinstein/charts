@@ -11,8 +11,10 @@ metadata:
     {{- with .Values.ingress.annotations }}
     {{- toYaml . | nindent 4 }}
     {{- end }}
+    {{- if .Values.cloudflare.enabled }}
     external-dns.alpha.kubernetes.io/target: {{ .Values.cloudflare.tunnelId }}.cfargotunnel.com
     external-dns.alpha.kubernetes.io/cloudflare-proxied: "true"
+    {{- end }}
 spec:
   {{- if .Values.ingress.className }}
   ingressClassName: {{ .Values.ingress.className }}
@@ -28,13 +30,6 @@ spec:
       http:
         paths:
           - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: {{ $fullName }}
-                port:
-                  number: {{ $svcPort }}
-          - path: /login
             pathType: Prefix
             backend:
               service:

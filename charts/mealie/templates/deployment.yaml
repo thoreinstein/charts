@@ -54,9 +54,9 @@ spec:
           envFrom:
             - secretRef:
                 name: {{ include "mealie.fullname" . }}
-            {{- if .Values.oidc.enabled }}
+            {{- if and .Values.oidc.enabled .Values.oidc.existingSecretName }}
             - secretRef:
-                name: {{ include "mealie.fullname" . }}-oidc
+                name: {{ .Values.oidc.existingSecretName }}
             {{- end }}
           env:
             - name: TZ
@@ -67,10 +67,10 @@ spec:
               value: "{{ .Values.env.PGID }}"
             {{- if .Values.env.baseURL }}
             - name: BASE_URL
-              value: "{{ .Values.env.baseURL }}"
-            {{- else if and .Values.ingress.enabled .Values.ingress.hosts }}
+              value: {{ .Values.env.baseURL | quote }}
+            {{- else if and .Values.ingress.enabled .Values.ingress.domain }}
             - name: BASE_URL
-              value: "https://{{ (index .Values.ingress.hosts 0).host }}"
+              value: "http{{ if .Values.ingress.tls }}s{{ end }}://{{ include "common.domain_name" (dict "name" (include "mealie.name" .) "domain" .Values.ingress.domain) }}"
             {{- end }}
             - name: DB_ENGINE
               value: "postgres"
