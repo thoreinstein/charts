@@ -1,0 +1,137 @@
+# Default values for ocdarr.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  repository: vansmak/ocdarr
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: "amd64_dev"
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Automatically mount a ServiceAccount token
+  automount: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations: {}
+podLabels: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  type: ClusterIP
+  port: 5002
+
+ingress:
+  enabled: true
+  className: "nginx" # Default to nginx, user can change to "" or other ingress controller
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: ocdarr.local # Example host, user should override
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+  #  - secretName: ocdarr-tls
+  #    hosts:
+  #      - ocdarr.local
+
+# Persistence for logs, config and temp data
+persistence:
+  enabled: true
+  storageClassName: "longhorn" # As requested
+  accessModes:
+    - ReadWriteOnce
+  logs:
+    name: logs
+    size: 1Gi
+    mountPath: /app/logs
+    # subPath: "" # Optional: specify a subfolder within the PVC
+  config:
+    name: config
+    size: 1Gi
+    mountPath: /app/config
+    # subPath: ""
+  temp:
+    name: temp
+    size: 1Gi
+    mountPath: /app/temp
+    # subPath: ""
+
+# Name of the existing secret containing environment variables for OCDarr
+# The user is responsible for creating this secret. Example:
+# apiVersion: v1
+# kind: Secret
+# metadata:
+#   name: ocdarr-env-secret
+# type: Opaque
+# stringData:
+#   SONARR_URL: "http://sonarr.example.com:8989"
+#   SONARR_API_KEY: "your_sonarr_api_key"
+#   JELLYSEERR_URL: "http://jellyseerr.example.com:5055"
+#   JELLYSEERR_API_KEY: "your_jellyseerr_api_key"
+#   RADARR_URL: "http://radarr.example.com:7878"
+#   RADARR_API_KEY: "your_radarr_api_key"
+#   TMDB_API_KEY: "your_tmdb_api_key"
+#   PLEX_URL: "http://plex.example.com:32400" # Optional, if using Plex
+#   PLEX_TOKEN: "your_plex_token"           # Optional, if using Plex
+#
+existingSecret: "ocdarr-env-secret" # Name of the K8s secret holding env vars
+
+# OCDarr specific settings that are not sensitive and can be set directly
+ocdarrSettings:
+  CONFIG_PATH: "/app/config/config.json"
+  MAX_TMDB_ITEMS: "24"
+  MAX_SHOWS_ITEMS: "24"
+  MAX_MOVIES_ITEMS: "24"
+  LOG_PATH: "/app/logs/app.log"
+  MISSING_LOG_PATH: "/app/logs/missing.log"
+  FLASK_DEBUG: "false" # Should be false for production
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

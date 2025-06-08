@@ -1,0 +1,115 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "ocdarr.fullname" . }}
+  labels:
+    {{- include "ocdarr.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "ocdarr.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "ocdarr.selectorLabels" . | nindent 8 }}
+        {{- with .Values.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "ocdarr.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          envFrom:
+            - secretRef:
+                name: {{ .Values.existingSecret | quote }}
+          env:
+            - name: CONFIG_PATH
+              value: {{ .Values.ocdarrSettings.CONFIG_PATH | quote }}
+            - name: MAX_TMDB_ITEMS
+              value: {{ .Values.ocdarrSettings.MAX_TMDB_ITEMS | quote }}
+            - name: MAX_SHOWS_ITEMS
+              value: {{ .Values.ocdarrSettings.MAX_SHOWS_ITEMS | quote }}
+            - name: MAX_MOVIES_ITEMS
+              value: {{ .Values.ocdarrSettings.MAX_MOVIES_ITEMS | quote }}
+            - name: LOG_PATH
+              value: {{ .Values.ocdarrSettings.LOG_PATH | quote }}
+            - name: MISSING_LOG_PATH
+              value: {{ .Values.ocdarrSettings.MISSING_LOG_PATH | quote }}
+            - name: FLASK_DEBUG
+              value: {{ .Values.ocdarrSettings.FLASK_DEBUG | quote }}
+            # Add any other non-sensitive env vars from ocdarrSettings here
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.port }}
+              protocol: TCP
+          livenessProbe:
+            tcpSocket:
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 15
+          readinessProbe:
+            tcpSocket:
+              port: http
+            initialDelaySeconds: 15
+            periodSeconds: 10
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          {{- if .Values.persistence.enabled }}
+          volumeMounts:
+            - name: {{ .Values.persistence.config.name }}
+              mountPath: {{ .Values.persistence.config.mountPath }}
+              {{- if .Values.persistence.config.subPath }}
+              subPath: {{ .Values.persistence.config.subPath }}
+              {{- end }}
+            - name: {{ .Values.persistence.logs.name }}
+              mountPath: {{ .Values.persistence.logs.mountPath }}
+              {{- if .Values.persistence.logs.subPath }}
+              subPath: {{ .Values.persistence.logs.subPath }}
+              {{- end }}
+            - name: {{ .Values.persistence.temp.name }}
+              mountPath: {{ .Values.persistence.temp.mountPath }}
+              {{- if .Values.persistence.temp.subPath }}
+              subPath: {{ .Values.persistence.temp.subPath }}
+              {{- end }}
+          {{- end }}
+      {{- if .Values.persistence.enabled }}
+      volumes:
+        - name: {{ .Values.persistence.config.name }}
+          persistentVolumeClaim:
+            claimName: {{ include "ocdarr.fullname" . }}-config
+        - name: {{ .Values.persistence.logs.name }}
+          persistentVolumeClaim:
+            claimName: {{ include "ocdarr.fullname" . }}-logs
+        - name: {{ .Values.persistence.temp.name }}
+          persistentVolumeClaim:
+            claimName: {{ include "ocdarr.fullname" . }}-temp
+      {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

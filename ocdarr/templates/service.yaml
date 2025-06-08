@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "ocdarr.fullname" . }}
+  labels:
+    {{- include "ocdarr.labels" . | nindent 4 }}
+  {{- with .Values.service.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: http # Should match the containerPort name in deployment.yaml
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "ocdarr.selectorLabels" . | nindent 4 }}

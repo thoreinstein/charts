@@ -1,0 +1,81 @@
+{{- $release := .Release | default dict -}}
+{{- $releaseName := $release.Name | default "RELEASE-NAME" -}}
+{{- $releaseNamespace := $release.Namespace | default "default" -}}
+
+{{- define "ocdarr.secretInstructions" }}
+{{- $release := .Release | default dict -}}
+{{- $releaseNamespace := $release.Namespace | default "default" -}}
+IMPORTANT: This chart expects you to create a Kubernetes Secret named '{{ .Values.existingSecret }}'
+in the same namespace where this chart is deployed. This secret should contain the necessary
+environment variables for OCDarr to function.
+
+Example of how to create the secret:
+
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{ .Values.existingSecret }}
+  namespace: {{ $releaseNamespace }}
+type: Opaque
+stringData:
+  SONARR_URL: "http://sonarr.example.com:8989"         # Replace with your Sonarr URL
+  SONARR_API_KEY: "your_sonarr_api_key"               # Replace with your Sonarr API key
+  # JELLYSEERR_URL: "http://jellyseerr.example.com:5055" # Uncomment and replace if using Jellyseerr/Overseerr
+  # JELLYSEERR_API_KEY: "your_jellyseerr_api_key"       # Uncomment and replace if using Jellyseerr/Overseerr
+  RADARR_URL: "http://radarr.example.com:7878"         # Replace with your Radarr URL
+  RADARR_API_KEY: "your_radarr_api_key"               # Replace with your Radarr API key
+  TMDB_API_KEY: "your_tmdb_api_key"                   # Replace with your TMDB API key
+  # PLEX_URL: "http://plex.example.com:32400"           # Uncomment and replace if using Plex
+  # PLEX_TOKEN: "your_plex_token"                     # Uncomment and replace if using Plex token
+  # --- Other OCDarr environment variables as needed ---
+  # Example:
+  # TZ: "America/New_York"
+
+Ensure all required URLs and API keys for your setup are included.
+Refer to the OCDarr documentation for a full list of supported environment variables:
+https://github.com/Vansmak/OCDarr
+{{- end }}
+
+{{- if not (lookup "v1" "Secret" $releaseNamespace .Values.existingSecret) }}
+{{- $instructions := include "ocdarr.secretInstructions" . }}
+{{- fail (printf "INSTALLATION HALTED: Required secret '%s' not found in namespace '%s'.\n\nPlease create the secret as described below and try again.\n\n%s" .Values.existingSecret $releaseNamespace $instructions) }}
+{{- end }}
+
+OCDarr has been deployed.
+
+{{- include "ocdarr.secretInstructions" . }}
+
+Accessing OCDarr:
+
+{{- if .Values.ingress.enabled }}
+{{- range .Values.ingress.hosts }}
+1. Get the OCDarr URL by running these commands:
+   {{- if .tls }}
+   https://{{ .host }}{{ (first .paths).path }}
+   {{- else }}
+   http://{{ .host }}{{ (first .paths).path }}
+   {{- end }}
+
+   Note: It might take a few minutes for the Ingress controller to assign an IP address and for DNS to propagate if you are using a public domain.
+   You can check the status of your Ingress resource by running:
+   kubectl get ingress {{ include "ocdarr.fullname" . }} --namespace {{ $releaseNamespace }}
+{{- end }}
+{{- else if eq .Values.service.type "LoadBalancer" }}
+1. Get the OCDarr URL by running these commands:
+   export SERVICE_IP=$(kubectl get svc --namespace {{ $releaseNamespace }} {{ include "ocdarr.fullname" . }} --template "{{ range .status.loadBalancer.ingress }}{{ .ip }}{{ end }}")
+   echo "OCDarr URL: http://$SERVICE_IP:{{ .Values.service.port }}"
+{{- else if eq .Values.service.type "NodePort" }}
+1. Get the OCDarr URL by running these commands:
+   export NODE_PORT=$(kubectl get --namespace {{ $releaseNamespace }} -o jsonpath="{.spec.ports[0].nodePort}" services {{ include "ocdarr.fullname" . }})
+   export NODE_IP=$(kubectl get nodes --namespace {{ $releaseNamespace }} -o jsonpath="{.items[0].status.addresses[0].address}")
+   echo "OCDarr URL: http://$NODE_IP:$NODE_PORT"
+{{- else }}
+1. Get the OCDarr application URL by running these commands:
+   export POD_NAME=$(kubectl get pods --namespace {{ $releaseNamespace }} -l "app.kubernetes.io/instance={{ $releaseName }}" -o jsonpath="{.items[0].metadata.name}")
+   echo "Forward the application port to your local machine using kubectl port-forward:"
+   echo "  kubectl port-forward --namespace {{ $releaseNamespace }} $POD_NAME {{ .Values.service.port }}:{{ .Values.service.port }}"
+   echo "Then access OCDarr at: http://localhost:{{ .Values.service.port }}"
+{{- end }}
+
+For more information, check the chart values and the OCDarr documentation.
+Happy organizing!
