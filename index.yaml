@@ -429,6 +429,18 @@ entries:
   common:
   - apiVersion: v2
     appVersion: 1.16.0
+    created: "2025-06-08T18:51:06.168827746Z"
+    description: Common templates and helpers for the homelab
+    digest: 883b87ab16fa8ed25b9a14f4a79a2172d01f330b313e39b0edd9dfff8a5fa140
+    maintainers:
+    - name: Thor
+    name: common
+    type: library
+    urls:
+    - https://github.com/thoreinstein/charts/releases/download/common-0.1.11/common-0.1.11.tgz
+    version: 0.1.11
+  - apiVersion: v2
+    appVersion: 1.16.0
     created: "2025-06-04T15:45:13.730561543Z"
     description: Common templates and helpers for the homelab
     digest: 0d8d4cb822d6d23c45c7c9650a428e0afdecc9b0656adf1f7170d36b82503b9e
@@ -2243,4 +2255,4 @@ entries:
     urls:
     - https://github.com/thoreinstein/charts/releases/download/tautulli-0.1.0/tautulli-0.1.0.tgz
     version: 0.1.0
-generated: "2025-06-06T19:23:28.681255786Z"
+generated: "2025-06-08T18:51:06.169097065Z"
