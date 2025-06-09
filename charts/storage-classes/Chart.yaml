@@ -1,8 +1,8 @@
 apiVersion: v2
 name: storage-classes
-description: A Helm chart for deploying Longhorn storage classes and backup jobs
+description: A Helm chart for deploying storage classes and backup configurations
 type: application
-version: 0.2.2
+version: 0.3.0
 appVersion: 1.0.0
 maintainers:
   - name: thoreinstein

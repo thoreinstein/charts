@@ -1,26 +1,21 @@
----
 kind: StorageClass
 apiVersion: storage.k8s.io/v1
 metadata:
   name: postgres
   annotations:
     storageclass.kubernetes.io/is-default-class: "false"
-provisioner: driver.longhorn.io
+provisioner: smb.csi.k8s.io
 allowVolumeExpansion: true
 reclaimPolicy: Retain
 volumeBindingMode: Immediate
 parameters:
-  numberOfReplicas: {{ .Values.postgres.numberOfReplicas | quote }}
-  staleReplicaTimeout: "2880"
-  dataLocality: "strict-local"
-  fromBackup: ""
-  recurringJobSelector: '[
-    {
-      "name":"postgres-snap",
-      "isGroup":true
-    },
-    {
-      "name":"postgres-backup",
-      "isGroup":true
-    }
-  ]'
+  source: {{ required "postgres.smbServer and postgres.smbShare must be set" (printf "//%s/%s" .Values.postgres.smbServer .Values.postgres.smbShare) | quote }}
+  {{- if .Values.postgres.smbSecretName }}
+  csi.storage.k8s.io/node-stage-secret-name: {{ .Values.postgres.smbSecretName | quote }}
+  csi.storage.k8s.io/node-stage-secret-namespace: {{ .Release.Namespace | quote }}
+  {{- end }}
+  {{- if .Values.postgres.smbOptions }}
+  mountOptions: {{ .Values.postgres.smbOptions | quote }}
+  {{- else }}
+  mountOptions: "dir_mode=0777,file_mode=0777,vers=3.0"
+  {{- end }}
