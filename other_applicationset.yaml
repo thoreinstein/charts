@@ -16,10 +16,10 @@ spec:
             version: 0.2.*
             url: https://thoreinstein.github.io/charts
             namespace: miniflux
-          - appName: mealie
-            version: 0.3.*
-            url: https://thoreinstein.github.io/charts
-            namespace: mealie
+          # - appName: mealie
+          #   version: 0.3.*
+          #   url: https://thoreinstein.github.io/charts
+          #   namespace: mealie
           - appName: kestra
             version: "*"
             url: https://helm.kestra.io/
