@@ -54,9 +54,9 @@ spec:
           envFrom:
             - secretRef:
                 name: {{ include "mealie.fullname" . }}
-            {{- if and .Values.oidc.enabled .Values.oidc.existingSecretName }}
+            {{- if .Values.oidc.enabled }}
             - secretRef:
-                name: {{ .Values.oidc.existingSecretName }}
+                name: {{ include "mealie.fullname" }}-oidc
             {{- end }}
           env:
             - name: TZ
