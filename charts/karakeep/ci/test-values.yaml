@@ -1,0 +1,68 @@
+# values.yaml for CI testing of the karakeep chart
+
+nameOverride: "karakeep-ci"
+
+# Enable ingress for testing template rendering
+ingress:
+  enabled: true
+  domain: "test.example.com" # Example domain
+  # overrideHost: "karakeep-ci" # Example host, now handled by nameOverride + chart name structure
+  tls: true # Enable TLS to test related template logic
+  annotations:
+    cert-manager.io/cluster-issuer: "fake-issuer"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+
+# Enable persistence for application and meilisearch
+persistence:
+  application:
+    enabled: true
+    size: "100Mi" # Smaller size for testing
+    storageClassName: "test-sc" # Example storage class
+    accessModes:
+      - ReadWriteOnce
+  meilisearch:
+    enabled: true
+    size: "100Mi" # Smaller size for testing
+    storageClassName: "test-sc" # Example storage class
+    accessModes:
+      - ReadWriteOnce
+
+# Meilisearch settings
+meilisearch:
+  masterKey: "dummyMasterKeyForTest" # Though sourced from secret, providing a value ensures templates don't break if it were used directly.
+  env:
+    noAnalytics: true
+
+# Chrome settings
+chrome:
+  replicaCount: 1
+
+# Image tags for CI
+image:
+  tag: "ci-latest"
+chromeImage:
+  tag: "ci-latest"
+meilisearchImage:
+  tag: "ci-latest"
+
+# Service settings
+service:
+  type: ClusterIP
+  port: 80
+
+# Service account
+serviceAccount:
+  create: true
+  name: "karakeep-ci-sa"
+
+# Cloudflare disabled for basic CI testing
+cloudflare:
+  enabled: false
+
+# Env vars
+env:
+  DATA_DIR: /data_ci
+  DISABLE_SIGNUPS: "false"
+
+# Timezone
+timezone: "Etc/UTC"

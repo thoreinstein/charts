@@ -1,11 +1,51 @@
-{{- include "common.smb-volume.tpl" (dict
-  "name" (printf "%s-data" .Chart.Name)
-  "server" (required "You must provide a storage server address." (default .Values.nfsServer .Values.storage.server))
-  "share" (printf "appdata/%s" .Chart.Name)
-)}}
+{{- if .Values.persistence.application.enabled }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "karakeep.fullname" . }}-data
+  labels:
+    {{- include "karakeep.labels" . | nindent 4 }}
+    app.kubernetes.io/component: application
+spec:
+  accessModes:
+    {{- toYaml .Values.persistence.application.accessModes | nindent 4 }}
+  resources:
+    requests:
+      storage: {{ .Values.persistence.application.size | quote }}
+  {{- if .Values.persistence.application.storageClassName }}
+  {{- if (eq "-" .Values.persistence.application.storageClassName) }}
+  storageClassName: ""
+  {{- else }}
+  storageClassName: {{ .Values.persistence.application.storageClassName | quote }}
+  {{- end }}
+  {{- end }}
+  {{- if .Values.persistence.application.existingClaim }}
+  volumeName: {{ .Values.persistence.application.existingClaim }}
+  {{- end }}
+{{- end }}
 ---
-{{- include "common.smb-volume.tpl" (dict
-  "name" (printf "%s-meili-data" .Chart.Name)
-  "server" (required "You must provide a storage server address." (default .Values.nfsServer .Values.storage.server))
-  "share" (printf "appdata/%s-meili" .Chart.Name)
-)}}
+{{- if .Values.persistence.meilisearch.enabled }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "karakeep.fullname" . }}-meili-data
+  labels:
+    {{- include "karakeep.labels" . | nindent 4 }}
+    app.kubernetes.io/component: meilisearch
+spec:
+  accessModes:
+    {{- toYaml .Values.persistence.meilisearch.accessModes | nindent 4 }}
+  resources:
+    requests:
+      storage: {{ .Values.persistence.meilisearch.size | quote }}
+  {{- if .Values.persistence.meilisearch.storageClassName }}
+  {{- if (eq "-" .Values.persistence.meilisearch.storageClassName) }}
+  storageClassName: ""
+  {{- else }}
+  storageClassName: {{ .Values.persistence.meilisearch.storageClassName | quote }}
+  {{- end }}
+  {{- end }}
+  {{- if .Values.persistence.meilisearch.existingClaim }}
+  volumeName: {{ .Values.persistence.meilisearch.existingClaim }}
+  {{- end }}
+{{- end }}

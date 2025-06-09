@@ -1,27 +1,40 @@
 nameOverride: ""
 fullnameOverride: ""
 replicaCount: 1
-# Storage configuration
-storage:
-  # Protocol: nfs or smb
-  protocol: nfs
-  # Storage server address (NFS server IP or SMB server name)
-  server: ""
-  # SMB-specific configuration
-  smb:
-    # Secret containing SMB credentials (username/password)
-    secretName: smb-credentials
-# Legacy NFS support (deprecated - use storage.server instead)
-nfsServer: ""
+persistence:
+  application:
+    enabled: true
+    # accessModes:
+    #  - ReadWriteOnce
+    #  - ReadWriteMany
+    accessModes: [ReadWriteOnce] # Supported modes: ReadWriteOnce, ReadWriteMany, ReadOnlyMany
+    size: 1Gi # Size of the PVC
+    # storageClassName: "" # Optional: Specify a storage class, or "" for chart default, or "-" for Kubernetes default.
+    # existingClaim: "" # Optional: Specify an existing PVC to use. If used, size and storageClassName are ignored.
+  meilisearch:
+    enabled: true
+    accessModes: [ReadWriteOnce] # Supported modes: ReadWriteOnce (typically)
+    size: 1Gi # Size of the PVC for Meilisearch
+    # storageClassName: "" # Optional: Specify a storage class
+    # existingClaim: "" # Optional: Specify an existing PVC to use for Meilisearch
+
 # Chrome settings
 chrome:
   replicaCount: 1
   securityContext:
-    privileged: true # Chrome often needs privileged mode to run headless
+    # WARNING: Running Chrome in privileged mode is required for some environments to work headless,
+    # but it reduces container isolation and should be used with caution.
+    # Understand the security implications before enabling this in production.
+    privileged: true
 # Meilisearch settings
 meilisearch:
   replicaCount: 1
-  masterKey: "" # Will be stored in a secret, leave empty to generate random key
+  # IMPORTANT: The Meilisearch masterKey MUST be set and stored in a Kubernetes secret.
+  # The chart expects a secret named '{{ include "karakeep.fullname" . }}' (e.g., 'myrelease-karakeep')
+  # with a key 'meili-master-key' containing the actual master key.
+  # If this value in values.yaml is empty, the chart assumes the key exists in the secret.
+  # For production, generate a strong random key and pre-populate the secret.
+  masterKey: "" # This field is illustrative; actual key comes from secret '{{ include "karakeep.fullname" . }}' key 'meili-master-key'.
   env:
     noAnalytics: true
 image:
@@ -53,16 +66,21 @@ services:
     url: http://karakeep-meilisearch:7700
 ingress:
   enabled: false
-  className: nginx
+  className: nginx # "" by default, let user specify or rely on cluster default
   annotations:
-    nginx.ingress.kubernetes.io/ssl-redirect: "false"
-    nginx.ingress.kubernetes.io/proxy-body-size: "0"
-  # Domain from common values
-  domain: ""
-  # Override hostname can be set in values/main/karakeep.yaml
-  overrideHost: ""
-  # Host is managed by common.domain_name
-  tls: false
+    # Default to redirecting to SSL if ingress is enabled and TLS is used.
+    # Consider your reverse proxy or ingress controller's specific annotations.
+    nginx.ingress.kubernetes.io/ssl-redirect: "true" # Changed from "false"
+    nginx.ingress.kubernetes.io/proxy-body-size: "0" # Allow large file uploads if necessary for karakeep
+    # cert-manager.io/cluster-issuer: "letsencrypt-prod" # Example: uncomment and set if using cert-manager with TLS
+    # external-dns.alpha.kubernetes.io/hostname: "" # Example: if you want external-dns to manage this specific hostname
+  # Domain from common values - this will be used if overrideHost is not set
+  domain: "" # e.g., "example.com"
+  # overrideHost: "" # e.g., "karakeep.example.com" or just "karakeep" if domain is set globally
+  # Host is managed by common.domain_name helper: {{ include "common.domain_name" (dict "name" (default .Chart.Name .Values.ingress.overrideHost) "domain" .Values.ingress.domain) }}
+  tls: false # Set to true to enable TLS. Secret must be provided or managed by cert-manager
+    # secretName: "" # If not using cert-manager, specify the secret name for TLS certificates, e.g. karakeep-tls
+    # If using cert-manager, it will typically create the secret based on the host.
 # Cloudflare configuration
 cloudflare:
   # Enable Cloudflare DNS integration - set to true to use Cloudflare tunnels

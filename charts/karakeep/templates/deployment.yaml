@@ -31,7 +31,7 @@ spec:
             - name: MEILI_MASTER_KEY
               valueFrom:
                 secretKeyRef:
-                  name: karakeep
+                  name: {{ include "karakeep.fullname" . }}
                   key: meili-master-key
             - name: BROWSER_WEB_URL
               value: "{{ .Values.services.chrome.url }}"
@@ -42,7 +42,7 @@ spec:
             - name: NEXTAUTH_SECRET
               valueFrom:
                 secretKeyRef:
-                  name: karakeep
+                  name: {{ include "karakeep.fullname" . }}
                   key: auth-secret
             {{- if .Values.ingress.enabled }}
             - name: BASE_URL
@@ -77,4 +77,4 @@ spec:
       volumes:
         - name: data
           persistentVolumeClaim:
-            claimName: {{ include "karakeep.fullname" . }}-data-pvc
+            claimName: {{ include "karakeep.fullname" . }}-data
