@@ -8,5 +8,5 @@ maintainers:
   - name: thoreinstein
 dependencies:
   - name: common
-    version: '0.1.9'
+    version: 0.1.12
     repository: file://../common
