@@ -8,7 +8,7 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "-2"
 spec:
-  instances: 3
+  instances: {{ .Values.postgres.instances }}
   
   postgresql:
     parameters:
@@ -33,5 +33,5 @@ spec:
         - CREATE DATABASE "sonarr-log" OWNER sonarr;
 
   storage:
-    size: 10Gi
+    size: {{ .Values.postgres.storage }}
     storageClass: {{ .Values.postgres.storageClass | default "longhorn" }}

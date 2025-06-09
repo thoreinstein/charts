@@ -5,7 +5,9 @@ resources:
   requests:
     cpu: 200m
     memory: 256Mi
-nfsServer: 0.0.0.0
+media:
+  nfsServer: 0.0.0.0
+  nfsPath: ''
 cloudflare:
   enabled: false
   tunnelId: ''
@@ -14,19 +16,11 @@ ingress:
   domain: ''
   className: nginx
   annotations:
-    cert-manager.io/cluster-issuer: acme-prod
+    cert-manager.io/cluster-issuer: ''
     external-dns.alpha.kubernetes.io/ttl: '120'
     nginx.ingress.kubernetes.io/ssl-redirect: 'true'
     nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
     nginx.ingress.kubernetes.io/proxy-body-size: '0'
-  security:
-    enableSecurityHeaders: true
-  performance:
-    enableOptimizations: true
-    timeouts:
-      connect: 300
-      send: 300
-      read: 300
 service:
   type: ClusterIP
   port: 8989
@@ -37,10 +31,13 @@ serviceAccount:
 image:
   repository: lscr.io/linuxserver/sonarr
   pullPolicy: IfNotPresent
-  tag: ''
+  tag: '4.0.14.2939-ls283'
 postgres:
   enabled: false
+  instances: 3
   storageClass: ''
+  storage: 10Gi
+apiKey: ''
 profilarr:
   enabled: false
   url: ''
