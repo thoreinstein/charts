@@ -2,7 +2,7 @@ apiVersion: v2
 name: mealie
 description: A self-hosted recipe management and meal planning application
 type: application
-version: 0.3.2
+version: 0.3.3
 appVersion: v2.8.0
 icon: https://raw.githubusercontent.com/mealie-recipes/mealie/dev/frontend/public/icon.png
 maintainers:
