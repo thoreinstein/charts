@@ -8,7 +8,7 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "-2"
 spec:
-  instances: 3
+  instances: {{ .Values.postgres.instances }}
   
   postgresql:
     parameters:
@@ -31,6 +31,6 @@ spec:
       owner: miniflux
 
   storage:
-    size: 10Gi
+    size: {{ .Values.postgres.storageSize | default "10Gi" }}
     storageClass: {{ .Values.postgres.storageClass | default "longhorn" }}
 

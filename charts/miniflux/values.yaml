@@ -1,4 +1,3 @@
----
 replicaCount: 1
 image:
   repository: miniflux/miniflux
@@ -9,33 +8,21 @@ serviceAccount:
   annotations: {}
   name: ''
 service:
-  # ClusterIP is recommended for production, but can be overridden in values/main/miniflux.yaml
   type: ClusterIP
   port: 80
-  # Optional: Customize service annotations if needed
   annotations: {}
-  # Optional: Set loadBalancerIP if service.type is LoadBalancer
-  # loadBalancerIP:
 ingress:
   enabled: false
-  className: nginx
+  className: ''
   annotations:
     nginx.ingress.kubernetes.io/ssl-redirect: 'false'
     nginx.ingress.kubernetes.io/proxy-body-size: '0'
-  # Domain from common values
   domain: ''
-  # Override hostname can be set in values/main/miniflux.yaml
   overrideHost: ''
-  # Host is managed by common.domain_name
   tls: false
-# Cloudflare configuration
 cloudflare:
-  # Enable Cloudflare DNS integration in values/main/miniflux.yaml or values/main/common.yaml
   enabled: false
-  # tunnelId comes from common.yaml
-# Optional: Configure additional environment variables
 extraEnv: []
-# Configure resource limits and requests - can be overridden in values/main/miniflux.yaml
 resources:
   limits:
     cpu: 250m
@@ -43,9 +30,9 @@ resources:
   requests:
     cpu: 50m
     memory: 64Mi
-# Set timezone in values/main/miniflux.yaml or values/main/common.yaml
 timezone: UTC
-# Optional: Override the automatically generated base URL
-# baseUrl: ""
 postgres:
-  storageClass: longhorn
+  enabled: false
+  instances: 3
+  storageClass: ''
+  storage: 10Gi
