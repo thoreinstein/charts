@@ -23,11 +23,8 @@ backup:
 
 # PostgreSQL storage class configuration
 postgres:
-  # SMB server address (e.g., "192.168.1.100" or "nas.local")
-  smbServer: ""
-  
-  # SMB share name (e.g., "postgres" or "kubernetes/postgres")
-  smbShare: ""
+  # Uses NFS subdir external provisioner
+  # No additional configuration needed
   
   # Number of replicas for data redundancy
   numberOfReplicas: "2"

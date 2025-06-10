@@ -36,6 +36,10 @@ spec:
             version: 2.17.*
             url: https://bitnami-labs.github.io/sealed-secrets
             namespace: sealed-secrets
+          - appName: nfs-subdir-external-provisioner
+            version: 4.0.*
+            url: https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner
+            namespace: nfs-provisioner
   template:
     metadata:
       name: '{{.appName}}'

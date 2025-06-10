@@ -4,13 +4,9 @@ metadata:
   name: postgresql
   annotations:
     storageclass.kubernetes.io/is-default-class: "false"
-provisioner: smb.csi.k8s.io
+provisioner: k8s-sigs.io/nfs-subdir-external-provisioner
 allowVolumeExpansion: true
-reclaimPolicy: Retain
+reclaimPolicy: Delete
 volumeBindingMode: Immediate
-mountOptions:
-  - dir_mode=0777
-  - file_mode=0777
-  - vers=3.0
 parameters:
-  source: {{ required "postgres.smbServer and postgres.smbShare must be set" (printf "//%s/%s" .Values.postgres.smbServer .Values.postgres.smbShare) | quote }}
+  archiveOnDelete: "false"
