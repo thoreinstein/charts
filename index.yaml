@@ -2318,6 +2318,18 @@ entries:
   storage-classes:
   - apiVersion: v2
     appVersion: 1.0.0
+    created: "2025-06-10T00:23:47.490027699Z"
+    description: A Helm chart for deploying storage classes and backup configurations
+    digest: c18e1fa348a6716a7f8025e508a4242946976c5fc52968bfabf0d9ba06d07e4f
+    maintainers:
+    - name: thoreinstein
+    name: storage-classes
+    type: application
+    urls:
+    - https://github.com/thoreinstein/charts/releases/download/storage-classes-0.3.1/storage-classes-0.3.1.tgz
+    version: 0.3.1
+  - apiVersion: v2
+    appVersion: 1.0.0
     created: "2025-06-09T20:27:47.395342024Z"
     description: A Helm chart for deploying storage classes and backup configurations
     digest: e981adc71a93cf8ee93593e854e743932a8555dd248d8c14284e4d0212e84ab4
@@ -2429,4 +2441,4 @@ entries:
     urls:
     - https://github.com/thoreinstein/charts/releases/download/tautulli-0.1.0/tautulli-0.1.0.tgz
     version: 0.1.0
-generated: "2025-06-09T20:27:47.39587947Z"
+generated: "2025-06-10T00:23:47.490328661Z"
