@@ -29,15 +29,6 @@ postgres:
   # SMB share name (e.g., "postgres" or "kubernetes/postgres")
   smbShare: ""
   
-  # Optional: Secret name containing SMB credentials
-  # Secret should contain 'username' and 'password' keys
-  # Leave empty for anonymous access
-  smbSecretName: ""
-  
-  # Optional: Mount options for SMB
-  # Default: "dir_mode=0777,file_mode=0777,vers=3.0"
-  smbOptions: ""
-  
   # Number of replicas for data redundancy
   numberOfReplicas: "2"
   
